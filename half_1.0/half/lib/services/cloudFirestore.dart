@@ -86,6 +86,24 @@ class CloudFirestore implements BaseCloud {
     FirebaseUser user = await _firebaseAuth.currentUser();
     return user.delete();
   }
+
+  //Mechanics: Creates name data
+  Future<String> createNameData(String name) async {}
+
+  //Mechanics: Creates data
+  Future<String> createData(String data) async {}
+
+  //Mechanics: Returns name data
+  Future<String> readNameData(String userId) async {}
+
+  //Mechanics: Returns data
+  String readData(String userId) {}
+
+  //Mechanics: Deletes data
+  void deleteData(DocumentSnapshot doc) {}
+
+  //Mechanics: Deletes account data
+  void deleteAccountData(String userId) {}
 }
 
 CloudFirestore db = CloudFirestore();

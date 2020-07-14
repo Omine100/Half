@@ -12,14 +12,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   //Variable initialization
-  FirebaseMessaging _messaging=new FirebaseMessaging();
+  final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   Themes themes = new Themes();
 
   //State initialization
   @override
   void initState() {
     super.initState();
-    _messaging.configure(
+    _firebaseMessaging.requestNotificationPermissions();
+    _firebaseMessaging.configure(
       onLaunch: (Map<String, dynamic> message){
         print('on Launch $message');
       },
@@ -30,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
         print('on Resume: $message');
       }
     );
-    _messaging.getToken().then((token){
+    _firebaseMessaging.getToken().then((token){
         print(token);
     });
   }
