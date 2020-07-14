@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "968562025002",
+    "firebase_url": "https://half-ac030.firebaseio.com",
+    "project_id": "half-ac030",
+    "storage_bucket": "half-ac030.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968562025002:android:8873d231074843c57ed953",
+        "android_client_info": {
+          "package_name": "com.phoenix.half"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968562025002-9j283ketht15hir8m3dju8uisuf62f4r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBPO7QU3xciUN7XI8T6BUdg6FJCOnMWOVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968562025002-9j283ketht15hir8m3dju8uisuf62f4r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

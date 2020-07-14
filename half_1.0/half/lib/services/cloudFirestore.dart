@@ -12,12 +12,20 @@ abstract class BaseCloud {
   Future<void> signOut();
   Future<bool> isEmailVerified();
   Future<void> sendPasswordReset(String email);
-  Future<void> deleteAccount(); 
+  Future<void> deleteAccount();
+  
+  Future<String> createNameData(String name);
+  Future<String> createData(String data);
+  Future<String> readNameData(String userId);
+  String readData(String userId);
+  void deleteData(DocumentSnapshot doc);
+  void deleteAccountData(String userId);
 }
 
-class cloudFirestore implements BaseCloud {
+class CloudFirestore implements BaseCloud {
   //Variable initialization
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final db = Firestore.instance;
   
   //Mechanics: Signs in user with given email and password
   Future<String> signIn(String email, String password) async {
@@ -79,3 +87,5 @@ class cloudFirestore implements BaseCloud {
     return user.delete();
   }
 }
+
+CloudFirestore db = CloudFirestore();
