@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:half/services/cloudFirestore.dart';
@@ -16,7 +17,53 @@ class _LoginScreenState extends State<LoginScreen> {
   CloudFirestore cloudFirestore = new CloudFirestore();
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   Themes themes = new Themes();
-  Dimensions dimensions = new Dimensions();
+  final _formKey = GlobalKey<FormState>();
+  String _name, _email, _password, _errorMessage;
+  bool _isLoading, _isSignIn;
+
+  //Initial state
+  @override
+  void initState() {
+    _errorMessage = "";
+    _isLoading = false;
+    _isSignIn = true;
+    super.initState();
+  }
+
+  //Mechanics: Validate and save user information
+  bool validateAndSave() {
+    final form = _formKey.currentState;
+    if(form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  //Mechanics: Validate and submit user information
+  //Need to get the name thing set up now
+  //Most of this should be done in the cloudFirestore.dart file
+  //Calls should mainly be the thing here
+  void validateAndSubmit(bool _isSignIn) async {}
+
+  //Mechanics: Reset the form
+  void resetForm() {
+    setState(() {
+      _formKey.currentState.reset();
+      _errorMessage = "";
+    });
+  }
+
+  //User interface: Show sign in or sign up input fields
+  Widget showInput(BuildContext context, String text) {
+    return new TextFormField(
+      keyboardType: text == "Email" ? TextInputType.emailAddress : TextInputType.text,
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.textInput,
+        fontSize: Theme.of(context).textTheme.textInputFontSize,
+      ),
+    );
+  }
 
   //User interface: Login screen
   @override

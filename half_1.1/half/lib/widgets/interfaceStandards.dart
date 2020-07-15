@@ -6,7 +6,6 @@ import 'package:half/services/dimensions.dart';
 class InterfaceStandards {
   //Variable initialization
   Themes themes = new Themes();
-  Dimensions dimensions = new Dimensions();
 
   //User interface: Back button
   Widget backButton(BuildContext context) {
@@ -17,7 +16,7 @@ class InterfaceStandards {
       child: Icon(
         Icons.keyboard_backspace,
         color: Theme.of(context).colorScheme.backButton,
-        size: dimensions.getDimensions("backButtonSize", true, context),
+        size: Theme.of(context).materialTapTargetSize.backButtonSize,
       ),
     );
   }

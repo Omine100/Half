@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:half/services/dimensions.dart';
 
 import 'package:half/services/themes.dart';
 
@@ -21,8 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Text(
           "Testing",
           style: TextStyle(
-            fontSize: 48.0,
             color: Theme.of(context).colorScheme.title,
+            fontSize: Theme.of(context).textTheme.titleFontSize,
           ),
         ),
       ),

@@ -4,6 +4,12 @@ extension CustomColorScheme on ColorScheme {
   //Color get 'name' => const Color(0x'hexValue');
   Color get title => const Color(0xFFdc3545);
   Color get backButton => const Color(0xFFFFFFFF);
+  Color get textInput => const Color(0xFFEEEEEE);
+}
+
+extension CustomFontSizes on TextTheme {
+  double get textInputFontSize => 22.0;
+  double get titleFontSize => 48.0;
 }
 
 class Themes {
