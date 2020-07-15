@@ -5,6 +5,9 @@ extension CustomColorScheme on ColorScheme {
   Color get title => const Color(0xFFdc3545);
   Color get backButton => const Color(0xFFFFFFFF);
   Color get textInput => const Color(0xFFEEEEEE);
+  Color get loginGradientTopLeft => const Color(0xFFFF9359);
+  Color get loginGradientBottomRight => const Color(0xFFed2b7a);
+  Color get loginTitle => const Color(0xFFFFFFFF);
 }
 
 extension CustomFontSizes on TextTheme {

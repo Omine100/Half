@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:half/services/themes.dart';
-import 'package:half/pages/home.dart';
+import 'package:half/pages/login.dart';
 
 //Mechanics: Run Half
 void main() {
@@ -19,9 +19,9 @@ class Half extends StatelessWidget {
       title: "Half",
       debugShowCheckedModeBanner: false,
       routes: {
-        '/HomeScreen': (context) => HomeScreen(),
+        '/LoginScreen': (context) => LoginScreen(),
       },
-      initialRoute: '/HomeScreen',
+      initialRoute: '/LoginScreen',
       theme: themes.lightTheme(),
       darkTheme: themes.darkTheme(),
     );

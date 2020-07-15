@@ -24,7 +24,7 @@ class InterfaceStandards {
   //User interface: Text linear gradient
   Shader textLinearGradient(BuildContext context) {
     final Shader linearGradient = LinearGradient(
-      colors: <Color>[Theme.of(context).highlightColor, Theme.of(context).backgroundColor],
+      colors: <Color>[Theme.of(context).colorScheme.loginGradientTopLeft, Theme.of(context).colorScheme.loginGradientBottomRight],
     ).createShader(Rect.fromLTWH(110.0, 100.0, 200.0, 70.0));
     return linearGradient;
   }
@@ -32,8 +32,8 @@ class InterfaceStandards {
   //Mechanics: Returns gradient colors
   List<Color> colorsBodyGradient(BuildContext context, bool isTitle) {
     List<Color> gradientColors = [
-      Theme.of(context).highlightColor,
-      isTitle ? Theme.of(context).dividerColor : Theme.of(context).backgroundColor,
+      Theme.of(context).colorScheme.loginGradientTopLeft,
+      isTitle ? Theme.of(context).colorScheme.loginGradientTopLeft : Theme.of(context).colorScheme.loginGradientBottomRight,
     ];
     return gradientColors;
   }
