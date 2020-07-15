@@ -15,27 +15,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final FirebaseMessaging _firebaseMessaging = new FirebaseMessaging();
   Themes themes = new Themes();
 
-  //State initialization
-  @override
-  void initState() {
-    super.initState();
-    _firebaseMessaging.requestNotificationPermissions();
-    _firebaseMessaging.configure(
-      onLaunch: (Map<String, dynamic> message){
-        print('on Launch $message');
-      },
-      onMessage: (Map<String, dynamic> message){
-        print('on Message: $message');
-      },
-      onResume: (Map<String, dynamic> message){
-        print('on Resume: $message');
-      }
-    );
-    _firebaseMessaging.getToken().then((token){
-        print(token);
-    });
-  }
-
   //User interface: Home screen
   @override
   Widget build(BuildContext context) {
