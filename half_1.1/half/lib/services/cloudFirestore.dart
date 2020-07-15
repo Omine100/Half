@@ -88,16 +88,36 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Creates name data
-  Future<String> createNameData(String name) async {}
+  Future<String> createNameData(String name) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentReference ref = await db.collection(user.uid.toString()).
+      document("User").collection("Name").add({"Name": name});
+  }
 
-  //Mechanics: Creates data
-  Future<String> createData(String data) async {}
+  //Mechanics: Creates partner data
+  Future<String> createPartnerData(String userId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentReference ref = await db.collection(user.uid.toString()).
+      document("User").collection("Partner").add({"Partner": userId});
+  }
+
+  //Mechanics: Creates relationship data
+  Future<String> createRelationshipData(String relationship) async {}
+
+  //Mechanics: Create message data
+  Future<String> createMessageData(String message) async {}
 
   //Mechanics: Returns name data
   Future<String> readNameData(String userId) async {}
 
-  //Mechanics: Returns data
-  String readData(String userId) {}
+  //Mechanics: Returns partner data
+  String readPartnerData(String userId) {}
+
+  //Mechanics: Returns relationship data
+  String readRelationshipData(String userId) {}
+
+  //Mechanics: Returns message data
+  String readMessageData(String userId) {}
 
   //Mechanics: Deletes data
   void deleteData(DocumentSnapshot doc) {}

@@ -46,7 +46,26 @@ class _LoginScreenState extends State<LoginScreen> {
   //Need to get the name thing set up now
   //Most of this should be done in the cloudFirestore.dart file
   //Calls should mainly be the thing here
-  void validateAndSubmit(bool isSignIn) async {}
+  void validateAndSubmit(bool isSignIn) async {
+    setState(() {
+      _errorMessage = "";
+      _isLoading = true;
+    });
+    if (validateAndSave()) {
+      String userId = "";
+      try {
+        if (isSignIn) {
+        }
+      } catch (e) {
+        print("Error: $e");
+        setState(() {
+          _isLoading = false;
+          _errorMessage = e.message;
+          _formKey.currentState.reset();
+        });
+      }
+    }
+  }
 
   //Mechanics: Reset the form
   void resetForm() {
