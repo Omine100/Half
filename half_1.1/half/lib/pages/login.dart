@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:half/pages/forgotPassword.dart';
 
 import 'package:half/services/cloudFirestore.dart';
 import 'package:half/services/themes.dart';
@@ -178,7 +179,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.48, top: 30.0),
                         child: GestureDetector(
                           onTap: () {
-                            //Need to correct
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => ForgotPasswordScreen())
+                            );
                           },
                           child: showForgotPasswordButton(context)
                         ),
