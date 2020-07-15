@@ -56,6 +56,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
     );
   }
   
+  //User interface: Forgot password screen
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
