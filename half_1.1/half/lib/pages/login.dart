@@ -126,6 +126,85 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  //User interface: Show sign in or sign up button
+  Widget showSignInSignUpButton(bool isSignIn, Shader linearGradient) {
+    return new Container(
+      height: 50,
+      width: MediaQuery.of(context).size.width * 0.375,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(
+          30.0
+        ),
+        color: Colors.white,
+      ),
+      child: Center(
+        child: Text(
+          isSignIn ? "LOGIN" : "SIGN UP",
+          style: TextStyle(
+            foreground: Paint()
+              ..shader = linearGradient,
+            fontWeight: FontWeight.w600,
+            fontSize: 22.5,
+          ),
+        ),
+      ),
+    );
+  }
+
+  //User interface: Show sign in or sign up alternate text
+  Widget showSignInSignUpAlternateText(bool isSignIn) {
+    return RichText(
+      text: TextSpan(
+        text: !isSignIn ? "Already have an account? " : "Don't have an account? ",
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.loginTitle,
+          fontSize: 15.0,
+        ),
+        children: <TextSpan>[
+          TextSpan(
+            text: !isSignIn ? "Sign In" : "Sign Up",
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.loginTitle,
+              fontWeight: FontWeight.w600,
+              fontSize: 15.0,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  //User interface: Show forgot password button
+  Widget showForgotPasswordButton() {
+    return new Text(
+      "Forgot Password?",
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.loginTitle,
+        fontWeight: FontWeight.w400,
+        fontSize: 15.0
+      ),
+    );
+  }
+
+  //User interface: Show error message
+  Widget showErrorMessage(String errorMessage) {
+    if (errorMessage.length > 0 && errorMessage != null) {
+      return new Text(
+        errorMessage,
+        style: TextStyle(
+          fontSize: 13.0,
+          color: Colors.red,
+          height: 1.0,
+          fontWeight: FontWeight.w300,
+        ),
+      );
+    } else {
+      return new Container(
+        height: 0.0,
+      );
+    }
+  }
+
   //User interface: Login screen
   @override
   Widget build(BuildContext context) {
@@ -184,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               MaterialPageRoute(builder: (context) => ForgotPasswordScreen())
                             );
                           },
-                          child: showForgotPasswordButton(context)
+                          child: showForgotPasswordButton()
                         ),
                       )
                         :
@@ -199,7 +278,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           onTap: () {
                             validateAndSubmit(_isSignIn);
                           },
-                          child: showSignInSignUpButton(context, _isSignIn, interfaceStandards.textLinearGradient(context)),
+                          child: showSignInSignUpButton(_isSignIn, interfaceStandards.textLinearGradient(context)),
                         ),)
                     ),
                   ],
@@ -217,7 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       _isSignIn = !_isSignIn;
                     });
                   },
-                  child: showSignInSignUpAlternateText(context, _isSignIn),
+                  child: showSignInSignUpAlternateText(_isSignIn),
                 ),)
             ),
             Positioned(
@@ -228,85 +307,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-//User interface: Show sign in or sign up button
-Widget showSignInSignUpButton(BuildContext context, bool isSignIn, Shader linearGradient) {
-  return new Container(
-    height: 50,
-    width: MediaQuery.of(context).size.width * 0.375,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(
-        30.0
-      ),
-      color: Colors.white,
-    ),
-    child: Center(
-      child: Text(
-        isSignIn ? "LOGIN" : "SIGN UP",
-        style: TextStyle(
-          foreground: Paint()
-            ..shader = linearGradient,
-          fontWeight: FontWeight.w600,
-          fontSize: 22.5,
-        ),
-      ),
-    ),
-  );
-}
-
-//User interface: Show sign in or sign up alternate text
-Widget showSignInSignUpAlternateText(BuildContext context, bool isSignIn) {
-  return RichText(
-    text: TextSpan(
-      text: !isSignIn ? "Already have an account? " : "Don't have an account? ",
-      style: TextStyle(
-        color: Theme.of(context).colorScheme.loginTitle,
-        fontSize: 15.0,
-      ),
-      children: <TextSpan>[
-        TextSpan(
-          text: !isSignIn ? "Sign In" : "Sign Up",
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.loginTitle,
-            fontWeight: FontWeight.w600,
-            fontSize: 15.0,
-          ),
-        ),
-      ],
-    ),
-  );
-}
-
-//User interface: Show forgot password button
-Widget showForgotPasswordButton(BuildContext context) {
-  return new Text(
-    "Forgot Password?",
-    style: TextStyle(
-        color: Theme.of(context).colorScheme.loginTitle,
-        fontWeight: FontWeight.w400,
-        fontSize: 15.0
-    ),
-  );
-}
-
-//User interface: Show error message
-Widget showErrorMessage(String errorMessage) {
-  if (errorMessage.length > 0 && errorMessage != null) {
-    return new Text(
-      errorMessage,
-      style: TextStyle(
-        fontSize: 13.0,
-        color: Colors.red,
-        height: 1.0,
-        fontWeight: FontWeight.w300,
-      ),
-    );
-  } else {
-    return new Container(
-      height: 0.0,
     );
   }
 }
