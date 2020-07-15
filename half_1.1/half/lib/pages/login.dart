@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Themes themes = new Themes();
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password, _errorMessage;
-  bool _isLoading, _isSignIn;
+  bool _isLoading, _isSignIn, _isVisible;
 
   //Initial state
   @override
@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
   //Need to get the name thing set up now
   //Most of this should be done in the cloudFirestore.dart file
   //Calls should mainly be the thing here
-  void validateAndSubmit(bool _isSignIn) async {}
+  void validateAndSubmit(bool isSignIn) async {}
 
   //Mechanics: Reset the form
   void resetForm() {
@@ -61,6 +61,51 @@ class _LoginScreenState extends State<LoginScreen> {
       style: TextStyle(
         color: Theme.of(context).colorScheme.textInput,
         fontSize: Theme.of(context).textTheme.textInputFontSize,
+      ),
+      decoration: InputDecoration(
+        prefixIcon: Icon(
+          text != "Email" ? text == "Password" ?
+            Icons.lock :
+            Icons.person :
+            Icons.email,
+          color: Theme.of(context).colorScheme.textInput,
+        ),
+        hintText: text,
+        hintStyle: TextStyle(
+          color: Theme.of(context).colorScheme.textInput,
+        ),
+        labelStyle: TextStyle(
+          color: Theme.of(context).colorScheme.textInput,
+        ),
+        enabledBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.textInput,
+          ),
+        ),
+        focusedBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.textInput,
+          ),
+        ),
+      ),
+      validator: (value) => value.isEmpty ? "$text can\'t be empty" : null,
+      onSaved: (value) => text != "Email" ? text == "Password" ?
+        _password = value.trim() :
+        _name = value.trim() :
+        _email = value.trim(),
+      obscureText: text == "Password" ? (_isVisible ? false : true) : false,
+      maxLines: 1,
+    );
+  }
+
+  //User interface: Show visible button
+  Widget showVisibleButton() {
+    return GestureDetector(
+      onTap: () {
+        _isVisible = !_isVisible;
+      },
+      child: Icon(
+        _isVisible ? Icons.visibility : Icons.visibility_off,
       ),
     );
   }
