@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return new TextFormField(
       keyboardType: text == "Email" ? TextInputType.emailAddress : TextInputType.text,
       style: TextStyle(
-        color: Theme.of(context).colorScheme.textInput,
+        color: Theme.of(context).colorScheme.loginTextInput,
         fontSize: Theme.of(context).textTheme.textInputFontSize,
       ),
       decoration: InputDecoration(
@@ -69,23 +69,23 @@ class _LoginScreenState extends State<LoginScreen> {
             Icons.lock :
             Icons.person :
             Icons.email,
-          color: Theme.of(context).colorScheme.textInput,
+          color: Theme.of(context).colorScheme.loginTextInput,
         ),
         hintText: text,
         hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.textInput,
+          color: Theme.of(context).colorScheme.loginTextInput,
         ),
         labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.textInput,
+          color: Theme.of(context).colorScheme.loginTextInput,
         ),
         enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.textInput,
+            color: Theme.of(context).colorScheme.loginTextInput,
           ),
         ),
         focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.textInput,
+            color: Theme.of(context).colorScheme.loginTextInput,
           ),
         ),
       ),
@@ -107,7 +107,21 @@ class _LoginScreenState extends State<LoginScreen> {
       },
       child: Icon(
         _isVisible ? Icons.visibility : Icons.visibility_off,
+        color: Theme.of(context).colorScheme.loginTitle,
       ),
+    );
+  }
+
+  //User interface: Show progress
+  Widget showProgress(bool isLoading) {
+    if (isLoading) {
+      return new CircularProgressIndicator(
+        backgroundColor: Theme.of(context).colorScheme.loginTitle,
+      );
+    }
+    return Container(
+      height: 0.0,
+      width: 0.0,
     );
   }
 
@@ -135,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           _isSignIn ? "Ha / lf" : "Create Account",
                           style: TextStyle(
-                            color: Theme.of(context).secondaryHeaderColor,
+                            color: Theme.of(context).colorScheme.loginTitle,
                             fontSize: _isSignIn ? 65.0 : 40.0,
                             fontWeight: FontWeight.w600,
                           ),
@@ -245,14 +259,14 @@ Widget showSignInSignUpAlternateText(BuildContext context, bool isSignIn) {
     text: TextSpan(
       text: !isSignIn ? "Already have an account? " : "Don't have an account? ",
       style: TextStyle(
-        color: Theme.of(context).secondaryHeaderColor,
+        color: Theme.of(context).colorScheme.loginTitle,
         fontSize: 15.0,
       ),
       children: <TextSpan>[
         TextSpan(
           text: !isSignIn ? "Sign In" : "Sign Up",
           style: TextStyle(
-            color: Theme.of(context).highlightColor,
+            color: Theme.of(context).colorScheme.loginTitle,
             fontWeight: FontWeight.w600,
             fontSize: 15.0,
           ),
@@ -267,7 +281,7 @@ Widget showForgotPasswordButton(BuildContext context) {
   return new Text(
     "Forgot Password?",
     style: TextStyle(
-        color: Theme.of(context).secondaryHeaderColor,
+        color: Theme.of(context).colorScheme.loginTitle,
         fontWeight: FontWeight.w400,
         fontSize: 15.0
     ),
@@ -291,17 +305,4 @@ Widget showErrorMessage(String errorMessage) {
       height: 0.0,
     );
   }
-}
-
-//User interface: Show progress
-Widget showProgress(bool isLoading) {
-  if (isLoading) {
-    return new CircularProgressIndicator(
-      backgroundColor: Colors.white,
-    );
-  }
-  return Container(
-    height: 0.0,
-    width: 0.0,
-  );
 }
