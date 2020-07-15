@@ -104,7 +104,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget showVisibleButton() {
     return GestureDetector(
       onTap: () {
-        _isVisible = !_isVisible;
+        setState(() {
+          _isVisible = !_isVisible;
+        });
       },
       child: Icon(
         _isVisible ? Icons.visibility : Icons.visibility_off,
@@ -298,6 +300,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   child: showSignInSignUpAlternateText(_isSignIn),
                 ),)
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.525,
+              left: MediaQuery.of(context).size.width * 0.8,
+              child: showVisibleButton(),
             ),
             Positioned(
               top: MediaQuery.of(context).size.height * 0.8,
