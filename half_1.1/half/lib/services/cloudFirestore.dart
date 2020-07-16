@@ -17,7 +17,7 @@ abstract class BaseCloud {
   Future<void> createNameData(String name);
   Future<void> createPartnerData(String userId);
   Future<void> createRelationshipData(int relationship);
-  Future<void> createMessageData(String message);
+  Future<void> createMessageData(String message, bool isPartner);
   Future<String> readNameData(String userId);
   Future<String> readPartnerData(String userId);
   Future<String> readRelationshipData(String userId);
@@ -109,10 +109,21 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Create message data
-  Future<void> createMessageData(String message) async {
+  Future<void> createMessageData(String message, bool isPartner) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentReference ref = await db.collection(user.uid.toString()).
-      document('Messages').collection("Final").add({"Message": message});
+      document('Messages').collection("Final").
+      add({
+        "Message": message,
+        "User": false,
+      }
+    );
+    DocumentReference refPartner = await db.collection(await readPartnerData(user.uid.toString())).
+      document('Messages').collection("Final").
+      add({
+        "Message": message,
+        "User": true,
+      });
   }
 
   //Mechanics: Returns name data
@@ -148,6 +159,7 @@ class CloudFirestore implements BaseCloud {
     Stream messagesStream = db.collection(user.uid.toString()).
       document("Messages").collection("Final").snapshots();
     return messagesStream;
+    //Need to split this into two when we use it on home.dart
   }
 
   //Mechanics: Deletes data
