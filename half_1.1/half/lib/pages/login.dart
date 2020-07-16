@@ -9,6 +9,11 @@ import 'package:half/widgets/interfaceStandards.dart';
 import 'package:half/pages/home.dart';
 
 class LoginScreen extends StatefulWidget {
+  LoginScreen({this.loginCallback});
+
+  //Variable reference
+  final VoidCallback loginCallback;
+
   @override
   State<StatefulWidget> createState() => _LoginScreenState();
 }
@@ -55,6 +60,11 @@ class _LoginScreenState extends State<LoginScreen> {
       String userId = "";
       try {
         if (isSignIn) {
+          userId = await cloudFirestore.signIn(_email, _password);
+          setState(() {
+            _isLoading = false;
+          });
+          if (user)
         }
       } catch (e) {
         print("Error: $e");
