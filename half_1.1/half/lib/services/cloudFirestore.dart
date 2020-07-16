@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 //Method declarations
 abstract class BaseCloud {
   Future<void> signIn(String email, String password);
-  Future<void> signUp(String email, String password, String name);
+  Future<void> signUp(String email, String password);
   Future<FirebaseUser> getCurrentUser();
   Future<String> getCurrentUserId();
   Future<void> sendEmailVerification();
@@ -39,7 +39,7 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Signs up user with given email, password and name
-  Future<void> signUp(String email, String password, String name) async {
+  Future<void> signUp(String email, String password) async {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email, password: password);
     FirebaseUser user = result.user;

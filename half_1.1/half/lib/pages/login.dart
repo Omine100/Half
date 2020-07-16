@@ -60,11 +60,26 @@ class _LoginScreenState extends State<LoginScreen> {
       String userId = "";
       try {
         if (isSignIn) {
-          userId = await cloudFirestore.signIn(_email, _password);
+          await cloudFirestore.signIn(_email, _password);
+          userId = await cloudFirestore.getCurrentUserId();
           setState(() {
             _isLoading = false;
           });
-          if (user)
+          if (userId.length > 0 && userId != null && isSignIn) {
+            widget.loginCallback();
+          }
+        } else {
+          await cloudFirestore.signUp(_email, _password);
+          await cloudFirestore.createNameData(_name);
+          userId = await cloudFirestore.getCurrentUserId();
+          setState(() {
+            _isLoading = false;
+          });
+          if (userId.length > 0 && userId != null && !isSignIn) {
+            await cloudFirestore.signIn(_email, _password);
+            widget.loginCallback();
+          }
+          cloudFirestore.sendEmailVerification();
         }
       } catch (e) {
         print("Error: $e");
@@ -73,7 +88,12 @@ class _LoginScreenState extends State<LoginScreen> {
           _errorMessage = e.message;
           _formKey.currentState.reset();
         });
-      }
+      } 
+    } else {
+      setState(() {
+        _errorMessage = "";
+        _isLoading = false;
+      });
     }
   }
 
