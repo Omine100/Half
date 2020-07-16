@@ -4,9 +4,7 @@ import 'package:half/pages/forgotPassword.dart';
 
 import 'package:half/services/cloudFirestore.dart';
 import 'package:half/services/themes.dart';
-import 'package:half/services/dimensions.dart';
 import 'package:half/widgets/interfaceStandards.dart';
-import 'package:half/pages/home.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({this.loginCallback});
