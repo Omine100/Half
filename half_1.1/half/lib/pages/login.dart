@@ -1,10 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:half/pages/forgotPassword.dart';
 
 import 'package:half/services/cloudFirestore.dart';
 import 'package:half/services/themes.dart';
 import 'package:half/widgets/interfaceStandards.dart';
+import 'package:half/pages/forgotPassword.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen({this.loginCallback});
@@ -19,8 +19,8 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   //Variable initialization
   CloudFirestore cloudFirestore = new CloudFirestore();
-  InterfaceStandards interfaceStandards = new InterfaceStandards();
   Themes themes = new Themes();
+  InterfaceStandards interfaceStandards = new InterfaceStandards();
   final _formKey = GlobalKey<FormState>();
   String _name, _email, _password, _errorMessage;
   bool _isLoading, _isSignIn, _isVisible;
@@ -349,7 +349,10 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),)
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.525,
+              top: _isSignIn ? 
+                MediaQuery.of(context).size.height * 0.525
+                  :
+                MediaQuery.of(context).size.height * 0.56,
               left: MediaQuery.of(context).size.width * 0.8,
               child: showVisibleButton(),
             ),

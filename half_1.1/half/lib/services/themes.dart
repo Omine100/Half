@@ -15,6 +15,13 @@ extension CustomColorScheme on ColorScheme {
   Color get forgotPasswordGradientBottomRight => const Color(0xFFed2b7a);
   Color get forgotPasswordTitle => const Color(0xFFFFFFFF);
   Color get forgotPasswordReset => const Color(0xFFFFFFFF);
+
+  Color get connectorTextInput => const Color(0xFFEEEEEE);
+  Color get connectorTitle => const Color(0xFFFFFFFF);
+  Color get connectorConnect => const Color(0xFFFFFFFF);
+
+  Color get homeTitleBackground => const Color(0x00FFFFFF);
+  Color get homeTitle => const Color(0xFFFFFFFF);
 }
 
 extension CustomFontSizes on TextTheme {
@@ -22,6 +29,8 @@ extension CustomFontSizes on TextTheme {
   double get titleFontSize => 48.0;
 
   double get forgotPasswordResetFontSize => 24.0;
+
+  double get connectorConnectFontSize => 24.0;
 }
 
 class Themes {

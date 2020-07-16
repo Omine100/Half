@@ -22,6 +22,7 @@ abstract class BaseCloud {
   Future<String> readPartnerData(String userId);
   Future<String> readRelationshipData(String userId);
   Future<Stream> readMessageDataStream(String userId);
+  Future<String> readPartnerNameData(String userId);
   void deleteData(DocumentSnapshot doc);
   void deleteAccountData(String userId);
 }
@@ -160,6 +161,12 @@ class CloudFirestore implements BaseCloud {
       document("Messages").collection("Final").snapshots();
     return messagesStream;
     //Need to split this into two when we use it on home.dart
+  }
+
+  //Mechanics: Returns partners name data
+  Future<String> readPartnerNameData(String userId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    
   }
 
   //Mechanics: Deletes data

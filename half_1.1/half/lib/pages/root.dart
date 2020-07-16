@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:half/services/cloudFirestore.dart';
 import 'package:half/pages/login.dart';
+import 'package:half/pages/connector.dart';
 import 'package:half/pages/home.dart';
 
 //Status declaration
@@ -72,7 +73,7 @@ class _RootScreenState extends State<RootScreen> {
   //User interface: Root screen
   @override
   Widget build(BuildContext context) {
-switch (_authStatus) {
+    switch (_authStatus) {
       case AuthStatus.NOT_DETERMINED:
         return buildWaitingScreen();
         break;
@@ -83,10 +84,17 @@ switch (_authStatus) {
         break;
       case AuthStatus.LOGGED_IN:
         if (_userId.length > 0 && _userId != null) {
-          return new HomeScreen(
-            logoutCallback: logoutCallback,
-            userId: _userId,
-          );
+          if (cloudFirestore.readPartnerData(_userId) == null) {
+            return new HomeScreen(
+              logoutCallback: logoutCallback,
+              userId: _userId,
+            );
+          } else {
+            return new ConnectorScreen(
+              logoutCallback: logoutCallback,
+              userId: _userId,
+            );
+          }
         } else
           return buildWaitingScreen();
         break;

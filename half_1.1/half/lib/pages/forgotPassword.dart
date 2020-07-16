@@ -13,8 +13,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   //Variable initialization
   CloudFirestore cloudFirestore = new CloudFirestore();
-  InterfaceStandards interfaceStandards = new InterfaceStandards();
   Themes themes = new Themes();
+  InterfaceStandards interfaceStandards = new InterfaceStandards();
   final _formKey = GlobalKey<FormState>();
   String _email;
 
@@ -24,7 +24,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       keyboardType: TextInputType.emailAddress,
       style: TextStyle(
         color: Theme.of(context).colorScheme.forgotPasswordTextInput,
-        fontSize: 22.0,
+        fontSize: Theme.of(context).textTheme.textInputFontSize,
       ),
       decoration: InputDecoration(
         prefixIcon: Icon(
@@ -83,35 +83,35 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-            ), //Forgot Password text
+            ),
             Form(
               key: _formKey,
               child: Padding(
                 padding: EdgeInsets.only(left: 50.0, right: 50.0, top: 400.0),
                 child: showEmailInput(),
               ),
-            ), //showEmailInput()
+            ),
             Positioned(
-                top: MediaQuery.of(context).size.height * 0.675,
-                child: Container(
-                  width: MediaQuery.of(context).size.width,
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        // widget.auth.sendPasswordReset(_email);
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        "Reset Password",
-                        style: TextStyle(
-                          color: Theme.of(context).colorScheme.forgotPasswordReset,
-                          fontSize: Theme.of(context).textTheme.forgotPasswordResetFontSize,
-                        ),
+              top: MediaQuery.of(context).size.height * 0.675,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                child: Center(
+                  child: GestureDetector(
+                    onTap: () {
+                      cloudFirestore.sendPasswordReset(_email);
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Reset Password",
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.forgotPasswordReset,
+                        fontSize: Theme.of(context).textTheme.forgotPasswordResetFontSize,
                       ),
                     ),
                   ),
                 ),
-            ), //Reset Password button
+              ),
+            ),
           ],
         ),
       ),
