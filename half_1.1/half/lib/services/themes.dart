@@ -32,6 +32,8 @@ extension CustomFontSizes on TextTheme {
   double get forgotPasswordResetFontSize => 24.0;
 
   double get connectorUserIdFontSize => 24.0;
+
+  double get homeTitleFontSize => 36.0;
 }
 
 class Themes {

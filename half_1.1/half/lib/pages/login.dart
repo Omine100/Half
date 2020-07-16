@@ -46,9 +46,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   //Mechanics: Validate and submit user information
-  //Need to get the name thing set up now
-  //Most of this should be done in the cloudFirestore.dart file
-  //Calls should mainly be the thing here
   void validateAndSubmit(bool isSignIn) async {
     setState(() {
       _errorMessage = "";
