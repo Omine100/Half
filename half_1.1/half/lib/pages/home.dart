@@ -4,7 +4,11 @@ import 'package:half/services/themes.dart';
 import 'package:half/services/dimensions.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key});
+  HomeScreen({Key key, this.logoutCallback, this.userId});
+
+  //Variable reference
+  final VoidCallback logoutCallback;
+  final String userId;
 
   @override
   State<StatefulWidget> createState() => new _HomeScreenState();
