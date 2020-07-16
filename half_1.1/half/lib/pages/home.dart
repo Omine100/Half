@@ -39,17 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return new Scaffold(
       body: Column(
         children: <Widget>[
-          FutureBuilder<Container>(
-            future: showTitle(),
-            builder: (BuildContext context, AsyncSnapshot<Container> snapshot) {
-              List<Widget> children;
-              if(snapshot.hasData) {
-                children = <Widget>[
-                  Text("Test"),
-                ];
-              }
-            },
-          ),
+          Text("Testing"),
         ],
       ),
     );

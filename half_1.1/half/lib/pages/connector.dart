@@ -4,6 +4,7 @@ import 'package:half/services/cloudFirestore.dart';
 import 'package:half/services/themes.dart';
 import 'package:half/services/dimensions.dart';
 import 'package:half/widgets/interfaceStandards.dart';
+import 'package:half/pages/home.dart';
 
 class ConnectorScreen extends StatefulWidget {
   ConnectorScreen({Key key, this.logoutCallback, this.userId});
@@ -23,6 +24,31 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final _formKey = GlobalKey<FormState>();
   String _partnerUserId;
+
+  //Mechanics: Validate and save user information
+  bool validateAndSave() {
+    final form = _formKey.currentState;
+    if(form.validate()) {
+      form.save();
+      return true;
+    }
+    return false;
+  }
+
+  //Mechanics: Validate and submit partner user id information
+  void validateAndSubmit() {
+    if (validateAndSave()) {
+      cloudFirestore.createPartnerData(_partnerUserId);
+      Navigator.pushReplacement(context, MaterialPageRoute(
+        builder: (context) => HomeScreen(
+          logoutCallback: widget.logoutCallback,
+          userId: widget.userId,
+        ))
+      );
+    } else {
+      print("Error: Could not validate and save");
+    }
+  }
 
   //User interface: Show partner user id input
   Widget showParterUserIdInput() {
@@ -65,6 +91,8 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   //User interface: Connector screen
   @override
   Widget build(BuildContext context) {
+      Future<String> _yourId = Future<String>.delayed(Duration(seconds: 2), () => "Test");
+
     return new Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
@@ -74,7 +102,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.3,
+              top: MediaQuery.of(context).size.height * 0.23,
               child: interfaceStandards.parentCenter(context, 
                 Text(
                   "Your Id",
@@ -87,7 +115,31 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.5,
+              top: MediaQuery.of(context).size.height * 0.315,
+              child: interfaceStandards.parentCenter(context, 
+                Text(
+                  widget.userId.substring(0, (widget.userId.length / 1.75).toInt()),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.connectorTitle,
+                    fontSize: Theme.of(context).textTheme.connectorUserIdFontSize,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.365,
+              child: interfaceStandards.parentCenter(context, 
+                Text(
+                  widget.userId.substring((widget.userId.length / 1.75).toInt()),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.connectorTitle,
+                    fontSize: Theme.of(context).textTheme.connectorUserIdFontSize,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.475,
               child: interfaceStandards.parentCenter(context, 
                 Text(
                   "Partner Id",
@@ -102,7 +154,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
             Form(
               key: _formKey,
               child: Padding(
-                padding: EdgeInsets.only(left: 50.0, right: 50.0, top: 475.0),
+                padding: EdgeInsets.only(left: 50.0, right: 50.0, top: 450.0),
                 child: showParterUserIdInput(),
               ),
             ),
@@ -113,8 +165,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
                 child: Center(
                   child: GestureDetector(
                     onTap: () {
-                      cloudFirestore.createPartnerData(_partnerUserId);
-                      Navigator.pop(context);
+                      validateAndSubmit();
                     },
                     child: Icon(
                       Icons.play_arrow,
