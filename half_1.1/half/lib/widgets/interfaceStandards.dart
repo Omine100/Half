@@ -24,7 +24,7 @@ class InterfaceStandards {
   //User interface: Text linear gradient
   Shader textLinearGradient(BuildContext context) {
     final Shader linearGradient = LinearGradient(
-      colors: <Color>[Theme.of(context).colorScheme.loginGradientTopLeft, Theme.of(context).colorScheme.loginGradientBottomRight],
+      colors: <Color>[Theme.of(context).colorScheme.gradientTopLeft, Theme.of(context).colorScheme.gradientBottomRight],
     ).createShader(Rect.fromLTWH(110.0, 100.0, 200.0, 70.0));
     return linearGradient;
   }
@@ -32,8 +32,8 @@ class InterfaceStandards {
   //Mechanics: Returns gradient colors
   List<Color> colorsBodyGradient(BuildContext context, bool isTitle) {
     List<Color> gradientColors = [
-      Theme.of(context).colorScheme.loginGradientTopLeft,
-      isTitle ? Theme.of(context).colorScheme.loginGradientTopLeft : Theme.of(context).colorScheme.loginGradientBottomRight,
+      Theme.of(context).colorScheme.gradientTopLeft,
+      isTitle ? Theme.of(context).colorScheme.gradientBottomRight : Theme.of(context).colorScheme.gradientBottomRight,
     ];
     return gradientColors;
   }
@@ -41,8 +41,8 @@ class InterfaceStandards {
   //User interface: Body linear gradient
   LinearGradient bodyLinearGradient(BuildContext context, bool isSmall, bool isTitle) {
     final LinearGradient linearGradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: isSmall ? Alignment.centerRight : Alignment.bottomRight,
+      begin: isSmall ? Alignment.centerLeft : Alignment.topLeft,
+      end: Alignment.bottomRight,
       tileMode: TileMode.mirror,
       colors: colorsBodyGradient(context, isTitle),
     );

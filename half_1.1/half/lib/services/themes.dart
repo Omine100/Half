@@ -4,9 +4,9 @@ extension CustomColorScheme on ColorScheme {
   //Color get 'name' => const Color(0x'hexValue');
   Color get title => const Color(0xFFdc3545);
   Color get backButton => const Color(0xFFFFFFFF);
+  Color get gradientTopLeft => const Color(0xFFFF9359);
+  Color get gradientBottomRight => const Color(0xFFed2b7a);
 
-  Color get loginGradientTopLeft => const Color(0xFFFF9359);
-  Color get loginGradientBottomRight => const Color(0xFFed2b7a);
   Color get loginTitle => const Color(0xFFFFFFFF);
   Color get loginTextInput => const Color(0xFFEEEEEE);
 
@@ -22,7 +22,9 @@ extension CustomColorScheme on ColorScheme {
   Color get connectorUserIdBackground => const Color(0x00FFFFFF);
 
   Color get homeTitleBackground => const Color(0x00FFFFFF);
-  Color get homeTitle => const Color(0xFFFFFFFF);
+  Color get homeTitle => const Color(0xFF000000);
+  Color get homeMessageContainerBackround => const Color(0xFFFFFFFF);
+  Color get homeMessageBarBackground => const Color(0xFFd6296f);
 }
 
 extension CustomFontSizes on TextTheme {
@@ -33,7 +35,7 @@ extension CustomFontSizes on TextTheme {
 
   double get connectorUserIdFontSize => 24.0;
 
-  double get homeTitleFontSize => 36.0;
+  double get homeTitleFontSize => 32.0;
 }
 
 class Themes {

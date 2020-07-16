@@ -41,13 +41,43 @@ class _HomeScreenState extends State<HomeScreen> {
   //User interface: Show title
   Container showTitle() {
     return new Container(
-      height: MediaQuery.of(context).size.height * 0.2,
+      height: MediaQuery.of(context).size.height * 0.175,
       color: Theme.of(context).colorScheme.homeTitleBackground,
-      child: Text(
-        _partnerName,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.homeTitle,
-          fontSize: Theme.of(context).textTheme.homeTitleFontSize,
+      child: interfaceStandards.parentCenter(context, Text(
+          "Haley Kirby",
+          style: TextStyle(
+            color: Theme.of(context).colorScheme.homeTitle,
+            fontSize: Theme.of(context).textTheme.homeTitleFontSize,
+          ),
+        ),
+      ),
+    );
+  }
+
+  //User interface: Show message container
+  Container showMessageContainer() {
+    return new Container(
+      height: MediaQuery.of(context).size.height * 0.915,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.homeMessageContainerBackround,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(35.0),
+          bottomRight: Radius.circular(35.0),
+        ),
+      ),
+    );
+  }
+
+  //User interface: Show message bar
+  Widget showMessageBar() {
+    return interfaceStandards.parentCenter(context,
+      new Container(
+        height: MediaQuery.of(context).size.height * 0.06,
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.homeMessageBarBackground,
+          borderRadius: BorderRadius.all(Radius.circular(35.0),),
         ),
       ),
     );
@@ -57,10 +87,21 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: Column(
-        children: <Widget>[
-          Text("Testing"),
-        ],
+      body: Container(
+        height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: interfaceStandards.bodyLinearGradient(context, true, true),
+        ),
+        child: Stack(
+          children: <Widget>[
+            showMessageContainer(),
+            showTitle(),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.93,
+              child: showMessageBar(),
+            ),
+          ],
+        ),
       ),
     );
   }
