@@ -4,8 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 //Method declarations
 abstract class BaseCloud {
-  Future<String> signIn(String email, String password);
-  Future<String> signUp(String email, String password, String name);
+  Future<void> signIn(String email, String password);
+  Future<void> signUp(String email, String password, String name);
   Future<FirebaseUser> getCurrentUser();
   Future<String> getCurrentUserId();
   Future<void> sendEmailVerification();
@@ -14,10 +14,14 @@ abstract class BaseCloud {
   Future<void> sendPasswordReset(String email);
   Future<void> deleteAccount();
   
-  Future<String> createNameData(String name);
-  Future<String> createData(String data);
+  Future<void> createNameData(String name);
+  Future<void> createPartnerData(String userId);
+  Future<void> createRelationshipData(int relationship);
+  Future<void> createMessageData(String message);
   Future<String> readNameData(String userId);
-  String readData(String userId);
+  Future<String> readPartnerData(String userId);
+  Future<String> readRelationshipData(String userId);
+  Future<Stream> readMessageDataStream(String userId);
   void deleteData(DocumentSnapshot doc);
   void deleteAccountData(String userId);
 }
@@ -28,21 +32,17 @@ class CloudFirestore implements BaseCloud {
   final db = Firestore.instance;
   
   //Mechanics: Signs in user with given email and password
-  Future<String> signIn(String email, String password) async {
+  Future<void> signIn(String email, String password) async {
     AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     FirebaseUser user = result.user;
-    return user.uid;
   }
 
   //Mechanics: Signs up user with given email, password and name
-  Future<String> signUp(String email, String password, String name) async {
+  Future<void> signUp(String email, String password, String name) async {
     AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
       email: email, password: password);
     FirebaseUser user = result.user;
-    return user.uid;
-
-    //Need to add a section for adding name
   }
 
   //Mechanics: Returns current user
@@ -88,42 +88,82 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Creates name data
-  Future<String> createNameData(String name) async {
+  Future<void> createNameData(String name) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid.toString()).
-      document("User").collection("Name").add({"Name": name});
+    await db.collection(user.uid.toString()).document("Name")
+      .setData({'Name': name,});
   }
 
   //Mechanics: Creates partner data
-  Future<String> createPartnerData(String userId) async {
+  Future<void> createPartnerData(String userId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid.toString()).
-      document("User").collection("Partner").add({"Partner": userId});
+    await db.collection(user.uid.toString()).document("Partner")
+      .setData({'Partner': userId,});
   }
 
   //Mechanics: Creates relationship data
-  Future<String> createRelationshipData(String relationship) async {}
+  Future<void> createRelationshipData(int relationship) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    await db.collection(user.uid.toString()).document("Relationship")
+      .setData({'Relationship': relationship,});
+  }
 
   //Mechanics: Create message data
-  Future<String> createMessageData(String message) async {}
+  Future<void> createMessageData(String message) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentReference ref = await db.collection(user.uid.toString()).
+      document('Messages').collection("Final").add({"Message": message});
+  }
 
   //Mechanics: Returns name data
-  Future<String> readNameData(String userId) async {}
+  Future<String> readNameData(String userId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentReference ref = db.collection(user.uid.toString()).document("Name");
+    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
+      return snapshot.data["Name"];
+    });
+  }
 
   //Mechanics: Returns partner data
-  String readPartnerData(String userId) {}
+  Future<String> readPartnerData(String userId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentReference ref = db.collection(user.uid.toString()).document("Partner");
+    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
+      return snapshot.data["Partner"];
+    });
+  }
 
   //Mechanics: Returns relationship data
-  String readRelationshipData(String userId) {}
+  Future<String> readRelationshipData(String userId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentReference ref = db.collection(user.uid.toString()).document("Relationship");
+    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
+      return snapshot.data["Relationship"];
+    });
+  }
 
-  //Mechanics: Returns message data
-  String readMessageData(String userId) {}
+  //Mechanics: Returns message data stream
+  Future<Stream> readMessageDataStream(String userId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    Stream messagesStream = db.collection(user.uid.toString()).
+      document("Messages").collection("Final").snapshots();
+    return messagesStream;
+  }
 
   //Mechanics: Deletes data
-  void deleteData(DocumentSnapshot doc) {}
+  void deleteData(DocumentSnapshot doc) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    await db.collection(user.uid.toString()).document(doc.documentID).delete();
+  }
 
   //Mechanics: Deletes account data
-  void deleteAccountData(String userId) {}
+  void deleteAccountData(String userId) async {
+    await db.collection(userId).getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents){
+        ds.reference.delete();
+      }
+    });
+  }
 }
 
 CloudFirestore db = CloudFirestore();
