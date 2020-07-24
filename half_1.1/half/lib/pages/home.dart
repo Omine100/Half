@@ -6,11 +6,13 @@ import 'package:half/services/dimensions.dart';
 import 'package:half/widgets/interfaceStandards.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.logoutCallback, this.userId});
+  HomeScreen({Key key, this.logoutCallback, this.userId, this.partnerId, this.partnerName});
 
   //Variable reference
   final VoidCallback logoutCallback;
   final String userId;
+  final String partnerId;
+  final String partnerName;
 
   @override
   State<StatefulWidget> createState() => new _HomeScreenState();
@@ -21,21 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   CloudFirestore cloudFirestore = new CloudFirestore();
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   Themes themes = new Themes();
-  String _partnerName = "";
 
   //Initial state
   @override
   void initState() {
     super.initState();
-    String _partnerUserId;
-    cloudFirestore.readPartnerData(widget.userId).then((partnerId) => 
-      _partnerUserId = partnerId,
-    );
-    cloudFirestore.readNameData(_partnerUserId).then((name) {
-      setState(() {
-        _partnerName = name;
-      });
-    });
+    print("UserId: " + widget.userId);
+    print("Partner name: " + widget.partnerName);
   }
 
   //User interface: Show title
@@ -44,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
       height: MediaQuery.of(context).size.height * 0.175,
       color: Theme.of(context).colorScheme.homeTitleBackground,
       child: interfaceStandards.parentCenter(context, Text(
-          "Haley Kirby",
+          "Test",
           style: TextStyle(
             color: Theme.of(context).colorScheme.homeTitle,
             fontSize: Theme.of(context).textTheme.homeTitleFontSize,
@@ -65,6 +59,20 @@ class _HomeScreenState extends State<HomeScreen> {
           bottomLeft: Radius.circular(35.0),
           bottomRight: Radius.circular(35.0),
         ),
+      ),
+    );
+  }
+
+  //User interface: Show message bar send button
+  GestureDetector showMessageBarSend() {
+    return new GestureDetector(
+      onTap: () {
+        print("Message sent");
+      },
+      child: Icon(
+        Icons.send,
+        color: Theme.of(context).colorScheme.homeMessageBarSendIcon,
+        size: Theme.of(context).materialTapTargetSize.homeMessageBarSendButtonSize,
       ),
     );
   }
@@ -99,6 +107,11 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned(
               top: MediaQuery.of(context).size.height * 0.93,
               child: showMessageBar(),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.94,
+              left: MediaQuery.of(context).size.width - 70.0,
+              child: showMessageBarSend(),
             ),
           ],
         ),

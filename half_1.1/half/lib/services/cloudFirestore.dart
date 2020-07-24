@@ -22,7 +22,6 @@ abstract class BaseCloud {
   Future<String> readPartnerData(String userId);
   Future<String> readRelationshipData(String userId);
   Future<Stream> readMessageDataStream(String userId);
-  Future<String> readPartnerNameData(String userId);
   void deleteData(DocumentSnapshot doc);
   void deleteAccountData(String userId);
 }
@@ -91,35 +90,35 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Creates name data
   Future<void> createNameData(String name) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid.toString()).document("Name")
+    await db.collection(user.uid).document("Name")
       .setData({'Name': name,});
   }
 
   //Mechanics: Creates partner data
   Future<void> createPartnerData(String userId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid.toString()).document("Partner")
+    await db.collection(user.uid).document("Partner")
       .setData({'Partner': userId,});
   }
 
   //Mechanics: Creates relationship data
   Future<void> createRelationshipData(int relationship) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid.toString()).document("Relationship")
+    await db.collection(user.uid).document("Relationship")
       .setData({'Relationship': relationship,});
   }
 
   //Mechanics: Create message data
   Future<void> createMessageData(String message, bool isPartner) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid.toString()).
+    DocumentReference ref = await db.collection(user.uid).
       document('Messages').collection("Final").
       add({
         "Message": message,
         "User": false,
       }
     );
-    DocumentReference refPartner = await db.collection(await readPartnerData(user.uid.toString())).
+    DocumentReference refPartner = await db.collection(await readPartnerData(user.uid)).
       document('Messages').collection("Final").
       add({
         "Message": message,
@@ -130,7 +129,7 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Returns name data
   Future<String> readNameData(String userId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = db.collection(user.uid.toString()).document("Name");
+    DocumentReference ref = db.collection(user.uid).document("Name");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
       return snapshot.data["Name"];
     });
@@ -139,7 +138,7 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Returns partner data
   Future<String> readPartnerData(String userId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = db.collection(user.uid.toString()).document("Partner");
+    DocumentReference ref = db.collection(user.uid).document("Partner");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
       return snapshot.data["Partner"];
     });
@@ -148,7 +147,7 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Returns relationship data
   Future<String> readRelationshipData(String userId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = db.collection(user.uid.toString()).document("Relationship");
+    DocumentReference ref = db.collection(user.uid).document("Relationship");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
       return snapshot.data["Relationship"];
     });
@@ -157,22 +156,16 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Returns message data stream
   Future<Stream> readMessageDataStream(String userId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    Stream messagesStream = db.collection(user.uid.toString()).
+    Stream messagesStream = db.collection(user.uid).
       document("Messages").collection("Final").snapshots();
     return messagesStream;
     //Need to split this into two when we use it on home.dart
   }
 
-  //Mechanics: Returns partners name data
-  Future<String> readPartnerNameData(String userId) async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    
-  }
-
   //Mechanics: Deletes data
   void deleteData(DocumentSnapshot doc) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid.toString()).document(doc.documentID).delete();
+    await db.collection(user.uid).document(doc.documentID).delete();
   }
 
   //Mechanics: Deletes account data

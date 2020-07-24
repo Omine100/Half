@@ -24,7 +24,8 @@ extension CustomColorScheme on ColorScheme {
   Color get homeTitleBackground => const Color(0x00FFFFFF);
   Color get homeTitle => const Color(0xFF000000);
   Color get homeMessageContainerBackround => const Color(0xFFFFFFFF);
-  Color get homeMessageBarBackground => const Color(0xFFd6296f);
+  Color get homeMessageBarBackground => const Color(0x85d6296f);
+  Color get homeMessageBarSendIcon => const Color(0xFFFFFFFF);
 }
 
 extension CustomFontSizes on TextTheme {

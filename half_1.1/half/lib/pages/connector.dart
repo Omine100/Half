@@ -7,11 +7,13 @@ import 'package:half/widgets/interfaceStandards.dart';
 import 'package:half/pages/home.dart';
 
 class ConnectorScreen extends StatefulWidget {
-  ConnectorScreen({Key key, this.logoutCallback, this.userId});
+  ConnectorScreen({Key key, this.logoutCallback, this.userId, this.partnerId, this.partnerName});
 
   //Variable reference
   final VoidCallback logoutCallback;
   final String userId;
+  final String partnerId;
+  final String partnerName;
 
   @override
   State<StatefulWidget> createState() => _ConnectorScreenState();
@@ -43,6 +45,8 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
         builder: (context) => HomeScreen(
           logoutCallback: widget.logoutCallback,
           userId: widget.userId,
+          partnerId: widget.partnerId,
+          partnerName: widget.partnerName,
         ))
       );
     } else {

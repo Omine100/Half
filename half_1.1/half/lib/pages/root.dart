@@ -24,7 +24,7 @@ class _RootScreenState extends State<RootScreen> {
   CloudFirestore cloudFirestore = new CloudFirestore();
   final db = Firestore.instance;
   AuthStatus _authStatus = AuthStatus.NOT_DETERMINED;
-  String _userId = "";
+  String _userId = "", _partnerId = "", _partnerName = "";
 
   //Initial state
   @override
@@ -43,8 +43,14 @@ class _RootScreenState extends State<RootScreen> {
   //Mechanics: Sets status to logged in with current user
   void loginCallback() {
     cloudFirestore.getCurrentUser().then((user) {
-      setState(() {
-        _userId = user.uid.toString();
+      cloudFirestore.readPartnerData(user.uid).then((partnerId) {
+        cloudFirestore.readNameData(partnerId).then((partnerName) {
+          setState(() {
+            _userId = user.uid;
+            _partnerId = partnerId;
+            _partnerName = partnerName;
+          });
+        });
       });
     });
     setState(() {
@@ -88,11 +94,15 @@ class _RootScreenState extends State<RootScreen> {
             return new HomeScreen(
               logoutCallback: logoutCallback,
               userId: _userId,
+              partnerId: _partnerId,
+              partnerName: _partnerName,
             );
           } else {
             return new ConnectorScreen(
               logoutCallback: logoutCallback,
               userId: _userId,
+              partnerId: _partnerId,
+              partnerName: _partnerName,
             );
           }
         } else
