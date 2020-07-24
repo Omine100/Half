@@ -29,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     print("UserId: " + widget.userId);
+    print("PartnerId: " + widget.partnerId);
     print("Partner name: " + widget.partnerName);
   }
 

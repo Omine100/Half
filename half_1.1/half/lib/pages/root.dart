@@ -42,11 +42,14 @@ class _RootScreenState extends State<RootScreen> {
 
   //Mechanics: Sets status to logged in with current user
   void loginCallback() {
-    cloudFirestore.getCurrentUser().then((user) {
-      cloudFirestore.readPartnerData(user.uid).then((partnerId) {
+    cloudFirestore.getCurrentUserId().then((userId) {
+      cloudFirestore.readPartnerData(userId).then((partnerId) {
         cloudFirestore.readNameData(partnerId).then((partnerName) {
           setState(() {
-            _userId = user.uid;
+            print("Root page userId: " + userId);
+            print("Root page partnerId: " + partnerId);
+            print("Root page partnerName: " + partnerName);
+            _userId = userId;
             _partnerId = partnerId;
             _partnerName = partnerName;
           });

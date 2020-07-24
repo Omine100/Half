@@ -96,8 +96,7 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Creates partner data
   Future<void> createPartnerData(String userId) async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid).document("Partner")
+    await db.collection(userId).document("Partner")
       .setData({'Partner': userId,});
   }
 
@@ -128,8 +127,7 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Returns name data
   Future<String> readNameData(String userId) async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = db.collection(user.uid).document("Name");
+    DocumentReference ref = db.collection(userId).document("Name");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
       return snapshot.data["Name"];
     });
@@ -137,8 +135,7 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Returns partner data
   Future<String> readPartnerData(String userId) async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = db.collection(user.uid).document("Partner");
+    DocumentReference ref = db.collection(userId).document("Partner");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
       return snapshot.data["Partner"];
     });
@@ -146,8 +143,7 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Returns relationship data
   Future<String> readRelationshipData(String userId) async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = db.collection(user.uid).document("Relationship");
+    DocumentReference ref = db.collection(userId).document("Relationship");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
       return snapshot.data["Relationship"];
     });
@@ -155,8 +151,7 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Returns message data stream
   Future<Stream> readMessageDataStream(String userId) async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    Stream messagesStream = db.collection(user.uid).
+    Stream messagesStream = db.collection(userId).
       document("Messages").collection("Final").snapshots();
     return messagesStream;
     //Need to split this into two when we use it on home.dart
