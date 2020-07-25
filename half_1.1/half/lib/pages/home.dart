@@ -28,6 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    cloudFirestore.readPartnerData("b9wW0V4Rq2Wq8L3676v9Pky0i2D2").then((value) {
+      print("PartnerId: " + widget.partnerId);
+    });
     print("UserId: " + widget.userId);
     print("PartnerId: " + widget.partnerId);
     print("Partner name: " + widget.partnerName);
