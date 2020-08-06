@@ -2,31 +2,31 @@ import 'package:flutter/material.dart';
 
 extension CustomColorScheme on ColorScheme {
   //Color get 'name' => const Color(0x'hexValue');
-  Color get title => const Color(0xFFdc3545);
-  Color get backButton => const Color(0xFFFFFFFF);
-  Color get gradientTopLeft => const Color(0xFFFF9359);
-  Color get gradientBottomRight => const Color(0xFFed2b7a);
+  Color get titleColor => const Color(0xFFdc3545);
+  Color get backButtonColor => const Color(0xFFFFFFFF);
+  Color get gradientTopLeftColor => const Color(0xFFFF9359);
+  Color get gradientBottomRightColor => const Color(0xFFed2b7a);
 
-  Color get loginTitle => const Color(0xFFFFFFFF);
-  Color get loginTextInput => const Color(0xFFEEEEEE);
+  Color get loginTitleColor => const Color(0xFFFFFFFF);
+  Color get loginTextInputColor => const Color(0xFFEEEEEE);
 
-  Color get forgotPasswordTextInput => const Color(0xFFEEEEEE);
-  Color get forgotPasswordGradientTopLeft => const Color(0xFFFF9359);
-  Color get forgotPasswordGradientBottomRight => const Color(0xFFed2b7a);
-  Color get forgotPasswordTitle => const Color(0xFFFFFFFF);
-  Color get forgotPasswordReset => const Color(0xFFFFFFFF);
+  Color get forgotPasswordTextInputColor => const Color(0xFFEEEEEE);
+  Color get forgotPasswordGradientTopLeftColor => const Color(0xFFFF9359);
+  Color get forgotPasswordGradientBottomRightColor => const Color(0xFFed2b7a);
+  Color get forgotPasswordTitleColor => const Color(0xFFFFFFFF);
+  Color get forgotPasswordResetColor => const Color(0xFFFFFFFF);
 
-  Color get connectorTextInput => const Color(0xFFEEEEEE);
-  Color get connectorTitle => const Color(0xFFFFFFFF);
-  Color get connectorConnect => const Color(0xFFFFFFFF);
-  Color get connectorUserIdBackground => const Color(0x00FFFFFF);
+  Color get connectorTextInputColor => const Color(0xFFEEEEEE);
+  Color get connectorTitleColor => const Color(0xFFFFFFFF);
+  Color get connectorConnectColor => const Color(0xFFFFFFFF);
+  Color get connectorUserIdBackgroundColor => const Color(0x00FFFFFF);
 
-  Color get homeTitleBackground => const Color(0x00FFFFFF);
-  Color get homeTitle => const Color(0xFF000000);
-  Color get homeMessageContainerBackround => const Color(0xFFFFFFFF);
-  Color get homeMessageBarBackground => const Color(0x85d6296f);
-  Color get homeMessageBarSendIcon => const Color(0xFFFFFFFF);
-  Color get homeSignOutIcon => const Color(0xFF000000);
+  Color get homeTitleBackgroundColor => const Color(0x00FFFFFF);
+  Color get homeTitleColor => const Color(0xFF000000);
+  Color get homeMessageContainerBackroundColor => const Color(0xFFFFFFFF);
+  Color get homeMessageBarBackgroundColor => const Color(0x85d6296f);
+  Color get homeMessageBarSendIconColor => const Color(0xFFFFFFFF);
+  Color get homeSignOutIconColor => const Color(0xFF000000);
 }
 
 extension CustomFontSizes on TextTheme {
@@ -41,7 +41,7 @@ extension CustomFontSizes on TextTheme {
   double get homeTitleFontSize => 32.0;
 }
 
-extension CustomDimensions on MaterialTapTargetSize {
+extension CustomSizes on MaterialTapTargetSize {
   //double get 'name' => 'customDimensionValue';
   double get backButtonSize => 35.0;
 
@@ -69,5 +69,12 @@ class Themes {
       return true;
     }
     return false;
+  }
+}
+
+class Dimensions {
+  double homeContainer(BuildContext context, bool isHeight) {
+    double value = isHeight ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width;
+    return value;
   }
 }
