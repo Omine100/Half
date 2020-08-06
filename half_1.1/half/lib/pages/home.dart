@@ -95,6 +95,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  //User interface: Show sign out
+  Widget showSignOut() {
+    return GestureDetector(
+      onTap: () {
+        widget.logoutCallback;
+        cloudFirestore.signOut();
+        Navigator.of(context)
+          .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
+      },
+      child: Icon(
+        Icons.more_vert,
+        color: Theme.of(context).colorScheme.homeSignOutIcon,
+        size: Theme.of(context).materialTapTargetSize.homeSignOutButtonSize,
+      ),
+    );
+  }
+
   //User interface: Home screen
   @override
   Widget build(BuildContext context) {
@@ -116,6 +133,11 @@ class _HomeScreenState extends State<HomeScreen> {
               top: MediaQuery.of(context).size.height * 0.94,
               left: MediaQuery.of(context).size.width - 70.0,
               child: showMessageBarSend(),
+            ),
+            Positioned(
+              top: MediaQuery.of(context).size.height * 0.07,
+              left: MediaQuery.of(context).size.width * 0.875,
+              child: showSignOut(),
             ),
           ],
         ),

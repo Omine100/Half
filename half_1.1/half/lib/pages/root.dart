@@ -30,12 +30,12 @@ class _RootScreenState extends State<RootScreen> {
   @override
   void initState() {
     super.initState();
-    cloudFirestore.getCurrentUser().then((user) {
+    cloudFirestore.getCurrentUser().then((userId) {
       setState(() {
-        if (user != null) {
-          _userId = user?.uid;
+        if (userId != null) {
+          _userId = userId?.uid;
         }
-        _authStatus = user?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
+        _authStatus = userId?.uid == null ? AuthStatus.NOT_LOGGED_IN : AuthStatus.LOGGED_IN;
       });
     });
   }
@@ -46,12 +46,12 @@ class _RootScreenState extends State<RootScreen> {
       cloudFirestore.readPartnerData(userId).then((partnerId) {
         cloudFirestore.readNameData(partnerId).then((partnerName) {
           setState(() {
-            print("Root page userId: " + userId);
-            print("Root page partnerId: " + partnerId);
-            print("Root page partnerName: " + partnerName);
-            _userId = userId;
-            _partnerId = partnerId;
-            _partnerName = partnerName;
+            userId != "" ? _userId = userId : _userId = "null";
+            partnerId != "" ? _partnerId = partnerId : _partnerId = "null";
+            partnerName != "" ? _partnerName = partnerName : _partnerName = "null";
+            print("Root page userId: " + _userId);
+            print("Root page partnerId: " + _partnerId);
+            print("Root page partnerName: " + _partnerName);
           });
         });
       });
