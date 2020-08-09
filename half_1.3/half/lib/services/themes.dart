@@ -77,6 +77,8 @@ class Dimensions {
 }
 
 class Themes {
+  double value;
+
   //Theme: Light theme
   ThemeData lightTheme() {
     return ThemeData();
@@ -94,5 +96,15 @@ class Themes {
       return true;
     }
     return false;
+  }
+
+  //Mechanics: Get dimension value
+  double getDimension(BuildContext context, bool isHeight, String type) {
+    MediaQuery.of(context).size.height * Theme.of(context).typography.$type;
+  }
+
+  //Mechanics: Get position value
+  double getPosition(BuildContext context, bool isTop, String type) {
+
   }
 }
