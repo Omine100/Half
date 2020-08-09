@@ -34,11 +34,17 @@ extension CustomFontSizes on TextTheme {
   double get textInputFontSize => 22.0;
   double get titleFontSize => 48.0;
 
+  double get forgotPaswordTitleFontSize => 37.0;
   double get forgotPasswordResetFontSize => 24.0;
 
   double get connectorUserIdFontSize => 24.0;
 
   double get homeTitleFontSize => 32.0;
+}
+
+extension CustomFontWeights on Typography {
+  //Fontweight get 'name' => 'fontWeightValue'
+  FontWeight get forgotPasswordTitleFontWeight => FontWeight.w600;
 }
 
 extension CustomSizes on MaterialTapTargetSize {
@@ -49,6 +55,25 @@ extension CustomSizes on MaterialTapTargetSize {
 
   double get homeMessageBarSendButtonSize => 35.0;
   double get homeSignOutButtonSize => 35.0;
+}
+
+class Positions {
+  double value;
+
+  double forgotPasswordBackButtonPosition(BuildContext context, bool isTop) {
+    return value = isTop ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.width * 0.06;
+  }
+  double forgotPasswordTitlePosition(BuildContext context, bool isTop) {
+    return value = isTop ? MediaQuery.of(context).size.height * 0.35 : MediaQuery.of(context).size.width * 0.15;
+  }
+}
+
+class Dimensions {
+  double value;
+
+  double homeContainerDimension(BuildContext context, bool isHeight) {
+    return value = isHeight ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width;
+  }
 }
 
 class Themes {
@@ -69,12 +94,5 @@ class Themes {
       return true;
     }
     return false;
-  }
-}
-
-class Dimensions {
-  double homeContainer(BuildContext context, bool isHeight) {
-    double value = isHeight ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width;
-    return value;
   }
 }
