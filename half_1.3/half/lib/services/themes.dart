@@ -75,8 +75,6 @@ extension CustomPositions on MaterialTapTargetSize {
 }
 
 class Themes {
-  double value;
-
   //Theme: Light theme
   ThemeData lightTheme() {
     return ThemeData();
