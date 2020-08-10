@@ -60,6 +60,9 @@ extension CustomSizes on MaterialTapTargetSize {
 extension CustomDimensions on MaterialTapTargetSize {
   double dimension({String selection, bool isHeight}) {
     switch (selection) {
+      case "forgotPasswordContainerDimension": return isHeight ? 1.0 : null; break;
+      case "forgotPasswordSendButtonDimension": return isHeight ? null: 1.0; break;
+
       case "homeContainerDimension": return isHeight ?  1.0 : 1.0; break;
     }
   }
@@ -70,6 +73,7 @@ extension CustomPositions on MaterialTapTargetSize {
     switch (selection) {
       case "forgotPasswordTitlePosition": return isTop ?  0.35 : 0.15; break;
       case "forgotPasswordBackButtonPosition": return isTop ? 0.6 : 0.6; break;
+      case "forgotPasswordSendButtonPosition": return isTop ? 0.675 : null; break;
     }
   }
 }

@@ -13,8 +13,6 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   //Variable initialization
   CloudFirestore cloudFirestore = new CloudFirestore();
   Themes themes = new Themes();
-  Dimensions dimensions = new Dimensions();
-  Positions positions = new Positions();
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final _formKey = GlobalKey<FormState>();
   String _email;
@@ -62,20 +60,20 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return new Scaffold(
       body: Container(
-        height: MediaQuery.of(context).size.height,
+        height: themes.getDimension(context, true, "forgotPasswordContainerDimension"),
         decoration: BoxDecoration(
           gradient: interfaceStandards.bodyLinearGradient(context, false, false),
         ),
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: positions.forgotPasswordBackButtonPosition(context, true),
-              left: positions.forgotPasswordBackButtonPosition(context, false),
+              top: themes.getPosition(context, true, "forgotPasswordBackButtonPosition"),
+              left: themes.getPosition(context, false, "forgotPasswordBackButtonPosition"),
               child: interfaceStandards.backButton(context),
             ),
             Positioned(
-              top: positions.forgotPasswordTitlePosition(context, true),
-              left: positions.forgotPasswordTitlePosition(context, false),
+              top: themes.getPosition(context, true, "forgotPasswordTitlePosition"),
+              left: themes.getPosition(context, false, "forgotPasswordTitlePosition"),
               child: Text(
                 "Forgot Password",
                 style: TextStyle(
@@ -93,9 +91,9 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               ),
             ),
             Positioned(
-              top: MediaQuery.of(context).size.height * 0.675,
+              top: themes.getPosition(context, true, "forgotPasswordSendButtonPosition"),
               child: Container(
-                width: MediaQuery.of(context).size.width,
+                width: themes.getDimension(context, false, "forgotPasswordSendButtonDimension"),
                 child: Center(
                   child: GestureDetector(
                     onTap: () {
