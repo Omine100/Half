@@ -19,8 +19,8 @@ abstract class BaseCloud {
   Future<void> createRelationshipData(int relationship);
   Future<void> createMessageData(String meesage, bool isPartner);
   Future<String> getNameData();
-  Future<String> getPartnerData();
   Future<String> getPartnerNameData();
+  Future<String> getPartnerData();
   Future<String> getRelationshipData();
   Future<Stream> getMessageStreamData();
   Future<void> deleteCurrentUser();
@@ -125,15 +125,6 @@ class CloudFirestore implements BaseCloud {
     });
   }
 
-  //Mechanics: Gets partner data
-  Future<String> getPartnerData() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid).document("Partner");
-    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      return snapshot.data["PartnerId"];
-    });
-  }
-
   //Mechanics: Gets partner name data
   Future<String> getPartnerNameData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
@@ -144,6 +135,15 @@ class CloudFirestore implements BaseCloud {
       await refPartner.get().then<dynamic>((DocumentSnapshot snapshot) async {
         return snapshot.data["Name"];
       });
+    });
+  }
+
+  //Mechanics: Gets partner data
+  Future<String> getPartnerData() async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentReference ref = await db.collection(user.uid).document("Partner");
+    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
+      return snapshot.data["PartnerId"];
     });
   }
 
