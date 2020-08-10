@@ -23,7 +23,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       keyboardType: TextInputType.emailAddress,
       style: TextStyle(
         color: Theme.of(context).colorScheme.forgotPasswordTextInputColor,
-        fontSize: Theme.of(context).textTheme.textInputFontSize,
+        fontSize: Theme.of(context).textTheme.forgotPasswordTextInputFontSize,
       ),
       decoration: InputDecoration(
         prefixIcon: Icon(

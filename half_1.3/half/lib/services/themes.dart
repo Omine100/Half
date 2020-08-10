@@ -32,6 +32,7 @@ extension CustomColorScheme on ColorScheme {
 extension CustomFontSizes on TextTheme {
   //double get 'name' => 'fontSizeValue';
   double get forgotPaswordTitleFontSize => 37.0;
+  double get forgotPasswordTextInputFontSize => 22.0;
   double get forgotPasswordResetFontSize => 24.0;
 
   double get connectorUserIdFontSize => 24.0;
