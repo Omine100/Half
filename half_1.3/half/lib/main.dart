@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:half/services/themes.dart';
-import 'package:half/pages/root.dart';
+import 'package:half/services/root.dart';
 
 //Mechanics: Run Half
 void main() {
