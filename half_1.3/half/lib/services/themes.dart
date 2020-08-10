@@ -2,28 +2,27 @@ import 'package:flutter/material.dart';
 
 extension CustomColorScheme on ColorScheme {
   //Color get 'name' => const Color(0x'hexValue');
-  Color get titleColor => const Color(0xFFdc3545);
-  Color get backButtonColor => const Color(0xFFFFFFFF);
-  Color get gradientTopLeftColor => const Color(0xFFFF9359);
-  Color get gradientBottomRightColor => const Color(0xFFed2b7a);
-  Color get headerTextColor => const Color(0xFFFFFFFF);
+  Color get interfaceStandardsBackButtonColor => const Color(0xFFFFFFFF);
+  Color get interfaceStandardsGradientTopLeftColor => const Color(0xFFFF9359);
+  Color get interfaceStandardsGradientBottomRightColor => const Color(0xFFed2b7a);
+  Color get interfaceStandardsHeaderTextColor => const Color(0xFFFFFFFF);
 
   Color get loginTitleColor => const Color(0xFFFFFFFF);
   Color get loginTextInputColor => const Color(0xFFEEEEEE);
 
+  Color get forgotPasswordTitleColor => const Color(0xFFFFFFFF);
   Color get forgotPasswordTextInputColor => const Color(0xFFEEEEEE);
   Color get forgotPasswordGradientTopLeftColor => const Color(0xFFFF9359);
   Color get forgotPasswordGradientBottomRightColor => const Color(0xFFed2b7a);
-  Color get forgotPasswordTitleColor => const Color(0xFFFFFFFF);
   Color get forgotPasswordResetColor => const Color(0xFFFFFFFF);
 
-  Color get connectorTextInputColor => const Color(0xFFEEEEEE);
   Color get connectorTitleColor => const Color(0xFFFFFFFF);
+  Color get connectorTextInputColor => const Color(0xFFEEEEEE);
   Color get connectorConnectColor => const Color(0xFFFFFFFF);
   Color get connectorUserIdBackgroundColor => const Color(0x00FFFFFF);
 
-  Color get homeTitleBackgroundColor => const Color(0x00FFFFFF);
   Color get homeTitleColor => const Color(0xFF000000);
+  Color get homeTitleBackgroundColor => const Color(0x00FFFFFF);
   Color get homeMessageContainerBackroundColor => const Color(0xFFFFFFFF);
   Color get homeMessageBarBackgroundColor => const Color(0x85d6296f);
   Color get homeMessageBarSendIconColor => const Color(0xFFFFFFFF);
@@ -32,9 +31,6 @@ extension CustomColorScheme on ColorScheme {
 
 extension CustomFontSizes on TextTheme {
   //double get 'name' => 'fontSizeValue';
-  double get textInputFontSize => 22.0;
-  double get titleFontSize => 48.0;
-
   double get forgotPaswordTitleFontSize => 37.0;
   double get forgotPasswordResetFontSize => 24.0;
 
@@ -50,7 +46,7 @@ extension CustomFontWeights on Typography {
 
 extension CustomSizes on MaterialTapTargetSize {
   //double get 'name' => 'customDimensionValue';
-  double get backButtonSize => 35.0;
+  double get interfaceStandardsBackButtonSize => 35.0;
 
   double get connectorConnectButtonSize => 65.0;
 

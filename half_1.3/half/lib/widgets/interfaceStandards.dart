@@ -14,8 +14,8 @@ class InterfaceStandards {
       },
       child: Icon(
         Icons.keyboard_backspace,
-        color: Theme.of(context).colorScheme.backButtonColor,
-        size: Theme.of(context).materialTapTargetSize.backButtonSize,
+        color: Theme.of(context).colorScheme.interfaceStandardsBackButtonColor,
+        size: Theme.of(context).materialTapTargetSize.interfaceStandardsBackButtonSize,
       ),
     );
   }
@@ -23,7 +23,7 @@ class InterfaceStandards {
   //User interface: Text linear gradient
   Shader textLinearGradient(BuildContext context) {
     final Shader linearGradient = LinearGradient(
-      colors: <Color>[Theme.of(context).colorScheme.gradientTopLeftColor, Theme.of(context).colorScheme.gradientBottomRightColor],
+      colors: <Color>[Theme.of(context).colorScheme.interfaceStandardsGradientTopLeftColor, Theme.of(context).colorScheme.interfaceStandardsGradientBottomRightColor],
     ).createShader(Rect.fromLTWH(110.0, 100.0, 200.0, 70.0));
     return linearGradient;
   }
@@ -31,8 +31,8 @@ class InterfaceStandards {
   //Mechanics: Returns gradient colors
   List<Color> colorsBodyGradient(BuildContext context, bool isTitle) {
     List<Color> gradientColors = [
-      Theme.of(context).colorScheme.gradientTopLeftColor,
-      isTitle ? Theme.of(context).colorScheme.gradientBottomRightColor : Theme.of(context).colorScheme.gradientBottomRightColor,
+      Theme.of(context).colorScheme.interfaceStandardsGradientTopLeftColor,
+      isTitle ? Theme.of(context).colorScheme.interfaceStandardsGradientBottomRightColor : Theme.of(context).colorScheme.interfaceStandardsGradientBottomRightColor,
     ];
     return gradientColors;
   }
@@ -64,7 +64,7 @@ class InterfaceStandards {
       Text(
         header,
         style: TextStyle(
-          color: Theme.of(context).colorScheme.headerTextColor,
+          color: Theme.of(context).colorScheme.interfaceStandardsHeaderTextColor,
           fontSize: 45.0,
         ),),
     );
