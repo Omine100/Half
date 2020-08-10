@@ -122,7 +122,8 @@ class CloudFirestore implements BaseCloud {
       add({
         "Message": message,
         "User": true,
-      });
+      }
+    );
   }
 
   //Mechanics: Returns name data
