@@ -143,7 +143,7 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Gets message stream data
-  Future<Stream> getMessageStreanData() async {
+  Future<Stream> getMessageStreamData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     Stream messagesStream = db.collection(user.uid).document("Messages").collection("Final").snapshots();
     return messagesStream;
