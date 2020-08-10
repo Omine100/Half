@@ -6,6 +6,7 @@ extension CustomColorScheme on ColorScheme {
   Color get backButtonColor => const Color(0xFFFFFFFF);
   Color get gradientTopLeftColor => const Color(0xFFFF9359);
   Color get gradientBottomRightColor => const Color(0xFFed2b7a);
+  Color get headerTextColor => const Color(0xFFFFFFFF);
 
   Color get loginTitleColor => const Color(0xFFFFFFFF);
   Color get loginTextInputColor => const Color(0xFFEEEEEE);
@@ -61,6 +62,8 @@ extension CustomDimensions on MaterialTapTargetSize {
   double dimension({String selection, bool isHeight}) {
     switch (selection) {
       //case 'name': return isHeight ? 'height' : 'width'; break;
+      case "parentCenterContainerDimension": return isHeight ? null : 1.0; break;
+
       case "forgotPasswordContainerDimension": return isHeight ? 1.0 : null; break;
       case "forgotPasswordSendButtonDimension": return isHeight ? null: 1.0; break;
 

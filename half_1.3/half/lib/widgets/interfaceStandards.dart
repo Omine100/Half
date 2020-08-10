@@ -51,7 +51,7 @@ class InterfaceStandards {
   //User interface: Parent center
   Widget parentCenter(BuildContext context, Widget child) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: themes.getDimension(context, false, "parentCenterContainerDimension"),
       child: Center(
         child: child,
       ),
@@ -64,7 +64,7 @@ class InterfaceStandards {
       Text(
         header,
         style: TextStyle(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: Theme.of(context).colorScheme.headerTextColor,
           fontSize: 45.0,
         ),),
     );
