@@ -9,6 +9,10 @@ extension CustomColorScheme on ColorScheme {
 
   Color get loginTitleColor => const Color(0xFFFFFFFF);
   Color get loginTextInputColor => const Color(0xFFEEEEEE);
+  Color get loginSignInSignUpButtonColor => const Color(0xFFFFFFFF);
+  Color get loginSignInSignUpAlternateTextColor => const Color(0xFFFFFFFF);
+  Color get loginForgotPasswordButtonColor => const Color(0xFFFFFFFF);
+  Color get loginErrorMessageColor => const Color(0xFFF44336);
 
   Color get forgotPasswordTitleColor => const Color(0xFFFFFFFF);
   Color get forgotPasswordTextInputColor => const Color(0xFFEEEEEE);
@@ -31,6 +35,12 @@ extension CustomColorScheme on ColorScheme {
 
 extension CustomFontSizes on TextTheme {
   //double get 'name' => 'fontSizeValue';
+  double get loginTextInputFontSize => 22.0;
+  double get loginSignInSignUpButtonText => 22.5;
+  double get loginSignInSignUpAlternateTextFontSize => 15.0;
+  double get loginForgotPasswordButtonFontSize => 15.0;
+  double get loginErrorMessageFontSize => 13.0;
+
   double get forgotPaswordTitleFontSize => 37.0;
   double get forgotPasswordTextInputFontSize => 22.0;
   double get forgotPasswordResetFontSize => 24.0;
@@ -42,12 +52,20 @@ extension CustomFontSizes on TextTheme {
 
 extension CustomFontWeights on Typography {
   //Fontweight get 'name' => 'fontWeightValue'
+  FontWeight get loginSignInSignUpButtonFontWeight => FontWeight.w600;
+  FontWeight get loginSignInSignUpAlternateTextFontWeight => FontWeight.w600;
+  FontWeight get loginForgotPasswordButtonFontWeight => FontWeight.w400;
+  FontWeight get loginErrorMessageFontWeight => FontWeight.w300;
+
   FontWeight get forgotPasswordTitleFontWeight => FontWeight.w600;
 }
 
 extension CustomSizes on MaterialTapTargetSize {
   //double get 'name' => 'customDimensionValue';
   double get interfaceStandardsBackButtonSize => 35.0;
+
+  double get loginSignInSignUpButtonHeight => 50.0;
+  double get loginErrorMessageHeight => 1.0;
 
   double get connectorConnectButtonSize => 65.0;
 
@@ -60,6 +78,9 @@ extension CustomDimensions on MaterialTapTargetSize {
     switch (selection) {
       //case 'name': return isHeight ? 'height' : 'width'; break;
       case "parentCenterContainerDimension": return isHeight ? null : 1.0; break;
+
+      case "loginProgressContainerDimension": return isHeight? 0.0 : 0.0; break;
+      case "loginSignInSignUpButtonDimension": return isHeight ? null : 0.375; break;
 
       case "forgotPasswordContainerDimension": return isHeight ? 1.0 : null; break;
       case "forgotPasswordSendButtonDimension": return isHeight ? null: 1.0; break;
