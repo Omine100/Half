@@ -57,22 +57,20 @@ extension CustomSizes on MaterialTapTargetSize {
   double get homeSignOutButtonSize => 35.0;
 }
 
-class Positions {
-  double value;
-
-  double forgotPasswordBackButtonPosition(BuildContext context, bool isTop) {
-    return value = isTop ? MediaQuery.of(context).size.height * 0.06 : MediaQuery.of(context).size.width * 0.06;
-  }
-  double forgotPasswordTitlePosition(BuildContext context, bool isTop) {
-    return value = isTop ? MediaQuery.of(context).size.height * 0.35 : MediaQuery.of(context).size.width * 0.15;
+extension CustomDimensions on MaterialTapTargetSize {
+  double dimension({String selection, bool isHeight}) {
+    switch (selection) {
+      case "homeContainerDimension": return isHeight ?  1.0 : 1.0; break;
+    }
   }
 }
 
-class Dimensions {
-  double value;
-
-  double homeContainerDimension(BuildContext context, bool isHeight) {
-    return value = isHeight ? MediaQuery.of(context).size.height : MediaQuery.of(context).size.width;
+extension CustomPositions on MaterialTapTargetSize {
+  double position({String selection, bool isTop}) {
+    switch (selection) {
+      case "forgotPasswordTitlePosition": return isTop ?  0.35 : 0.15; break;
+      case "forgotPasswordBackButtonPosition": return isTop ? 0.6 : 0.6; break;
+    }
   }
 }
 
@@ -99,12 +97,14 @@ class Themes {
   }
 
   //Mechanics: Get dimension value
-  double getDimension(BuildContext context, bool isHeight, String type) {
-    MediaQuery.of(context).size.height * Theme.of(context).typography.$type;
+  double getDimension(BuildContext context, bool _isHeight, String _selection) {
+    double value = MediaQuery.of(context).size.height * Theme.of(context).materialTapTargetSize.dimension(selection: _selection, isHeight: _isHeight);
+    return value;
   }
 
   //Mechanics: Get position value
-  double getPosition(BuildContext context, bool isTop, String type) {
-
+  double getPosition(BuildContext context, bool _isTop, String _selection) {
+    double value = MediaQuery.of(context).size.height * Theme.of(context).materialTapTargetSize.position(selection: _selection, isTop: _isTop);
+    return value;
   }
 }
