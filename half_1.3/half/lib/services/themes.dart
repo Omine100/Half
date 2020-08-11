@@ -35,6 +35,8 @@ extension CustomColorScheme on ColorScheme {
 
 extension CustomFontSizes on TextTheme {
   //double get 'name' => 'fontSizeValue';
+  double get loginTitleIsSignInFontSize => 65.0;
+  double get loginTitleIsSignInFalseFontSize => 40.0;
   double get loginTextInputFontSize => 22.0;
   double get loginSignInSignUpButtonText => 22.5;
   double get loginSignInSignUpAlternateTextFontSize => 15.0;
@@ -52,6 +54,7 @@ extension CustomFontSizes on TextTheme {
 
 extension CustomFontWeights on Typography {
   //Fontweight get 'name' => 'fontWeightValue'
+  FontWeight get loginTitleFontWeight => FontWeight.w600;
   FontWeight get loginSignInSignUpButtonFontWeight => FontWeight.w600;
   FontWeight get loginSignInSignUpAlternateTextFontWeight => FontWeight.w600;
   FontWeight get loginForgotPasswordButtonFontWeight => FontWeight.w400;
@@ -79,6 +82,7 @@ extension CustomDimensions on MaterialTapTargetSize {
       //case 'name': return isHeight ? 'height' : 'width'; break;
       case "parentCenterContainerDimension": return isHeight ? null : 1.0; break;
 
+      case "loginContainerDimension": return isHeight ? 1.0 : null; break;
       case "loginProgressContainerDimension": return isHeight? 0.0 : 0.0; break;
       case "loginSignInSignUpButtonDimension": return isHeight ? null : 0.375; break;
 
@@ -94,6 +98,10 @@ extension CustomPositions on MaterialTapTargetSize {
   double position({String selection, bool isTop}) {
     switch (selection) {
       //case 'name': return isTop ? 'top' : 'left'; break;
+      case "loginSignInSignUpAlternateTextIsSignInPosition": return isTop ? 0.525 : 0.8; break;
+      case "loginSignInSignUpAlternateTextIsSignInFalsePosition": return isTop ? 0.56 : 0.8; break;
+      case "loginProgressPosition": return isTop ? 0.8 : null; break;
+
       case "forgotPasswordTitlePosition": return isTop ?  0.35 : 0.15; break;
       case "forgotPasswordBackButtonPosition": return isTop ? 0.6 : 0.6; break;
       case "forgotPasswordSendButtonPosition": return isTop ? 0.675 : null; break;
