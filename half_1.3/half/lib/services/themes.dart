@@ -21,9 +21,14 @@ extension CustomColorScheme on ColorScheme {
   Color get forgotPasswordResetColor => const Color(0xFFFFFFFF);
 
   Color get connectorTitleColor => const Color(0xFFFFFFFF);
+  Color get connectorUserIdTextColor => const Color(0xFFFFFFFF);
   Color get connectorTextInputColor => const Color(0xFFEEEEEE);
   Color get connectorConnectColor => const Color(0xFFFFFFFF);
   Color get connectorUserIdBackgroundColor => const Color(0x00FFFFFF);
+  Color get connectorIdFirstHalfColor => const Color(0xFFFFFFFF);
+  Color get connectorIdSecondHalfColor => const Color(0xFFFFFFFF);
+  Color get connectorPartnerIdTextColor => const Color(0xFFFFFFFF);
+  Color get connectorConnectButtonColor => const Color(0xFFFFFFFF);
 
   Color get homeTitleColor => const Color(0xFF000000);
   Color get homeTitleBackgroundColor => const Color(0x00FFFFFF);
@@ -47,7 +52,11 @@ extension CustomFontSizes on TextTheme {
   double get forgotPasswordTextInputFontSize => 22.0;
   double get forgotPasswordResetFontSize => 24.0;
 
-  double get connectorUserIdFontSize => 24.0;
+  double get connectorUserIdTextFontSize => 37.0;
+  double get connectorTextInputFontSize => 22.0;
+  double get connectorIdFirstHalfFontSize => 24.0;
+  double get connectorIdSecondHalfFontSize => 24.0;
+  double get connectorPartnerIdTextFontSize => 37.0;
 
   double get homeTitleFontSize => 32.0;
 }
@@ -61,6 +70,9 @@ extension CustomFontWeights on Typography {
   FontWeight get loginErrorMessageFontWeight => FontWeight.w300;
 
   FontWeight get forgotPasswordTitleFontWeight => FontWeight.w600;
+
+  FontWeight get connectorUserIdTextFontWeight => FontWeight.w600;
+  FontWeight get connectorPartnerIdTextFontWeight => FontWeight.w600;
 }
 
 extension CustomSizes on MaterialTapTargetSize {
@@ -80,7 +92,7 @@ extension CustomDimensions on MaterialTapTargetSize {
   double dimension({String selection, bool isHeight}) {
     switch (selection) {
       //case 'name': return isHeight ? 'height' : 'width'; break;
-      case "parentCenterContainerDimension": return isHeight ? null : 1.0; break;
+      case "interfaceStandardsParentCenterContainerDimension": return isHeight ? null : 1.0; break;
 
       case "loginContainerDimension": return isHeight ? 1.0 : null; break;
       case "loginProgressContainerDimension": return isHeight? 0.0 : 0.0; break;
@@ -88,6 +100,8 @@ extension CustomDimensions on MaterialTapTargetSize {
 
       case "forgotPasswordContainerDimension": return isHeight ? 1.0 : null; break;
       case "forgotPasswordSendButtonDimension": return isHeight ? null: 1.0; break;
+
+      case "connectorContainerDimension": return isHeight ? 1.0 : null; break;
 
       case "homeContainerDimension": return isHeight ?  1.0 : 1.0; break;
     }
@@ -105,6 +119,12 @@ extension CustomPositions on MaterialTapTargetSize {
       case "forgotPasswordTitlePosition": return isTop ?  0.35 : 0.15; break;
       case "forgotPasswordBackButtonPosition": return isTop ? 0.6 : 0.6; break;
       case "forgotPasswordSendButtonPosition": return isTop ? 0.675 : null; break;
+
+      case "connectorContainerPosition": return isTop ? 0.23 : null; break;
+      case "connectorIdFirstHalfPosition": return isTop ? 0.315 : null; break;
+      case "connectorIdSecondHalfPosition": return isTop ? 0.365 : null; break;
+      case "connectorPartnerIdTextPosition": return isTop ? 0.475 : null; break;
+      case "connectorConnectButtonPosition": return isTop? 0.72 : null; break;
     }
   }
 }
