@@ -93,7 +93,7 @@ class _RootScreenState extends State<RootScreen> {
         break;
       case AuthStatus.SIGNED_IN:
         if (_userId.length > 0 && _userId != null) {
-          if (cloudFirestore.getPartnerData() != null) {
+          if (_partnerId.length > 0 && _partnerId != null) {
             return new HomeScreen(
               logoutCallback: logoutCallback,
               userId: _userId,

@@ -103,7 +103,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
         child: Stack(
           children: <Widget>[
             Positioned(
-              top: themes.getDimension(context, true, "connecorContainerPosition"),
+              top: themes.getPosition(context, true, "connectorContainerPosition"),
               child: interfaceStandards.parentCenter(context, 
                 Text(
                   "Your Id",
@@ -116,7 +116,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
               ),
             ),
             Positioned(
-              top: themes.getDimension(context, true, "connectorIdFirstHalfPosition"),
+              top: themes.getPosition(context, true, "connectorIdFirstHalfPosition"),
               child: interfaceStandards.parentCenter(context, 
                 Text(
                   widget.userId.substring(0, (widget.userId.length / 1.75).toInt()),
@@ -128,7 +128,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
               ),
             ),
             Positioned(
-              top: themes.getDimension(context, true, "connectorIdSecondHalfPosition"),
+              top: themes.getPosition(context, true, "connectorIdSecondHalfPosition"),
               child: interfaceStandards.parentCenter(context, 
                 Text(
                   widget.userId.substring((widget.userId.length / 1.75).toInt()),
@@ -140,7 +140,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
               ),
             ),
             Positioned(
-              top: themes.getDimension(context, true, "connectorPartnerIdTextPosition"),
+              top: themes.getPosition(context, true, "connectorPartnerIdTextPosition"),
               child: interfaceStandards.parentCenter(context, 
                 Text(
                   "Partner Id",
@@ -160,7 +160,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
               ),
             ),
             Positioned(
-              top: themes.getDimension(context, true, "connectorConnectButtonPosition"),
+              top: themes.getPosition(context, true, "connectorConnectButtonPosition"),
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 child: Center(

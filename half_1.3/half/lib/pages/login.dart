@@ -73,15 +73,8 @@ class _LoginScreenState extends State<LoginScreen> {
         } else {
           await cloudFirestore.signUp(_email, _password);
           await cloudFirestore.createNameData(_name);
-          userId = await cloudFirestore.getCurrentUserId();
-          setState(() {
-            _isLoading = false;
-          });
-          if (userId.length > 0 && userId != null && !isSignIn) {
-            await cloudFirestore.signIn(_email, _password);
-            widget.loginCallback();
-          }
           cloudFirestore.sendEmailVerification();
+          validateAndSubmit(true);
         }
       } catch (e) {
         print("Error: $e");

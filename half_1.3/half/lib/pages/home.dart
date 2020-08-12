@@ -18,13 +18,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  //Variable initialization
+  CloudFirestore cloudFirestore = new CloudFirestore();
+
+  //Mechanics: Testing getPartnerData()
+  void testGetPartnerData() async {
+    String data = await cloudFirestore.getPartnerData();
+    print("Partner data: " + data.toString());
+  }
+
+  //User interface: Home screen
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
       body: Container(
         height: MediaQuery.of(context).size.height,
-        child: Text(
-          "Testing",
+        child: GestureDetector(
+          onTap: () {
+            cloudFirestore.getPartnerData();
+          },
+          child: Text(
+            "Testing",
+            style: TextStyle(
+              fontSize: 50.0,
+            ),
+          ),
         ),
       ),
     );
