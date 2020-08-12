@@ -53,7 +53,51 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   //Mechanics: Validate and submit user information
-  void validateAndSubmit(bool isSignIn) async {}
+  void validateAndSubmit(bool isSignIn) async {
+    setState(() {
+      _errorMessage = "";
+      _isLoading = true;
+    });
+    if (validateAndSave()) {
+      String userId = "";
+      try {
+        if (isSignIn) {
+          await cloudFirestore.signIn(_email, _password);
+          userId = await cloudFirestore.getCurrentUserId();
+          setState(() {
+            _isLoading = false;
+          });
+          if (userId.length > 0 && userId != null && isSignIn) {
+            widget.loginCallback();
+          }
+        } else {
+          await cloudFirestore.signUp(_email, _password);
+          await cloudFirestore.createNameData(_name);
+          userId = await cloudFirestore.getCurrentUserId();
+          setState(() {
+            _isLoading = false;
+          });
+          if (userId.length > 0 && userId != null && !isSignIn) {
+            await cloudFirestore.signIn(_email, _password);
+            widget.loginCallback();
+          }
+          cloudFirestore.sendEmailVerification();
+        }
+      } catch (e) {
+        print("Error: $e");
+        setState(() {
+          _isLoading = false;
+          _errorMessage = e.message;
+          _formKey.currentState.reset();
+        });
+      } 
+    } else {
+      setState(() {
+        _errorMessage = "";
+        _isLoading = false;
+      });
+    }
+  }
 
   //User interface: Show sign in or sign up input fields
   Widget showInput(BuildContext context, String text) {
