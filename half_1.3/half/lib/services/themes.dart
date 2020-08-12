@@ -117,7 +117,7 @@ extension CustomPositions on MaterialTapTargetSize {
       case "loginProgressPosition": return isTop ? 0.8 : null; break;
 
       case "forgotPasswordTitlePosition": return isTop ?  0.35 : 0.15; break;
-      case "forgotPasswordBackButtonPosition": return isTop ? 0.6 : 0.6; break;
+      case "forgotPasswordBackButtonPosition": return isTop ? 0.06 : 0.06; break;
       case "forgotPasswordSendButtonPosition": return isTop ? 0.675 : null; break;
 
       case "connectorContainerPosition": return isTop ? 0.23 : null; break;
@@ -151,13 +151,17 @@ class Themes {
 
   //Mechanics: Get dimension value
   double getDimension(BuildContext context, bool _isHeight, String _selection) {
-    double value = MediaQuery.of(context).size.height * Theme.of(context).materialTapTargetSize.dimension(selection: _selection, isHeight: _isHeight);
+    double value = _isHeight ? 
+      MediaQuery.of(context).size.height * Theme.of(context).materialTapTargetSize.dimension(selection: _selection, isHeight: _isHeight) :
+      MediaQuery.of(context).size.width * Theme.of(context).materialTapTargetSize.dimension(selection: _selection, isHeight: _isHeight);
     return value;
   }
 
   //Mechanics: Get position value
   double getPosition(BuildContext context, bool _isTop, String _selection) {
-    double value = MediaQuery.of(context).size.height * Theme.of(context).materialTapTargetSize.position(selection: _selection, isTop: _isTop);
+    double value = _isTop ? 
+      MediaQuery.of(context).size.height * Theme.of(context).materialTapTargetSize.position(selection: _selection, isTop: _isTop) :
+      MediaQuery.of(context).size.width * Theme.of(context).materialTapTargetSize.position(selection: _selection, isTop: _isTop);
     return value;
   }
 }

@@ -51,7 +51,7 @@ class InterfaceStandards {
   //User interface: Parent center
   Widget parentCenter(BuildContext context, Widget child) {
     return Container(
-      width: themes.getDimension(context, false, "parentCenterContainerDimension"),
+      width: themes.getDimension(context, false, "interfaceStandardsParentCenterContainerDimension"),
       child: Center(
         child: child,
       ),
