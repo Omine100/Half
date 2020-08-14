@@ -35,7 +35,10 @@ class _HomeScreenState extends State<HomeScreen> {
         height: MediaQuery.of(context).size.height,
         child: GestureDetector(
           onTap: () {
-            cloudFirestore.getPartnerData();
+            widget.logoutCallback;
+            cloudFirestore.signOut();
+            Navigator.of(context)
+              .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
           },
           child: Text(
             "Testing",

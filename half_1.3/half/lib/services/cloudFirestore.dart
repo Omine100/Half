@@ -123,19 +123,28 @@ class CloudFirestore implements BaseCloud {
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
       return snapshot.data["Name"];
     });
+    return "null";
   }
 
   //Mechanics: Gets partner name data
   Future<String> getPartnerNameData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
+    String partnerId;
     DocumentReference ref = await db.collection(user.uid).document("Parnter");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      String partnerId = snapshot.data["PartnerId"];
+      if(snapshot.exists) {
+        partnerId = snapshot.data["PartnerId"];
+      } else {
+        return "null";
+      }
       DocumentReference refPartner = await db.collection(partnerId).document("Name");
-      await refPartner.get().then<dynamic>((DocumentSnapshot snapshot) async {
-        return snapshot.data["Name"];
+      await refPartner.get().then<dynamic>((DocumentSnapshot snapshotName) async {
+        if(snapshotName.exists) {
+          return snapshotName.data["Name"];
+        }
       });
     });
+    return "null";
   }
 
   //Mechanics: Gets partner data
@@ -143,8 +152,11 @@ class CloudFirestore implements BaseCloud {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentReference ref = await db.collection(user.uid).document("Partner");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      return snapshot.data["PartnerId"];
+      if(snapshot.exists) {
+        return snapshot.data["PartnerId"];
+      }
     });
+    return "null";
   }
 
   //Mechanics: Gets relationship data
@@ -152,8 +164,11 @@ class CloudFirestore implements BaseCloud {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentReference ref = await db.collection(user.uid).document("Relationship");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      return snapshot.data["Relationship"];
+      if(snapshot.exists) {
+        return snapshot.data["Relationship"];
+      }
     });
+    return "null";
   }
 
   //Mechanics: Gets message stream data

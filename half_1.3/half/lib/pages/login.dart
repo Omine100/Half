@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget showProgress(bool isLoading) {
     if (isLoading) {
       return new CircularProgressIndicator(
-        backgroundColor: Theme.of(context).colorScheme.loginTitleColor,
+        backgroundColor: Theme.of(context).colorScheme.loginProgressBackgroundColor,
       );
     }
     return Container(
@@ -163,8 +163,6 @@ class _LoginScreenState extends State<LoginScreen> {
       width: themes.getDimension(context, false, "loginProgressContainerDimension"),
     );
   }
-
-  //Start here with the new themes
 
   //User interface: Show sign in or sign up button
   Widget showSignInSignUpButton(bool isSignIn, Shader linearGradient) {

@@ -8,6 +8,7 @@ extension CustomColorScheme on ColorScheme {
   Color get interfaceStandardsHeaderTextColor => const Color(0xFFFFFFFF);
 
   Color get loginTitleColor => const Color(0xFFFFFFFF);
+  Color get loginProgressBackgroundColor => const Color(0xFFFFFFFF);
   Color get loginTextInputColor => const Color(0xFFEEEEEE);
   Color get loginSignInSignUpButtonColor => const Color(0xFFFFFFFF);
   Color get loginSignInSignUpAlternateTextColor => const Color(0xFFFFFFFF);
