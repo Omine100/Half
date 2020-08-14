@@ -20,7 +20,7 @@ abstract class BaseCloud {
   Future<void> createMessageData(String meesage, bool isPartner);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
-  Future<String> getPartnerData();
+  Future<String> getPartnerData(String userId);
   Future<String> getRelationshipData();
   Future<Stream> getMessageStreamData();
   Future<void> deleteCurrentUser();
@@ -87,7 +87,7 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Creates partner data
   Future<void> createPartnerData(String partnerId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid).document("Partner").setData({"ParnterId": partnerId});
+    await db.collection(user.uid).document("Partner").setData({"PartnerId": partnerId});
   }
 
   //Mechanics: Creates relationship data
@@ -118,59 +118,50 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Gets name data
   Future<String> getNameData() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid).document("Name");
-    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      if(snapshot.exists) {
-        return snapshot.data["Name"];
+    var user = await _firebaseAuth.currentUser();
+    db.collection(user.uid).document("Name").get().then((documentSnapshot){
+      if(documentSnapshot.exists) {
+        return documentSnapshot.data["Name"];
       }
-    });
-    return null;
+      return null;
+    });    
   }
 
   //Mechanics: Gets partner name data
   Future<String> getPartnerNameData() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
+    var user = await _firebaseAuth.currentUser();
     String partnerId;
-    DocumentReference ref = await db.collection(user.uid).document("Parnter");
-    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      if(snapshot.exists) {
-        partnerId = snapshot.data["PartnerId"];
-      } else {
-        return null;
-      }
-      DocumentReference refPartner = await db.collection(partnerId).document("Name");
-      await refPartner.get().then<dynamic>((DocumentSnapshot snapshotName) async {
-        if(snapshotName.exists) {
-          return snapshotName.data["Name"];
+    db.collection(user.uid).document("Partner").get().then((documentSnapshot){
+      partnerId = documentSnapshot.data["PartnerId"];
+      db.collection(partnerId).document("Name").get().then((documentSnapshotName){
+        if(documentSnapshotName.exists) {
+          return documentSnapshotName.data["Name"];
         }
+        return null;
       });
     });
-    return null;
   }
 
   //Mechanics: Gets partner data
-  Future<String> getPartnerData() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid).document("Partner");
-    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      if(snapshot.exists) {
-        return snapshot.data["PartnerId"];
+  Future<String> getPartnerData(String userId) async {
+    db.collection(userId).document("Partner").get().then((documentSnapshot){
+      if(documentSnapshot.exists) {
+        print(documentSnapshot.data["PartnerId"]);
+        return documentSnapshot.data["PartnerId"];
       }
+      return null;
     });
-    return null;
   }
 
   //Mechanics: Gets relationship data
   Future<String> getRelationshipData() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid).document("Relationship");
-    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      if(snapshot.exists) {
-        return snapshot.data["Relationship"];
+    var user = await _firebaseAuth.currentUser();
+    db.collection(user.uid).document("Relationship").get().then((documentSnapshot){
+      if(documentSnapshot.exists) {
+        return documentSnapshot.data["Relationship"];
       }
+      return null;
     });
-    return null;
   }
 
   //Mechanics: Gets message stream data

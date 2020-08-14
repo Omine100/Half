@@ -23,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //Mechanics: Testing getPartnerData()
   void testGetPartnerData() async {
-    String data = await cloudFirestore.getPartnerData();
+    String data = await cloudFirestore.getPartnerData(widget.userId);
     print("Partner data: " + data.toString());
   }
 

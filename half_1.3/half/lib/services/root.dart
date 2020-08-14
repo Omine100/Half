@@ -41,24 +41,19 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   //Mechanics: Sets status to logged in with current user
-  void loginCallback() {
-    cloudFirestore.getCurrentUserId().then((userId) {
-      cloudFirestore.getPartnerData().then((partnerId) {
-        cloudFirestore.getPartnerNameData().then((partnerName) {
-          setState(() {
-            _userId = userId.toString();
-            _partnerId = partnerId.toString();
-            _partnerName = partnerName.toString();
-            print("Root page userId: " + _userId);
-            print("Root page partnerId: " + _partnerId);
-            print("Root page partnerName: " + _partnerName);
-          });
-        });
-      });
-    });
-    setState(() {
-      _authStatus = AuthStatus.SIGNED_IN;
-    });
+  void loginCallback() async {
+    String test = await cloudFirestore.getPartnerData(_userId);
+    // cloudFirestore.getCurrentUserId().then((userId) {
+    //   cloudFirestore.getPartnerData(_userId).then((partnerId) {
+    //     cloudFirestore.getPartnerNameData().then((partnerName) {
+    //       _userId = userId.toString();
+    //       _partnerId = partnerId.toString();
+    //       _partnerName = partnerName.toString();
+    //       print(_userId);
+    //       print(_partnerId);
+    //     });
+    //   });
+    // }); 
   }
 
   //Mechanics: Sets status to logged out
