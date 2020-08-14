@@ -20,7 +20,7 @@ abstract class BaseCloud {
   Future<void> createMessageData(String meesage, bool isPartner);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
-  Future<String> getPartnerData(String userId);
+  Future<String> getPartnerData();
   Future<String> getRelationshipData();
   Future<Stream> getMessageStreamData();
   Future<void> deleteCurrentUser();
@@ -119,49 +119,31 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Gets name data
   Future<String> getNameData() async {
     var user = await _firebaseAuth.currentUser();
-    db.collection(user.uid).document("Name").get().then((documentSnapshot){
-      if(documentSnapshot.exists) {
-        return documentSnapshot.data["Name"];
-      }
-      return null;
-    });    
+    DocumentSnapshot snapshot = await db.collection(user.uid).document("Name").snapshots().first;
+    return snapshot.data["Name"].toString();  
   }
 
   //Mechanics: Gets partner name data
   Future<String> getPartnerNameData() async {
     var user = await _firebaseAuth.currentUser();
-    String partnerId;
-    db.collection(user.uid).document("Partner").get().then((documentSnapshot){
-      partnerId = documentSnapshot.data["PartnerId"];
-      db.collection(partnerId).document("Name").get().then((documentSnapshotName){
-        if(documentSnapshotName.exists) {
-          return documentSnapshotName.data["Name"];
-        }
-        return null;
-      });
-    });
+    DocumentSnapshot snapshot = await db.collection(user.uid).document("Partner").snapshots().first;
+    String partnerId = snapshot.data["PartnerId"].toString();
+    DocumentSnapshot partnerSnapshot = await db.collection(partnerId).document("Name").snapshots().first;
+    String partnerName = partnerSnapshot.data["Name"].toString();
   }
 
   //Mechanics: Gets partner data
-  Future<String> getPartnerData(String userId) async {
-    db.collection(userId).document("Partner").get().then((documentSnapshot){
-      if(documentSnapshot.exists) {
-        print(documentSnapshot.data["PartnerId"]);
-        return documentSnapshot.data["PartnerId"];
-      }
-      return null;
-    });
+  Future<String> getPartnerData() async {
+    var user = await _firebaseAuth.currentUser();
+    DocumentSnapshot snapshot = await db.collection(user.uid).document("Partner").snapshots().first;
+    return snapshot.data["PartnerId"].toString();
   }
 
   //Mechanics: Gets relationship data
   Future<String> getRelationshipData() async {
     var user = await _firebaseAuth.currentUser();
-    db.collection(user.uid).document("Relationship").get().then((documentSnapshot){
-      if(documentSnapshot.exists) {
-        return documentSnapshot.data["Relationship"];
-      }
-      return null;
-    });
+    DocumentSnapshot snapshot = await db.collection(user.uid).document("Relationship").snapshots().first;
+    return snapshot.data["Relationship"].toString();
   }
 
   //Mechanics: Gets message stream data
