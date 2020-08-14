@@ -63,13 +63,10 @@ class _LoginScreenState extends State<LoginScreen> {
       try {
         if (isSignIn) {
           await cloudFirestore.signIn(_email, _password);
-          userId = await cloudFirestore.getCurrentUserId();
           setState(() {
             _isLoading = false;
           });
-          if (userId.length > 0 && userId != null && isSignIn) {
-            widget.loginCallback();
-          }
+          widget.loginCallback();
         } else {
           await cloudFirestore.signUp(_email, _password);
           await cloudFirestore.createNameData(_name);

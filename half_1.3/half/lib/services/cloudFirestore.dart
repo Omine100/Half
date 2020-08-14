@@ -121,9 +121,11 @@ class CloudFirestore implements BaseCloud {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentReference ref = await db.collection(user.uid).document("Name");
     await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      return snapshot.data["Name"];
+      if(snapshot.exists) {
+        return snapshot.data["Name"];
+      }
     });
-    return "null";
+    return null;
   }
 
   //Mechanics: Gets partner name data
@@ -135,7 +137,7 @@ class CloudFirestore implements BaseCloud {
       if(snapshot.exists) {
         partnerId = snapshot.data["PartnerId"];
       } else {
-        return "null";
+        return null;
       }
       DocumentReference refPartner = await db.collection(partnerId).document("Name");
       await refPartner.get().then<dynamic>((DocumentSnapshot snapshotName) async {
@@ -144,7 +146,7 @@ class CloudFirestore implements BaseCloud {
         }
       });
     });
-    return "null";
+    return null;
   }
 
   //Mechanics: Gets partner data
@@ -156,7 +158,7 @@ class CloudFirestore implements BaseCloud {
         return snapshot.data["PartnerId"];
       }
     });
-    return "null";
+    return null;
   }
 
   //Mechanics: Gets relationship data
@@ -168,7 +170,7 @@ class CloudFirestore implements BaseCloud {
         return snapshot.data["Relationship"];
       }
     });
-    return "null";
+    return null;
   }
 
   //Mechanics: Gets message stream data

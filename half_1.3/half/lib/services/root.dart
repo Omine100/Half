@@ -46,9 +46,9 @@ class _RootScreenState extends State<RootScreen> {
       cloudFirestore.getPartnerData().then((partnerId) {
         cloudFirestore.getPartnerNameData().then((partnerName) {
           setState(() {
-            userId != "" ? _userId = userId : _userId = "null";
-            partnerId != "" ? _partnerId = partnerId : _partnerId = "null";
-            partnerName != "" ? _partnerName = partnerName : _partnerName = "null";
+            _userId = userId.toString();
+            _partnerId = partnerId.toString();
+            _partnerName = partnerName.toString();
             print("Root page userId: " + _userId);
             print("Root page partnerId: " + _partnerId);
             print("Root page partnerName: " + _partnerName);
