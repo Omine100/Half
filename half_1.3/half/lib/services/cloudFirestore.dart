@@ -129,7 +129,7 @@ class CloudFirestore implements BaseCloud {
     DocumentSnapshot snapshot = await db.collection(user.uid).document("Partner").snapshots().first;
     String partnerId = snapshot.data["PartnerId"].toString();
     DocumentSnapshot partnerSnapshot = await db.collection(partnerId).document("Name").snapshots().first;
-    String partnerName = partnerSnapshot.data["Name"].toString();
+    return partnerSnapshot.data["Name"].toString();
   }
 
   //Mechanics: Gets partner data
