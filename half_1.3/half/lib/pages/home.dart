@@ -5,10 +5,10 @@ import 'package:half/services/themes.dart';
 import 'package:half/widgets/interfaceStandards.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key key, this.logoutCallback, this.userId, this.partnerId, this.partnerName});
+  HomeScreen({Key key, this.signOutCallback, this.userId, this.partnerId, this.partnerName});
 
   //Variable reference
-  final VoidCallback logoutCallback;
+  final VoidCallback signOutCallback;
   final String userId;
   final String partnerId;
   final String partnerName;
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: MediaQuery.of(context).size.height,
         child: GestureDetector(
           onTap: () {
-            widget.logoutCallback;
+            widget.signOutCallback;
             cloudFirestore.signOut();
             Navigator.of(context)
               .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);

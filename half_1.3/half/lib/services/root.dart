@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:half/services/cloudFirestore.dart';
-import 'package:half/pages/login.dart';
+import 'package:half/pages/signIn.dart';
 import 'package:half/pages/connector.dart';
 import 'package:half/pages/home.dart';
 
@@ -32,16 +32,14 @@ class _RootScreenState extends State<RootScreen> {
     super.initState();
     cloudFirestore.getCurrentUser().then((userId) {
       setState(() {
-        if (userId != null) {
-          _userId = userId?.uid;
-        }
+        signInCallback();
         _authStatus = userId?.uid == null ? AuthStatus.NOT_SIGNED_IN : AuthStatus.SIGNED_IN;
       });
     });
   }
 
   //Mechanics: Sets status to logged in with current user
-  void loginCallback() {
+  void signInCallback() {
     cloudFirestore.getCurrentUserId().then((userId) {
       cloudFirestore.getPartnerData().then((partnerId) {
         cloudFirestore.getPartnerNameData().then((partnerName) {
@@ -60,7 +58,7 @@ class _RootScreenState extends State<RootScreen> {
   }
 
   //Mechanics: Sets status to logged out
-  void logoutCallback() {
+  void signOutCallback() {
     setState(() {
       _authStatus = AuthStatus.NOT_SIGNED_IN;
       _userId = "";
@@ -86,21 +84,21 @@ class _RootScreenState extends State<RootScreen> {
         break;
       case AuthStatus.NOT_SIGNED_IN:
         return new LoginScreen(
-          loginCallback: loginCallback,
+          signInCallback: signInCallback,
         );
         break;
       case AuthStatus.SIGNED_IN:
         if (_userId != null) {
           if (_partnerId != null && _partnerId != "null") {
             return new HomeScreen(
-              logoutCallback: logoutCallback,
+              signOutCallback: signOutCallback,
               userId: _userId,
               partnerId: _partnerId,
               partnerName: _partnerName,
             );
           } else {
             return new ConnectorScreen(
-              loginCallback: loginCallback,
+              signInCallback: signInCallback,
               userId: _userId,
             );
           }

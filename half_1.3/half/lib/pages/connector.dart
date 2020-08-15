@@ -6,10 +6,10 @@ import 'package:half/widgets/interfaceStandards.dart';
 import 'package:half/pages/home.dart';
 
 class ConnectorScreen extends StatefulWidget {
-  ConnectorScreen({Key key, this.loginCallback, this.userId});
+  ConnectorScreen({Key key, this.signInCallback, this.userId});
 
   //Variable reference
-  final VoidCallback loginCallback;
+  final VoidCallback signInCallback;
   final String userId;
 
   @override
@@ -38,7 +38,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   void validateAndSubmit() {
     if (validateAndSave()) {
       cloudFirestore.createPartnerData(_partnerId);
-      widget.loginCallback();
+      widget.signInCallback();
     } else {
       print("Error: Could not validate and save");
     }

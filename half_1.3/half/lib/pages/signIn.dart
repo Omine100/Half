@@ -6,10 +6,10 @@ import 'package:half/widgets/interfaceStandards.dart';
 import 'package:half/pages/forgotPassword.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({this.loginCallback});
+  LoginScreen({this.signInCallback});
 
   //Variable reference
-  final VoidCallback loginCallback;
+  final VoidCallback signInCallback;
 
   @override
   State<StatefulWidget> createState() => _LoginScreenState();
@@ -66,7 +66,7 @@ class _LoginScreenState extends State<LoginScreen> {
           setState(() {
             _isLoading = false;
           });
-          widget.loginCallback();
+          widget.signInCallback();
         } else {
           await cloudFirestore.signUp(_email, _password);
           await cloudFirestore.createNameData(_name);
