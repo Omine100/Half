@@ -37,6 +37,8 @@ extension CustomColorScheme on ColorScheme {
   Color get homeMessageContainerColor => const Color(0xFFFFFFFF);
   Color get homeMessageBarContainerColor => const Color(0x85d6296f);
   Color get homeMessageBarSendIconButtonColor => const Color(0xFFFFFFFF);
+  Color get homeTextInputColor => const Color(0xFFFFFFFF);
+  Color get homeTextInputBorderColor => const Color(0x00FFFFFF);
   Color get homeSignOutIconButtonColor => const Color(0xFF000000);
 }
 
@@ -61,6 +63,7 @@ extension CustomFontSizes on TextTheme {
   double get connectorPartnerIdTextFontSize => 37.0;
 
   double get homeTitleFontSize => 32.0;
+  double get homeTextInputFontSize => 22.0;
 }
 
 extension CustomFontWeights on Typography {
@@ -109,6 +112,7 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "homeTitleContainerDimension": return isHeight ? 0.175 : null; break;
       case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
+      case "homeTextInputBorderDimension": return isHeight ? null : 0.0; break;
     }
   }
 }

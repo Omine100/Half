@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CloudFirestore cloudFirestore = new CloudFirestore();
   Themes themes = new Themes();
   InterfaceStandards interfaceStandards = new InterfaceStandards();
+  String _message;
 
   //User interface: Show title
   Container showTitle() {
@@ -73,6 +74,14 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Theme.of(context).colorScheme.homeMessageBarContainerColor,
           borderRadius: BorderRadius.all(Radius.circular(35.0),),
         ),
+        child: Padding(
+          padding: EdgeInsets.only(
+            left: 15.0,
+            right: 15.0,
+            top: 20.0,
+          ),
+          child: showMessageInput(context),
+        ),
       ),
     );
   }
@@ -93,7 +102,44 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message input field
   Widget showMessageInput(BuildContext context) {
-    return new TextFormField();
+    return new TextFormField(
+      keyboardType: TextInputType.multiline,
+      style: TextStyle(
+        color: Theme.of(context).colorScheme.homeTextInputColor,
+        fontSize: Theme.of(context).textTheme.homeTextInputFontSize
+      ),
+      decoration: InputDecoration(
+        hintText: "Message",
+        hintStyle: TextStyle(
+          color: Theme.of(context).colorScheme.homeTextInputColor,
+        ),
+        labelStyle: TextStyle(
+          color: Theme.of(context).colorScheme.homeTextInputColor,
+        ),
+        border: OutlineInputBorder(borderSide: BorderSide(
+          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+        disabledBorder: OutlineInputBorder(borderSide: BorderSide(
+          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+        enabledBorder: OutlineInputBorder(borderSide: BorderSide(
+          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+        errorBorder: OutlineInputBorder(borderSide: BorderSide(
+          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+        focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(
+          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+      ),
+      validator: (message) => message.isEmpty ? "Message can\'t be empty" : null,
+      onSaved: (message) => _message = message.trim(),
+      obscureText: false,
+      maxLines: 10,
+    );
   }
 
   //User interface: Show sign out
