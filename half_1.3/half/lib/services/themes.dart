@@ -132,7 +132,7 @@ extension CustomPositions on MaterialTapTargetSize {
 
       case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
       case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;
-      case "homeSignOutIconButtonPosition": return isTop ? 0.07 : 0.875; break;
+      case "homeSignOutIconButtonPosition": return isTop ? 0.065 : 0.875; break;
     }
   }
 }
