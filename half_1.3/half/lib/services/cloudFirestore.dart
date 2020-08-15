@@ -23,6 +23,7 @@ abstract class BaseCloud {
   Future<String> getPartnerData();
   Future<String> getRelationshipData();
   Future<Stream> getMessageStreamData();
+  Future<bool> checkCommittedData(String partnerId);
   Future<void> deleteCurrentUser();
   Future<void> deleteCurrentUserAccountData();
   Future<void> deleteCurrentUserDocumentData(DocumentSnapshot doc);
@@ -174,6 +175,21 @@ class CloudFirestore implements BaseCloud {
     return messagesStream;
     //Need to split this into two when we use it on home.dart
   }
+
+  //Mechanics: Checks if committed
+  Future<bool> checkCommittedData(String partnerId) async {
+    DocumentSnapshot snapshot = await db.collection(partnerId).document("Partner").snapshots().first;
+    if (!snapshot.exists) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  //Mechanics: Resets partner stuff
+  //I think we need signInCallback on homescreen so we can remove it and then
+  //send the user to the connector screen again. We also will need to delete
+  //all of the messages and information from BOTH accounts
 
   //Mechanics: Deletes user account
   Future<void> deleteCurrentUser() async {

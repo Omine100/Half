@@ -23,6 +23,15 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   final _formKey = GlobalKey<FormState>();
   String _partnerId;
 
+  //Mechanics: Checks if committed
+  bool checkCommittedData (String partnerId) {
+    bool _isCommitted;
+    db.checkCommittedData(partnerId).then((isCommitted) {
+      _isCommitted = isCommitted;
+    });
+    return _isCommitted;
+  }
+
   //Mechanics: Validate and save user information
   bool validateAndSave() {
     final form = _formKey.currentState;
@@ -74,8 +83,8 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
           ),
         ),
       ),
-      validator: (value) => value.isEmpty ?"Partner Id can\'t be empty" : null,
-      onSaved: (value) => _partnerId = value.trim(),
+      validator: (partnerId) => partnerId.isEmpty ? "Partner Id can\'t be empty" : checkCommittedData(partnerId) ? "Partner is already committed." : null,
+      onSaved: (partnerId) => _partnerId = partnerId.trim(),
       obscureText: false,
       maxLines: 1,
     );
