@@ -131,7 +131,7 @@ extension CustomPositions on MaterialTapTargetSize {
       case "connectorPartnerIdTextPosition": return isTop ? 0.475 : null; break;
       case "connectorConnectButtonPosition": return isTop? 0.72 : null; break;
 
-      case "homeDivisionBarPosition": return isTop ? 0.125 : 0.35; break;
+      case "homeDivisionBarPosition": return isTop ? 0.125 : 0.375; break;
       case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
       case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;
       case "homeSignOutIconButtonPosition": return isTop ? 0.065 : 0.875; break;
