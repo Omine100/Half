@@ -22,14 +22,43 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final _formKey = GlobalKey<FormState>();
   String _partnerId;
+  bool _isCommitted;
+
+  //Mechanics: Shows committed dialog
+  void showCommittedDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Committed"),
+          content: new Text("Partner is already committed."),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   //Mechanics: Checks if committed
-  bool checkCommittedData (String partnerId) {
-    bool _isCommitted;
-    db.checkCommittedData(partnerId).then((isCommitted) {
-      _isCommitted = isCommitted;
+  void checkCommittedData (String partnerId) {
+    cloudFirestore.checkCommittedData(partnerId).then((isCommitted) {
+      setState(() {
+        _partnerId = partnerId;
+        _isCommitted = isCommitted;
+        if (_partnerId.isNotEmpty && !_isCommitted) {
+          cloudFirestore.createPartnerData(_partnerId);
+          widget.signInCallback();
+        } else if (_partnerId.isNotEmpty && _isCommitted) {
+          showCommittedDialog();
+        }
+      });
     });
-    return _isCommitted;
   }
 
   //Mechanics: Validate and save user information
@@ -45,8 +74,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   //Mechanics: Validate and submit partner user id information
   void validateAndSubmit() {
     if (validateAndSave()) {
-      cloudFirestore.createPartnerData(_partnerId);
-      widget.signInCallback();
+      checkCommittedData(_partnerId);
     } else {
       print("Error: Could not validate and save");
     }
@@ -83,7 +111,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
           ),
         ),
       ),
-      validator: (partnerId) => partnerId.isEmpty ? "Partner Id can\'t be empty" : checkCommittedData(partnerId) ? "Partner is already committed." : null,
+      validator: (partnerId) => partnerId.isEmpty ? "Partner Id can\'t be empty" : null,
       onSaved: (partnerId) => _partnerId = partnerId.trim(),
       obscureText: false,
       maxLines: 1,

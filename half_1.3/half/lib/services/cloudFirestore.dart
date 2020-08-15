@@ -182,7 +182,7 @@ class CloudFirestore implements BaseCloud {
     DocumentSnapshot snapshot = await db.collection(partnerId).document("Partner").snapshots().first;
     if (!snapshot.exists) {
       return false;
-    } else if (snapshot.exists && snapshot.data["PartnerId"] != user.uid){
+    } else if (snapshot.data["PartnerId"] == user.uid){
       return false;
     } else {
       return true;
