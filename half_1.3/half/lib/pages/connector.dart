@@ -56,23 +56,14 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
     });
   }
 
-  //Mechanics: Validate and save user information
-  bool validateAndSave() {
+  //Mechanics: Validate and submit user information
+  void validateAndSubmit() {
     final form = _formKey.currentState;
     if(form.validate()) {
       form.save();
-      return true;
-    }
-    return false;
-  }
-
-  //Mechanics: Validate and submit partner user id information
-  void validateAndSubmit() {
-    if (validateAndSave()) {
       checkCommittedData(_partnerId);
-    } else {
-      print("Error: Could not validate and save");
     }
+    print("Error: Could not validate and save");
   }
 
   //User interface: Show partner user id input
