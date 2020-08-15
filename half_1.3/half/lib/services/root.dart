@@ -91,6 +91,7 @@ class _RootScreenState extends State<RootScreen> {
         if (_userId != null) {
           if (_partnerId != null && _partnerId != "null") {
             return new HomeScreen(
+              signInCallback: signInCallback,
               signOutCallback: signOutCallback,
               userId: _userId,
               partnerId: _partnerId,
