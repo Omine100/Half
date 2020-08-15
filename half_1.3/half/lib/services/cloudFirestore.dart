@@ -16,12 +16,10 @@ abstract class BaseCloud {
   //Methods: Data management
   Future<void> createNameData(String name);
   Future<void> createPartnerData(String partnerId);
-  Future<void> createRelationshipData(int relationship);
   Future<void> createMessageData(String meesage, bool isPartner);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
   Future<String> getPartnerData();
-  Future<String> getRelationshipData();
   Future<Stream> getMessageStreamData();
   Future<bool> checkCommittedData(String partnerId);
   Future<void> deleteCurrentUser();
@@ -91,12 +89,6 @@ class CloudFirestore implements BaseCloud {
     await db.collection(user.uid).document("Partner").setData({"PartnerId": partnerId});
   }
 
-  //Mechanics: Creates relationship data
-  Future<void> createRelationshipData(int relationship) async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid).document("Relationship").setData({"Relationship": relationship});
-  }
-
   //Mechanics: Creates message data
   Future<void> createMessageData(String message, bool isPartner) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
@@ -154,17 +146,6 @@ class CloudFirestore implements BaseCloud {
       return null;
     } else {
       return snapshot.data["PartnerId"].toString();
-    }
-  }
-
-  //Mechanics: Gets relationship data
-  Future<String> getRelationshipData() async {
-    var user = await _firebaseAuth.currentUser();
-    DocumentSnapshot snapshot = await db.collection(user.uid).document("Relationship").snapshots().first;
-    if (!snapshot.exists) {
-      return null;
-    } else {
-      return snapshot.data["Relationship"].toString();
     }
   }
 
