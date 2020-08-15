@@ -33,6 +33,7 @@ extension CustomColorScheme on ColorScheme {
 
   Color get homeTitleColor => const Color(0xFF000000);
   Color get homeTitleContainerColor => const Color(0x00FFFFFF);
+  Color get homeDivisionBarColor => const Color(0xFFd6296f);
   Color get homeMessageContainerColor => const Color(0xFFFFFFFF);
   Color get homeMessageBarContainerColor => const Color(0x85d6296f);
   Color get homeMessageBarSendIconButtonColor => const Color(0xFFFFFFFF);
@@ -130,6 +131,7 @@ extension CustomPositions on MaterialTapTargetSize {
       case "connectorPartnerIdTextPosition": return isTop ? 0.475 : null; break;
       case "connectorConnectButtonPosition": return isTop? 0.72 : null; break;
 
+      case "homeDivisionBarPosition": return isTop ? 0.125 : 0.35; break;
       case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
       case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;
       case "homeSignOutIconButtonPosition": return isTop ? 0.065 : 0.875; break;

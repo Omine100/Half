@@ -40,6 +40,14 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  //User interface: Show division bar
+  Widget showDivisionBar() {
+    return new Divider(
+      thickness: 2.5,
+      color: Theme.of(context).colorScheme.homeDivisionBarColor,
+    );
+  }
+
   //User interface: Show message container
   Container showMessageContainer() {
     return new Container(
@@ -83,6 +91,11 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  //User interface: Show message input field
+  Widget showMessageInput(BuildContext context) {
+    return new TextFormField();
+  }
+
   //User interface: Show sign out
   Widget showSignOut() {
     return GestureDetector(
@@ -113,6 +126,12 @@ class _HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             showMessageContainer(),
             showTitle(),
+            Positioned(
+              top: themes.getPosition(context, true, "homeDivisionBarPosition"),
+              left: themes.getPosition(context, false, "homeDivisionBarPosition"),
+              right: themes.getPosition(context, false, "homeDivisionBarPosition"),
+              child: showDivisionBar(),
+            ),
             Positioned(
               top: themes.getPosition(context, true, "homeMessageBarContainerPosition"),
               child: showMessageBar(),
