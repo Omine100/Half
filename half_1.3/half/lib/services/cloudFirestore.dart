@@ -178,8 +178,11 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Checks if committed
   Future<bool> checkCommittedData(String partnerId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentSnapshot snapshot = await db.collection(partnerId).document("Partner").snapshots().first;
     if (!snapshot.exists) {
+      return false;
+    } else if (snapshot.exists && snapshot.data["PartnerId"] != user.uid){
       return false;
     } else {
       return true;
