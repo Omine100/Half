@@ -6,13 +6,11 @@ import 'package:half/widgets/interfaceStandards.dart';
 import 'package:half/pages/home.dart';
 
 class ConnectorScreen extends StatefulWidget {
-  ConnectorScreen({Key key, this.logoutCallback, this.userId, this.partnerId, this.partnerName});
+  ConnectorScreen({Key key, this.loginCallback, this.userId});
 
   //Variable reference
-  final VoidCallback logoutCallback;
+  final VoidCallback loginCallback;
   final String userId;
-  final String partnerId;
-  final String partnerName;
 
   @override
   State<StatefulWidget> createState() => _ConnectorScreenState();
@@ -40,14 +38,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   void validateAndSubmit() {
     if (validateAndSave()) {
       cloudFirestore.createPartnerData(_partnerId);
-      Navigator.pushReplacement(context, MaterialPageRoute(
-        builder: (context) => HomeScreen(
-          logoutCallback: widget.logoutCallback,
-          userId: widget.userId,
-          partnerId: widget.partnerId,
-          partnerName: widget.partnerName,
-        ))
-      );
+      widget.loginCallback();
     } else {
       print("Error: Could not validate and save");
     }

@@ -120,30 +120,51 @@ class CloudFirestore implements BaseCloud {
   Future<String> getNameData() async {
     var user = await _firebaseAuth.currentUser();
     DocumentSnapshot snapshot = await db.collection(user.uid).document("Name").snapshots().first;
-    return snapshot.data["Name"].toString();  
+    if (!snapshot.exists) {
+      return null;
+    } else {
+      return snapshot.data["Name"].toString();
+    }
   }
 
   //Mechanics: Gets partner name data
   Future<String> getPartnerNameData() async {
     var user = await _firebaseAuth.currentUser();
+    String partnerId;
     DocumentSnapshot snapshot = await db.collection(user.uid).document("Partner").snapshots().first;
-    String partnerId = snapshot.data["PartnerId"].toString();
+    if(!snapshot.exists) {
+      partnerId = "null";
+    } else {
+      partnerId = snapshot.data["PartnerId"].toString();
+    }
     DocumentSnapshot partnerSnapshot = await db.collection(partnerId).document("Name").snapshots().first;
-    return partnerSnapshot.data["Name"].toString();
+    if(!snapshot.exists) {
+      return "null";
+    } else {
+      return partnerSnapshot.data["Name"].toString();
+    }
   }
 
   //Mechanics: Gets partner data
   Future<String> getPartnerData() async {
     var user = await _firebaseAuth.currentUser();
     DocumentSnapshot snapshot = await db.collection(user.uid).document("Partner").snapshots().first;
-    return snapshot.data["PartnerId"].toString();
+    if (!snapshot.exists) {
+      return null;
+    } else {
+      return snapshot.data["PartnerId"].toString();
+    }
   }
 
   //Mechanics: Gets relationship data
   Future<String> getRelationshipData() async {
     var user = await _firebaseAuth.currentUser();
     DocumentSnapshot snapshot = await db.collection(user.uid).document("Relationship").snapshots().first;
-    return snapshot.data["Relationship"].toString();
+    if (!snapshot.exists) {
+      return null;
+    } else {
+      return snapshot.data["Relationship"].toString();
+    }
   }
 
   //Mechanics: Gets message stream data

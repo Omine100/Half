@@ -28,7 +28,7 @@ class _RootScreenState extends State<RootScreen> {
 
   //Initial state
   @override
-  void initState() {
+  void initState() { //I think that we need to call loginCallback if there is someone already there
     super.initState();
     cloudFirestore.getCurrentUser().then((userId) {
       setState(() {
@@ -44,16 +44,16 @@ class _RootScreenState extends State<RootScreen> {
   void loginCallback() {
     cloudFirestore.getCurrentUserId().then((userId) {
       cloudFirestore.getPartnerData().then((partnerId) {
-        // cloudFirestore.getPartnerNameData().then((partnerName) {
+        cloudFirestore.getPartnerNameData().then((partnerName) {
           setState(() {
             _userId = userId;
             _partnerId = partnerId;
-            _partnerName = "Test";
-            print("UserId: " + userId);
-            print("PartnerId: " + partnerId);
-            print("PartnerName: " + _partnerName); //Need to get this going too
+            _partnerName = partnerName;
+            print("UserId: " + userId.toString());
+            print("PartnerId: " + partnerId.toString());
+            print("PartnerName: " + partnerName.toString());
             _authStatus = AuthStatus.SIGNED_IN;
-          // });
+          });
         });
       });
     });
@@ -90,8 +90,8 @@ class _RootScreenState extends State<RootScreen> {
         );
         break;
       case AuthStatus.SIGNED_IN:
-        if (_userId.length > 0 && _userId != null) {
-          if (_partnerId.length > 0 && _partnerId != null && _partnerId != "null") {
+        if (_userId != null) {
+          if (_partnerId != null && _partnerId != "null") {
             return new HomeScreen(
               logoutCallback: logoutCallback,
               userId: _userId,
@@ -100,10 +100,8 @@ class _RootScreenState extends State<RootScreen> {
             );
           } else {
             return new ConnectorScreen(
-              logoutCallback: logoutCallback,
+              loginCallback: loginCallback,
               userId: _userId,
-              partnerId: _partnerId,
-              partnerName: _partnerName,
             );
           }
         } else
