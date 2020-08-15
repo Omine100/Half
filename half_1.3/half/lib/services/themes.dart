@@ -32,11 +32,11 @@ extension CustomColorScheme on ColorScheme {
   Color get connectorConnectButtonColor => const Color(0xFFFFFFFF);
 
   Color get homeTitleColor => const Color(0xFF000000);
-  Color get homeTitleBackgroundColor => const Color(0x00FFFFFF);
-  Color get homeMessageContainerBackroundColor => const Color(0xFFFFFFFF);
-  Color get homeMessageBarBackgroundColor => const Color(0x85d6296f);
-  Color get homeMessageBarSendIconColor => const Color(0xFFFFFFFF);
-  Color get homeSignOutIconColor => const Color(0xFF000000);
+  Color get homeTitleContainerColor => const Color(0x00FFFFFF);
+  Color get homeMessageContainerColor => const Color(0xFFFFFFFF);
+  Color get homeMessageBarContainerColor => const Color(0x85d6296f);
+  Color get homeMessageBarSendIconButtonColor => const Color(0xFFFFFFFF);
+  Color get homeSignOutIconButtonColor => const Color(0xFF000000);
 }
 
 extension CustomFontSizes on TextTheme {
@@ -85,8 +85,8 @@ extension CustomSizes on MaterialTapTargetSize {
 
   double get connectorConnectButtonSize => 65.0;
 
-  double get homeMessageBarSendButtonSize => 35.0;
-  double get homeSignOutButtonSize => 35.0;
+  double get homeMessageBarSendIconButtonSize => 35.0;
+  double get homeSignOutIconButtonSize => 35.0;
 }
 
 extension CustomDimensions on MaterialTapTargetSize {
@@ -105,6 +105,9 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "connectorContainerDimension": return isHeight ? 1.0 : null; break;
 
       case "homeContainerDimension": return isHeight ?  1.0 : 1.0; break;
+      case "homeTitleContainerDimension": return isHeight ? 0.175 : null; break;
+      case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
+      case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
     }
   }
 }
@@ -126,6 +129,10 @@ extension CustomPositions on MaterialTapTargetSize {
       case "connectorIdSecondHalfPosition": return isTop ? 0.365 : null; break;
       case "connectorPartnerIdTextPosition": return isTop ? 0.475 : null; break;
       case "connectorConnectButtonPosition": return isTop? 0.72 : null; break;
+
+      case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
+      case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;
+      case "homeSignOutIconButtonPosition": return isTop ? 0.07 : 0.875; break;
     }
   }
 }

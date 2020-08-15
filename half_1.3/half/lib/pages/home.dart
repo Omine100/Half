@@ -21,16 +21,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   //Variable initialization
   CloudFirestore cloudFirestore = new CloudFirestore();
+  Themes themes = new Themes();
+  InterfaceStandards interfaceStandards = new InterfaceStandards();
 
   //User interface: Show title
   Container showTitle() {
     return new Container(
-      height: MediaQuery.of(context).size.height * 0.175,
-      color: Theme.of(context).colorScheme.homeTitleBackground,
+      height: themes.getDimension(context, true, "homeTitleContainerDimension"),
+      color: Theme.of(context).colorScheme.homeTitleContainerColor,
       child: interfaceStandards.parentCenter(context, Text(
-          "Test",
+          widget.partnerName,
           style: TextStyle(
-            color: Theme.of(context).colorScheme.homeTitle,
+            color: Theme.of(context).colorScheme.homeTitleColor,
             fontSize: Theme.of(context).textTheme.homeTitleFontSize,
           ),
         ),
@@ -41,13 +43,27 @@ class _HomeScreenState extends State<HomeScreen> {
   //User interface: Show message container
   Container showMessageContainer() {
     return new Container(
-      height: MediaQuery.of(context).size.height * 0.915,
-      width: MediaQuery.of(context).size.width,
+      height: themes.getDimension(context, true, "homeMessageContainerDimension"),
+      width: themes.getDimension(context, false, "homeMessageContainerDimension"),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.homeMessageContainerBackround,
+        color: Theme.of(context).colorScheme.homeMessageContainerColor,
         borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(35.0),
           bottomRight: Radius.circular(35.0),
+        ),
+      ),
+    );
+  }
+
+  //User interface: Show message bar
+  Widget showMessageBar() {
+    return interfaceStandards.parentCenter(context,
+      new Container(
+        height: themes.getDimension(context, true, "homeMessageBarContainerDimension"),
+        width: themes.getDimension(context, false, "homeMessageBarContainerDimension"),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.homeMessageBarContainerColor,
+          borderRadius: BorderRadius.all(Radius.circular(35.0),),
         ),
       ),
     );
@@ -61,22 +77,8 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Icon(
         Icons.send,
-        color: Theme.of(context).colorScheme.homeMessageBarSendIcon,
-        size: Theme.of(context).materialTapTargetSize.homeMessageBarSendButtonSize,
-      ),
-    );
-  }
-
-  //User interface: Show message bar
-  Widget showMessageBar() {
-    return interfaceStandards.parentCenter(context,
-      new Container(
-        height: MediaQuery.of(context).size.height * 0.06,
-        width: MediaQuery.of(context).size.width * 0.9,
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.homeMessageBarBackground,
-          borderRadius: BorderRadius.all(Radius.circular(35.0),),
-        ),
+        color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
+        size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
       ),
     );
   }
@@ -85,15 +87,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget showSignOut() {
     return GestureDetector(
       onTap: () {
-        widget.logoutCallback;
+        widget.signOutCallback;
         cloudFirestore.signOut();
         Navigator.of(context)
           .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
       },
       child: Icon(
         Icons.more_vert,
-        color: Theme.of(context).colorScheme.homeSignOutIcon,
-        size: Theme.of(context).materialTapTargetSize.homeSignOutButtonSize,
+        color: Theme.of(context).colorScheme.homeSignOutIconButtonColor,
+        size: Theme.of(context).materialTapTargetSize.homeSignOutIconButtonSize,
       ),
     );
   }
@@ -102,7 +104,32 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: Container(),
+      body: Container(
+        height: themes.getDimension(context, true, "homeContainerDimension"),
+        decoration: BoxDecoration(
+          gradient: interfaceStandards.bodyLinearGradient(context, true, true),
+        ),
+        child: Stack(
+          children: <Widget>[
+            showMessageContainer(),
+            showTitle(),
+            Positioned(
+              top: themes.getPosition(context, true, "homeMessageBarContainerPosition"),
+              child: showMessageBar(),
+            ),
+            Positioned(
+              top: themes.getPosition(context, true, "homeMessageBarSendIconButtonPosition"),
+              left: themes.getPosition(context, false, "homeMessageBarSendIconButtonPosition"),
+              child: showMessageBarSend(),
+            ),
+            Positioned(
+              top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
+              left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
+              child: showSignOut(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
