@@ -22,7 +22,6 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final _formKey = GlobalKey<FormState>();
   String _partnerId;
-  bool _isCommitted;
 
   //Mechanics: Shows committed dialog
   void showCommittedDialog() {
@@ -48,16 +47,12 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   //Mechanics: Checks if committed
   void checkCommittedData (String partnerId) {
     cloudFirestore.checkCommittedData(partnerId).then((isCommitted) {
-      setState(() {
-        _partnerId = partnerId;
-        _isCommitted = isCommitted;
-        if (_partnerId.isNotEmpty && !_isCommitted) {
-          cloudFirestore.createPartnerData(_partnerId);
-          widget.signInCallback();
-        } else if (_partnerId.isNotEmpty && _isCommitted) {
-          showCommittedDialog();
-        }
-      });
+      if (_partnerId.isNotEmpty && !isCommitted) {
+        cloudFirestore.createPartnerData(_partnerId);
+        widget.signInCallback();
+      } else if (_partnerId.isNotEmpty && isCommitted) {
+        showCommittedDialog();
+      }
     });
   }
 
@@ -111,7 +106,7 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
           ),
         ),
       ),
-      validator: (partnerId) => partnerId.isEmpty ? "Partner Id can\'t be empty" : null,
+      validator: (partnerId) => partnerId.isEmpty ? "Partner id can\'t be empty" : null,
       onSaved: (partnerId) => _partnerId = partnerId.trim(),
       obscureText: false,
       maxLines: 1,
