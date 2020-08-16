@@ -24,28 +24,35 @@ class _HomeScreenState extends State<HomeScreen> {
   Themes themes = new Themes();
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   String _message;
+  bool _isUser;
 
   //User interface: Show title
   Container showTitle() {
     return new Container(
       height: themes.getDimension(context, true, "homeTitleContainerDimension"),
       color: Theme.of(context).colorScheme.homeTitleContainerColor,
-      child: interfaceStandards.parentCenter(context, Text(
-          widget.partnerName,
-          style: TextStyle(
-            color: Theme.of(context).colorScheme.homeTitleColor,
-            fontSize: Theme.of(context).textTheme.homeTitleFontSize,
-          ),
+      child: interfaceStandards.parentCenter(context, 
+        Column(
+          children: <Widget> [
+            Text(
+              widget.partnerName,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.homeTitleColor,
+                fontSize: Theme.of(context).textTheme.homeTitleFontSize,
+              ),
+            ),
+            SizedBox(
+              height: themes.getDimension(context, true, "homeTitleContainerSizedBoxDimension"),
+            ),
+            Divider(
+              thickness: 2.5,
+              indent: themes.getPosition(context, false, "homeDivisionBarPosition"),
+              endIndent: themes.getPosition(context, false, "homeDivisionBarPosition"),
+              color: Theme.of(context).colorScheme.homeDivisionBarColor,
+            ),
+          ],
         ),
       ),
-    );
-  }
-
-  //User interface: Show division bar
-  Widget showDivisionBar() {
-    return new Divider(
-      thickness: 2.5,
-      color: Theme.of(context).colorScheme.homeDivisionBarColor,
     );
   }
 
@@ -61,8 +68,46 @@ class _HomeScreenState extends State<HomeScreen> {
           bottomRight: Radius.circular(35.0),
         ),
       ),
+      child: showMessageList(),
     );
   }
+
+  //User interface: Show message list
+  Widget showMessageList() {
+    cloudFirestore.getMessageStreamData().then((messageStream) {
+      messageStream.toList().then((listValue) {
+        List<dynamic> documentList = listValue;
+        documentList.forEach((value) {
+          value.
+        });
+      });
+    });
+  }
+
+  //User interface: Show message
+  Widget showMessage(String _retrievedMessage, bool _retrievedIsUser) {
+    return new Container(
+      height: 50.0,
+      width: 75.0,
+      decoration: BoxDecoration(
+        gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          topRight: Radius.circular(30.0),
+          bottomLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
+          bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+        ),
+      ),
+      child: Text(
+        _retrievedMessage,
+        style: TextStyle(
+          color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
+          fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+        ),
+      ),
+    );
+  }
+
 
   //User interface: Show message bar
   Widget showMessageBar() {
@@ -74,14 +119,69 @@ class _HomeScreenState extends State<HomeScreen> {
           color: Theme.of(context).colorScheme.homeMessageBarContainerColor,
           borderRadius: BorderRadius.all(Radius.circular(35.0),),
         ),
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: 15.0,
-            right: 15.0,
-            top: 20.0,
-          ),
-          child: showMessageInput(context),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: EdgeInsets.only(
+                top: 22.5,
+                left: 5.0
+              ),
+              child: showMessageBarInput(context),
+            ),
+            Padding(
+              padding: EdgeInsets.only(
+                top: 2.5,
+                left: 0.0
+              ),
+              child: showMessageBarSend(),
+            ),
+          ],
         ),
+      ),
+    );
+  }
+
+  //User interface: Show message input field
+  Widget showMessageBarInput(BuildContext context) {
+    return Container(
+      width: themes.getDimension(context, true, "homeMessageBarInputContainerDimension"),
+      child: new TextFormField(
+        keyboardType: TextInputType.text,
+        style: TextStyle(
+          color: Theme.of(context).colorScheme.homeTextInputColor,
+          fontSize: Theme.of(context).textTheme.homeTextInputFontSize
+        ),
+        decoration: InputDecoration(
+          hintText: "Message",
+          hintStyle: TextStyle(
+            color: Theme.of(context).colorScheme.homeTextInputColor,
+          ),
+          labelStyle: TextStyle(
+            color: Theme.of(context).colorScheme.homeTextInputColor,
+          ),
+          border: OutlineInputBorder(borderSide: BorderSide(
+            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+          disabledBorder: OutlineInputBorder(borderSide: BorderSide(
+            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide(
+            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+          errorBorder: OutlineInputBorder(borderSide: BorderSide(
+            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+          focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(
+            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+        ),
+        validator: (message) => message.isEmpty ? "Message can\'t be empty" : null,
+        onSaved: (message) => _message = message.trim(),
+        obscureText: false,
+        maxLines: 1,
       ),
     );
   }
@@ -97,48 +197,6 @@ class _HomeScreenState extends State<HomeScreen> {
         color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
         size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
       ),
-    );
-  }
-
-  //User interface: Show message input field
-  Widget showMessageInput(BuildContext context) {
-    return new TextFormField(
-      keyboardType: TextInputType.multiline,
-      style: TextStyle(
-        color: Theme.of(context).colorScheme.homeTextInputColor,
-        fontSize: Theme.of(context).textTheme.homeTextInputFontSize
-      ),
-      decoration: InputDecoration(
-        hintText: "Message",
-        hintStyle: TextStyle(
-          color: Theme.of(context).colorScheme.homeTextInputColor,
-        ),
-        labelStyle: TextStyle(
-          color: Theme.of(context).colorScheme.homeTextInputColor,
-        ),
-        border: OutlineInputBorder(borderSide: BorderSide(
-          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-        disabledBorder: OutlineInputBorder(borderSide: BorderSide(
-          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-        enabledBorder: OutlineInputBorder(borderSide: BorderSide(
-          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-        errorBorder: OutlineInputBorder(borderSide: BorderSide(
-          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-        focusedBorder: OutlineInputBorder(borderSide: BorderSide(
-          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-        focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(
-          width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-          color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-      ),
-      validator: (message) => message.isEmpty ? "Message can\'t be empty" : null,
-      onSaved: (message) => _message = message.trim(),
-      obscureText: false,
-      maxLines: 10,
     );
   }
 
@@ -163,36 +221,30 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: Container(
-        height: themes.getDimension(context, true, "homeContainerDimension"),
-        decoration: BoxDecoration(
-          gradient: interfaceStandards.bodyLinearGradient(context, true, true),
-        ),
-        child: Stack(
-          children: <Widget>[
-            showMessageContainer(),
-            showTitle(),
-            Positioned(
-              top: themes.getPosition(context, true, "homeDivisionBarPosition"),
-              left: themes.getPosition(context, false, "homeDivisionBarPosition"),
-              right: themes.getPosition(context, false, "homeDivisionBarPosition"),
-              child: showDivisionBar(),
-            ),
-            Positioned(
-              top: themes.getPosition(context, true, "homeMessageBarContainerPosition"),
-              child: showMessageBar(),
-            ),
-            Positioned(
-              top: themes.getPosition(context, true, "homeMessageBarSendIconButtonPosition"),
-              left: themes.getPosition(context, false, "homeMessageBarSendIconButtonPosition"),
-              child: showMessageBarSend(),
-            ),
-            Positioned(
-              top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
-              left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
-              child: showSignOut(),
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Container(
+          height: themes.getDimension(context, true, "homeContainerDimension"),
+          decoration: BoxDecoration(
+            gradient: interfaceStandards.bodyLinearGradient(context, true, true),
+          ),
+          child: Stack(
+            children: <Widget>[
+              showMessageContainer(),
+              Positioned(
+                top: themes.getPosition(context, true, "homeTitlePosition"),
+                child: showTitle(), //Need to make this stay there
+              ),
+              Positioned(
+                top: themes.getPosition(context, true, "homeMessageBarContainerPosition"),
+                child: showMessageBar(),
+              ),
+              Positioned(
+                top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
+                left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
+                child: showSignOut(),
+              ),
+            ],
+          ),
         ),
       ),
     );

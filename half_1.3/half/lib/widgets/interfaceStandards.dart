@@ -28,7 +28,7 @@ class InterfaceStandards {
     return linearGradient;
   }
 
-  //Mechanics: Returns gradient colors
+  //Mechanics: Returns gradient colors body
   List<Color> colorsBodyGradient(BuildContext context, bool isTitle) {
     List<Color> gradientColors = [
       Theme.of(context).colorScheme.interfaceStandardsGradientTopLeftColor,
@@ -44,6 +44,26 @@ class InterfaceStandards {
       end: Alignment.bottomRight,
       tileMode: TileMode.mirror,
       colors: colorsBodyGradient(context, isTitle),
+    );
+    return linearGradient;
+  }
+
+  //Mechanics: Returns gradient colors card
+  List<Color> colorsCardGradient(BuildContext context, bool isUser) {
+    List<Color> gradientColors = [
+      isUser ? Theme.of(context).colorScheme.interfaceStandardsUserCardGradientTopLeftColor : Theme.of(context).colorScheme.interfaceStandardsNotUserCardGradientTopLeftColor,
+      isUser ? Theme.of(context).colorScheme.interfaceStandardsUserCardGradientBottomRightColor : Theme.of(context).colorScheme.interfaceStandardsNotUserCardGradientBottomRightColor,
+    ];
+    return gradientColors;
+  }
+
+  //User interface: Card linear gradient 
+  LinearGradient cardLinearGradient(BuildContext context, bool isUser) {
+    final LinearGradient linearGradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      tileMode: TileMode.mirror,
+      colors: colorsBodyGradient(context, isUser),
     );
     return linearGradient;
   }

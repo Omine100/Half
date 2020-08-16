@@ -107,7 +107,7 @@ class CloudFirestore implements BaseCloud {
           "User": true,
         });
     });
-  }
+  } //Maybe put it in a document of timestamp name?
 
   //Mechanics: Gets name data
   Future<String> getNameData() async {
@@ -154,7 +154,6 @@ class CloudFirestore implements BaseCloud {
     FirebaseUser user = await _firebaseAuth.currentUser();
     Stream messagesStream = db.collection(user.uid).document("Messages").collection("Final").snapshots();
     return messagesStream;
-    //Need to split this into two when we use it on home.dart
   }
 
   //Mechanics: Checks if committed

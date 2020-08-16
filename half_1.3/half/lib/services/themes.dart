@@ -5,6 +5,10 @@ extension CustomColorScheme on ColorScheme {
   Color get interfaceStandardsBackButtonColor => const Color(0xFFFFFFFF);
   Color get interfaceStandardsGradientTopLeftColor => const Color(0xFFFF9359);
   Color get interfaceStandardsGradientBottomRightColor => const Color(0xFFed2b7a);
+  Color get interfaceStandardsUserCardGradientTopLeftColor => const Color(0xFFFF9359);
+  Color get interfaceStandardsUserCardGradientBottomRightColor => const Color(0xFFed2b7a);
+  Color get interfaceStandardsNotUserCardGradientTopLeftColor => const Color(0xFFFFFFFF);
+  Color get interfaceStandardsNotUserCardGradientBottomRightColor => const Color(0xFFDCDCDC);
   Color get interfaceStandardsHeaderTextColor => const Color(0xFFFFFFFF);
 
   Color get loginTitleColor => const Color(0xFFFFFFFF);
@@ -37,6 +41,8 @@ extension CustomColorScheme on ColorScheme {
   Color get homeMessageContainerColor => const Color(0xFFFFFFFF);
   Color get homeMessageBarContainerColor => const Color(0x85d6296f);
   Color get homeMessageBarSendIconButtonColor => const Color(0xFFFFFFFF);
+  Color get homeMessageUserTextColor => const Color(0xFFFFFFFF);
+  Color get homeMessageNotUserTextColor => const Color(0xFF000000);
   Color get homeTextInputColor => const Color(0xFFFFFFFF);
   Color get homeTextInputBorderColor => const Color(0x00FFFFFF);
   Color get homeSignOutIconButtonColor => const Color(0xFF000000);
@@ -63,6 +69,7 @@ extension CustomFontSizes on TextTheme {
   double get connectorPartnerIdTextFontSize => 37.0;
 
   double get homeTitleFontSize => 32.0;
+  double get homeMessageTextFontSize => 22.0;
   double get homeTextInputFontSize => 22.0;
 }
 
@@ -110,8 +117,10 @@ extension CustomDimensions on MaterialTapTargetSize {
 
       case "homeContainerDimension": return isHeight ?  1.0 : 1.0; break;
       case "homeTitleContainerDimension": return isHeight ? 0.175 : null; break;
+      case "homeTitleContainerSizedBoxDimension": return isHeight ? 0.015 : null; break;
       case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
+      case "homeMessageBarInputContainerDimension": return isHeight ? 0.39 : 0.0; break;
       case "homeTextInputBorderDimension": return isHeight ? null : 0.0; break;
     }
   }
@@ -135,7 +144,8 @@ extension CustomPositions on MaterialTapTargetSize {
       case "connectorPartnerIdTextPosition": return isTop ? 0.475 : null; break;
       case "connectorConnectButtonPosition": return isTop? 0.72 : null; break;
 
-      case "homeDivisionBarPosition": return isTop ? 0.125 : 0.375; break;
+      case "homeTitlePosition": return isTop ? 0.065 : null; break;
+      case "homeDivisionBarPosition": return isTop ? null : 0.375; break;
       case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
       case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;
       case "homeSignOutIconButtonPosition": return isTop ? 0.065 : 0.875; break;
