@@ -36,7 +36,7 @@ extension CustomColorScheme on ColorScheme {
   Color get connectorConnectButtonColor => const Color(0xFFFFFFFF);
 
   Color get homeTitleColor => const Color(0xFF000000);
-  Color get homeTitleContainerColor => const Color(0x00FFFFFF);
+  Color get homeTitleContainerColor => const Color(0xFFFFFFFF);
   Color get homeDivisionBarColor => const Color(0xFFd6296f);
   Color get homeMessageContainerColor => const Color(0xFFFFFFFF);
   Color get homeMessageBarContainerColor => const Color(0x85d6296f);
