@@ -16,7 +16,7 @@ abstract class BaseCloud {
   //Methods: Data management
   Future<void> createNameData(String name);
   Future<void> createPartnerData(String partnerId);
-  Future<void> createMessageData(String meesage, bool isPartner);
+  Future<void> createMessageData(String meesage);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
   Future<String> getPartnerData();
@@ -90,7 +90,7 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Creates message data
-  Future<void> createMessageData(String message, bool isPartner) async {
+  Future<void> createMessageData(String message) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentReference ref = await db.collection(user.uid).document("Messages").collection("Complete").
       add({

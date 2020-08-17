@@ -96,7 +96,6 @@ class _HomeScreenState extends State<HomeScreen> {
         );
       }
     });
-    
   }
 
   //User interface: Show message
@@ -205,6 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
   GestureDetector showMessageBarSend() {
     return new GestureDetector(
       onTap: () {
+        cloudFirestore.createMessageData(_message);
+        cloudFirestore.createMessageData(_message);
         print("Message sent");
       },
       child: Icon(
