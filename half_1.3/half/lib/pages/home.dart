@@ -75,25 +75,28 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message list
   Widget showMessageList() {
-    Stream<QuerySnapshot> _messageStream;
     cloudFirestore.getMessageStreamData().then((messageStream) {
-      _messageStream = messageStream;
+      if (messageStream == null) {
+        return new Container();
+      } else {
+        return new StreamBuilder(
+          stream: messageStream,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if(snapshot.data.documents.isEmpty) {
+              return new Container();
+            } else {
+              return new ListView(
+                scrollDirection: Axis.vertical,
+                children: snapshot.data.documents.map((DocumentSnapshot document) {
+                return showMessage(document.data["Message"], document.data["User"]);
+                }).toList(),
+              );
+            }
+          },
+        );
+      }
     });
-    return new StreamBuilder(
-      stream: _messageStream,
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if(snapshot.data.documents.isEmpty) {
-          return new Container();
-        } else {
-          return new ListView(
-            scrollDirection: Axis.vertical,
-            children: snapshot.data.documents.map((DocumentSnapshot document) {
-              return showMessage(document.data["Message"], document.data["User"]);
-            }).toList(),
-          );
-        }
-      },
-    );
+    
   }
 
   //User interface: Show message

@@ -152,8 +152,13 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Gets message stream data
   Future<Stream<QuerySnapshot>> getMessageStreamData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
+    DocumentSnapshot snapshot = await db.collection(user.uid).document("Messages").snapshots().first;
     Stream<QuerySnapshot> messagesStream = db.collection(user.uid).document("Messages").collection("Final").snapshots();
-    return messagesStream;
+    if (!snapshot.exists) {
+      return null;
+    } else {
+      return messagesStream;
+    }
   }
 
   //Mechanics: Checks if committed
