@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:half/services/cloudFirestore.dart';
 import 'package:half/services/themes.dart';
@@ -74,14 +75,25 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message list
   Widget showMessageList() {
+    Stream<QuerySnapshot> _messageStream;
     cloudFirestore.getMessageStreamData().then((messageStream) {
-      messageStream.toList().then((listValue) {
-        List<dynamic> documentList = listValue;
-        documentList.forEach((value) {
-          value.
-        });
-      });
+      _messageStream = messageStream;
     });
+    return new StreamBuilder(
+      stream: _messageStream,
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if(snapshot.data.documents.isEmpty) {
+          return new Container();
+        } else {
+          return new ListView(
+            scrollDirection: Axis.vertical,
+            children: snapshot.data.documents.map((DocumentSnapshot document) {
+              return showMessage(document.data["Message"], document.data["User"]);
+            }).toList(),
+          );
+        }
+      },
+    );
   }
 
   //User interface: Show message

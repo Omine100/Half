@@ -20,7 +20,7 @@ abstract class BaseCloud {
   Future<String> getNameData();
   Future<String> getPartnerNameData();
   Future<String> getPartnerData();
-  Future<Stream> getMessageStreamData();
+  Future<Stream<QuerySnapshot>> getMessageStreamData();
   Future<bool> checkCommittedData(String partnerId);
   Future<void> deleteCurrentUser();
   Future<void> deleteCurrentUserAccountData();
@@ -150,9 +150,9 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Gets message stream data
-  Future<Stream> getMessageStreamData() async {
+  Future<Stream<QuerySnapshot>> getMessageStreamData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    Stream messagesStream = db.collection(user.uid).document("Messages").collection("Final").snapshots();
+    Stream<QuerySnapshot> messagesStream = db.collection(user.uid).document("Messages").collection("Final").snapshots();
     return messagesStream;
   }
 
