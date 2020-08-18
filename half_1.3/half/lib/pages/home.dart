@@ -106,10 +106,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget showMessageList() {
     cloudFirestore.getMessageStreamData().then((messageStream) {
       if (messageStream == null) {
-        print("It is null");
         return new Container();
       } else {
-        print("It is not null");
         return new StreamBuilder(
           stream: messageStream,
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -258,7 +256,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: themes.getDimension(context, true, "homeMessageScrollViewSizedBoxDimension"),
                   ),
-                  showMessageBar(),
+                  Form(
+                    key: _formKey,
+                    child: showMessageBar(),
+                  ),
                   SizedBox(
                     height: themes.getDimension(context, true, "homeMessageScrollViewSizedBoxDimension"),
                   ),

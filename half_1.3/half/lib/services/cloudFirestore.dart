@@ -150,7 +150,7 @@ class CloudFirestore implements BaseCloud {
   Future<Stream<QuerySnapshot>> getMessageStreamData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentSnapshot snapshot = await db.collection(user.uid).document("Messages").snapshots().first;
-    Stream<QuerySnapshot> messagesStream = db.collection(user.uid).document("Messages").collection("Final").snapshots();
+    Stream<QuerySnapshot> messagesStream = db.collection(user.uid).document("Messages").collection("Complete").snapshots();
     return messagesStream;
   }
 
