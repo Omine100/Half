@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CloudFirestore cloudFirestore = new CloudFirestore();
   Themes themes = new Themes();
   InterfaceStandards interfaceStandards = new InterfaceStandards();
+  final _formKey = GlobalKey<FormState>();
   String _message;
   bool _isUser;
 
@@ -57,6 +58,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  //User interface: Show sign out
+  Widget showSignOut() {
+    return GestureDetector(
+      onTap: () {
+        widget.signOutCallback;
+        cloudFirestore.signOut();
+        Navigator.of(context)
+          .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
+      },
+      child: Icon(
+        Icons.more_vert,
+        color: Theme.of(context).colorScheme.homeSignOutIconButtonColor,
+        size: Theme.of(context).materialTapTargetSize.homeSignOutIconButtonSize,
+      ),
+    );
+  }
+
+  //Mechanics: Validate and submit message information
+  void validateAndSubmit() {
+    final form = _formKey.currentState;
+    if(form.validate()) {
+      form.save();
+      cloudFirestore.createMessageData(widget.partnerId, _message);
+      print("Message sent to " + widget.partnerId.toString());
+      _formKey.currentState.reset();
+    }
+  }
+
   //User interface: Show message container
   Container showMessageContainer() {
     return new Container(
@@ -77,8 +106,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget showMessageList() {
     cloudFirestore.getMessageStreamData().then((messageStream) {
       if (messageStream == null) {
+        print("It is null");
         return new Container();
       } else {
+        print("It is not null");
         return new StreamBuilder(
           stream: messageStream,
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -100,6 +131,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message
   Widget showMessage(String _retrievedMessage, bool _retrievedIsUser) {
+    print("Message: " + _retrievedMessage);
     return new Container(
       height: 50.0,
       width: 75.0,
@@ -121,7 +153,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
 
   //User interface: Show message bar
   Widget showMessageBar() {
@@ -147,7 +178,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 top: 2.5,
                 left: 0.0
               ),
-              child: showMessageBarSend(),
+              child: GestureDetector(
+                onTap: () {
+                  validateAndSubmit();
+                },
+                child: Icon(
+                  Icons.send,
+                  color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
+                  size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
+                ),
+              ),
             ),
           ],
         ),
@@ -200,67 +240,41 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  //User interface: Show message bar send button
-  GestureDetector showMessageBarSend() {
-    return new GestureDetector(
-      onTap: () {
-        cloudFirestore.createMessageData(_message);
-        cloudFirestore.createMessageData(_message);
-        print("Message sent");
-      },
-      child: Icon(
-        Icons.send,
-        color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
-        size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
-      ),
-    );
-  }
-
-  //User interface: Show sign out
-  Widget showSignOut() {
-    return GestureDetector(
-      onTap: () {
-        widget.signOutCallback;
-        cloudFirestore.signOut();
-        Navigator.of(context)
-          .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
-      },
-      child: Icon(
-        Icons.more_vert,
-        color: Theme.of(context).colorScheme.homeSignOutIconButtonColor,
-        size: Theme.of(context).materialTapTargetSize.homeSignOutIconButtonSize,
-      ),
-    );
-  }
-
   //User interface: Home screen
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          height: themes.getDimension(context, true, "homeContainerDimension"),
-          decoration: BoxDecoration(
+      body: Container(
+        height: themes.getDimension(context, true, "homeContainerDimension"),
+        decoration: BoxDecoration(
             gradient: interfaceStandards.bodyLinearGradient(context, true, true),
           ),
-          child: Stack(
-            children: <Widget>[
-              showMessageContainer(),
-              Positioned(
-                top: themes.getPosition(context, true, "homeTitlePosition"),
-                child: showTitle(), //Need to make this stay there
+        child: Stack(
+          children: <Widget>[
+            SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  showMessageContainer(),
+                  SizedBox(
+                    height: themes.getDimension(context, true, "homeMessageScrollViewSizedBoxDimension"),
+                  ),
+                  showMessageBar(),
+                  SizedBox(
+                    height: themes.getDimension(context, true, "homeMessageScrollViewSizedBoxDimension"),
+                  ),
+                ],
               ),
-              Positioned(
-                top: themes.getPosition(context, true, "homeMessageBarContainerPosition"),
-                child: showMessageBar(),
-              ),
-              Positioned(
-                top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
-                left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
-                child: showSignOut(),
-              ),
-            ],
-          ),
+            ),
+            Positioned(
+              top: themes.getPosition(context, true, "homeTitlePosition"),
+              child: showTitle(),
+            ),
+            Positioned(
+              top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
+              left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
+              child: showSignOut(),
+            ),
+          ],
         ),
       ),
     );

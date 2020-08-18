@@ -16,7 +16,7 @@ abstract class BaseCloud {
   //Methods: Data management
   Future<void> createNameData(String name);
   Future<void> createPartnerData(String partnerId);
-  Future<void> createMessageData(String meesage);
+  Future<void> createMessageData(String partnerId, String meesage);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
   Future<String> getPartnerData();
@@ -90,23 +90,20 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Creates message data
-  Future<void> createMessageData(String message) async {
+  Future<void> createMessageData(String partnerId, String message) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentReference ref = await db.collection(user.uid).document("Messages").collection("Complete").
+      add({
+        "Message": message,
+        "User": true,
+      }
+    );
+    DocumentReference refPartnerMessage = await db.collection(partnerId).document("Messages").collection("Complete").
       add({
         "Message": message,
         "User": false,
       }
     );
-    DocumentReference refPartner = await db.collection(user.uid).document("Partner");
-    await ref.get().then<dynamic>((DocumentSnapshot snapshot) async {
-      String partnerId = snapshot.data["PartnerId"];
-      DocumentReference refPartnerMessage = await db.collection(partnerId).document("Messages").collection("Complete").
-        add({
-          "Message": message,
-          "User": true,
-        });
-    });
   } //Maybe put it in a document of timestamp name?
 
   //Mechanics: Gets name data
@@ -154,11 +151,7 @@ class CloudFirestore implements BaseCloud {
     FirebaseUser user = await _firebaseAuth.currentUser();
     DocumentSnapshot snapshot = await db.collection(user.uid).document("Messages").snapshots().first;
     Stream<QuerySnapshot> messagesStream = db.collection(user.uid).document("Messages").collection("Final").snapshots();
-    if (!snapshot.exists) {
-      return null;
-    } else {
-      return messagesStream;
-    }
+    return messagesStream;
   }
 
   //Mechanics: Checks if committed

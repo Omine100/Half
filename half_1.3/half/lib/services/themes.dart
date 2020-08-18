@@ -121,6 +121,7 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
       case "homeMessageBarInputContainerDimension": return isHeight ? 0.39 : 0.0; break;
+      case "homeMessageScrollViewSizedBoxDimension": return isHeight ? 0.0125 : 0.0; break;
       case "homeTextInputBorderDimension": return isHeight ? null : 0.0; break;
     }
   }
