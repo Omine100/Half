@@ -22,6 +22,7 @@ abstract class BaseCloud {
   Future<String> getPartnerData();
   Future<Stream<QuerySnapshot>> getMessageStreamData();
   Future<bool> checkCommittedData(String partnerId);
+  Future<void> deletePartnerData(String partnerId);
   Future<void> deleteCurrentUser();
   Future<void> deleteCurrentUserAccountData();
   Future<void> deleteCurrentUserDocumentData(DocumentSnapshot doc);
@@ -149,7 +150,6 @@ class CloudFirestore implements BaseCloud {
   //Mechanics: Gets message stream data
   Future<Stream<QuerySnapshot>> getMessageStreamData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentSnapshot snapshot = await db.collection(user.uid).document("Messages").snapshots().first;
     Stream<QuerySnapshot> messagesStream = db.collection(user.uid).document("Messages").collection("Complete").snapshots();
     return messagesStream;
   }
@@ -168,9 +168,14 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Resets partner stuff
-  //I think we need signInCallback on homescreen so we can remove it and then
-  //send the user to the connector screen again. We also will need to delete
-  //all of the messages and information from BOTH accounts
+  Future<void> deletePartnerData(String partnerId) async {
+    FirebaseUser user = await _firebaseAuth.currentUser();
+    await db.collection(user.uid).document("Partner").delete();
+    await db.collection(user.uid).document("Messages").delete();
+    await db.collection(partnerId).document("Partner").delete();
+    await db.collection(partnerId).document("Messages").delete();
+  }
+  //send the user to the connector screen again
 
   //Mechanics: Deletes user account
   Future<void> deleteCurrentUser() async {

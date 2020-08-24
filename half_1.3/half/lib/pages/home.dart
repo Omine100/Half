@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   CloudFirestore cloudFirestore = new CloudFirestore();
   Themes themes = new Themes();
   InterfaceStandards interfaceStandards = new InterfaceStandards();
+  final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
   String _message;
   bool _isUser;
@@ -104,27 +105,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message list
   Widget showMessageList() {
-    cloudFirestore.getMessageStreamData().then((messageStream) {
-      if (messageStream == null) {
-        return new Container();
-      } else {
-        return new StreamBuilder(
-          stream: messageStream,
-          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if(snapshot.data.documents.isEmpty) {
-              return new Container();
-            } else {
-              return new ListView(
-                scrollDirection: Axis.vertical,
-                children: snapshot.data.documents.map((DocumentSnapshot document) {
-                return showMessage(document.data["Message"], document.data["User"]);
-                }).toList(),
-              );
-            }
-          },
-        );
-      }
-    });
+    return new StreamBuilder(
+      stream: db.collection(widget.userId).document("Messages").collection("Complete").snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if(snapshot.data.documents.isEmpty) {
+          return new Container();
+        } else {
+          return new ListView(
+            scrollDirection: Axis.vertical,
+            children: snapshot.data.documents.map((DocumentSnapshot document) {
+            return showMessage(document.data["Message"], document.data["User"]);
+            }).toList(),
+          );
+        }
+      },
+    );
   }
 
   //User interface: Show message
