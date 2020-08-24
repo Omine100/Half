@@ -105,7 +105,7 @@ class CloudFirestore implements BaseCloud {
         "User": false,
       }
     );
-  } //Maybe put it in a document of timestamp name?
+  }
 
   //Mechanics: Gets name data
   Future<String> getNameData() async {

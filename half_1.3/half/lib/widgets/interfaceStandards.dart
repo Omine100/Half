@@ -63,7 +63,7 @@ class InterfaceStandards {
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
       tileMode: TileMode.mirror,
-      colors: colorsBodyGradient(context, isUser),
+      colors: colorsCardGradient(context, isUser),
     );
     return linearGradient;
   }

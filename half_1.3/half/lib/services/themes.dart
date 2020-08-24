@@ -5,7 +5,7 @@ extension CustomColorScheme on ColorScheme {
   Color get interfaceStandardsBackButtonColor => const Color(0xFFFFFFFF);
   Color get interfaceStandardsGradientTopLeftColor => const Color(0xFFFF9359);
   Color get interfaceStandardsGradientBottomRightColor => const Color(0xFFed2b7a);
-  Color get interfaceStandardsUserCardGradientTopLeftColor => const Color(0xFFFF9359);
+  Color get interfaceStandardsUserCardGradientTopLeftColor => const Color(0xFFFF6A59);
   Color get interfaceStandardsUserCardGradientBottomRightColor => const Color(0xFFed2b7a);
   Color get interfaceStandardsNotUserCardGradientTopLeftColor => const Color(0xFFFFFFFF);
   Color get interfaceStandardsNotUserCardGradientBottomRightColor => const Color(0xFFDCDCDC);
@@ -39,7 +39,7 @@ extension CustomColorScheme on ColorScheme {
   Color get homeTitleContainerColor => const Color(0xFFFFFFFF);
   Color get homeDivisionBarColor => const Color(0xFFd6296f);
   Color get homeMessageContainerColor => const Color(0xFFFFFFFF);
-  Color get homeMessageBarContainerColor => const Color(0x85d6296f);
+  Color get homeMessageBarContainerColor => const Color(0x71d6296f);
   Color get homeMessageBarSendIconButtonColor => const Color(0xFFFFFFFF);
   Color get homeMessageUserTextColor => const Color(0xFFFFFFFF);
   Color get homeMessageNotUserTextColor => const Color(0xFF000000);
@@ -116,7 +116,7 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "connectorContainerDimension": return isHeight ? 1.0 : null; break;
 
       case "homeContainerDimension": return isHeight ?  1.0 : 1.0; break;
-      case "homeTitleContainerDimension": return isHeight ? 0.10 : null; break;
+      case "homeTitleContainerDimension": return isHeight ? 0.1 : null; break;
       case "homeTitleContainerSizedBoxDimension": return isHeight ? 0.015 : null; break;
       case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
