@@ -112,6 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return new Container();
         } else {
           return new ListView(
+            padding: EdgeInsets.only(top: 135),
             scrollDirection: Axis.vertical,
             children: snapshot.data.documents.map((DocumentSnapshot document) {
             return showMessage(document.data["Message"], document.data["User"]);
@@ -124,24 +125,34 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message
   Widget showMessage(String _retrievedMessage, bool _retrievedIsUser) {
-    print("Message: " + _retrievedMessage);
-    return new Container(
-      height: 50.0,
-      width: 75.0,
-      decoration: BoxDecoration(
-        gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
-          bottomLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
-          bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
-        ),
+    return Padding(
+      padding: EdgeInsets.only(
+        left: _retrievedIsUser ? 162.5 : 12.5, 
+        right: _retrievedIsUser ? 12.5 : 162.5,
+        top: 6.25,
+        bottom: 6.25,
       ),
-      child: Text(
-        _retrievedMessage,
-        style: TextStyle(
-          color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
-          fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+      child: Container(
+        padding: EdgeInsets.only(
+          left: 10,
+          top: 10,
+        ),
+        height: 50.0,
+        decoration: BoxDecoration(
+          gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30.0),
+            topRight: Radius.circular(30.0),
+            bottomLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
+            bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+          ),
+        ),
+        child: Text(
+          _retrievedMessage,
+          style: TextStyle(
+            color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
+            fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+          ),
         ),
       ),
     );
