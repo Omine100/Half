@@ -118,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.only(top: 135),
             scrollDirection: Axis.vertical,
             children: snapshot.data.documents.map((DocumentSnapshot document) {
-            return showMessage(document.data["Message"], document.data["User"]);
+            return showMessage(document, document.data["Message"], document.data["User"]);
             }).toList(),
           );
         }
@@ -127,34 +127,43 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //User interface: Show message
-  Widget showMessage(String _retrievedMessage, bool _retrievedIsUser) {
-    return Padding(
-      padding: EdgeInsets.only(
-        left: _retrievedIsUser ? 162.5 : 12.5, 
-        right: _retrievedIsUser ? 12.5 : 162.5,
-        top: 6.25,
-        bottom: 6.25,
-      ),
-      child: Container(
+  Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser) {
+    return GestureDetector(
+      onLongPress: () {
+        // cloudFirestore.deleteCurrentUserDocumentData(document);
+        // setState(() {
+        //   print("Deleted");
+        // });
+        // Need to create a delete message method
+      },
+      child: Padding(
         padding: EdgeInsets.only(
-          left: 10,
-          top: 10,
+          left: _retrievedIsUser ? 162.5 : 12.5, 
+          right: _retrievedIsUser ? 12.5 : 162.5,
+          top: 6.25,
+          bottom: 6.25,
         ),
-        height: 50.0,
-        decoration: BoxDecoration(
-          gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
-            bottomLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
-            bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+        child: Container(
+          padding: EdgeInsets.only(
+            left: 10,
+            top: 10,
           ),
-        ),
-        child: Text(
-          _retrievedMessage,
-          style: TextStyle(
-            color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
-            fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+          height: 50.0,
+          decoration: BoxDecoration(
+            gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30.0),
+              topRight: Radius.circular(30.0),
+              bottomLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
+              bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+            ),
+          ),
+          child: Text(
+            _retrievedMessage,
+            style: TextStyle(
+              color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
+              fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+            ),
           ),
         ),
       ),
