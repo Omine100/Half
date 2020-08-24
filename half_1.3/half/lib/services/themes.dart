@@ -116,8 +116,9 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "connectorContainerDimension": return isHeight ? 1.0 : null; break;
 
       case "homeContainerDimension": return isHeight ?  1.0 : 1.0; break;
-      case "homeTitleContainerDimension": return isHeight ? 0.1 : null; break;
-      case "homeTitleContainerSizedBoxDimension": return isHeight ? 0.015 : null; break;
+      case "homeTitleContainerDimension": return isHeight ? 0.15 : null; break;
+      case "homeTitleContainerSizedBox1Dimension": return isHeight ? 0.06 : null; break;
+      case "homeTitleContainerSizedBox2Dimension": return isHeight ? 0.015 : null; break;
       case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
       case "homeMessageBarInputContainerDimension": return isHeight ? 0.39 : 0.0; break;
@@ -145,7 +146,6 @@ extension CustomPositions on MaterialTapTargetSize {
       case "connectorPartnerIdTextPosition": return isTop ? 0.475 : null; break;
       case "connectorConnectButtonPosition": return isTop? 0.72 : null; break;
 
-      case "homeTitlePosition": return isTop ? 0.065 : null; break;
       case "homeDivisionBarPosition": return isTop ? null : 0.375; break;
       case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
       case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;

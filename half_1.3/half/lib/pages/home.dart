@@ -37,6 +37,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: interfaceStandards.parentCenter(context, 
         Column(
           children: <Widget> [
+            SizedBox(
+              height: themes.getDimension(context, true, "homeTitleContainerSizedBox1Dimension"),
+            ),
             Text(
               widget.partnerName,
               style: TextStyle(
@@ -45,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             SizedBox(
-              height: themes.getDimension(context, true, "homeTitleContainerSizedBoxDimension"),
+              height: themes.getDimension(context, true, "homeTitleContainerSizedBox2Dimension"),
             ),
             Divider(
               thickness: 2.5,
@@ -272,10 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Positioned(
-              top: themes.getPosition(context, true, "homeTitlePosition"),
-              child: showTitle(),
-            ),
+            showTitle(),
             Positioned(
               top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
               left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
