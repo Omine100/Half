@@ -175,7 +175,6 @@ class CloudFirestore implements BaseCloud {
     await db.collection(partnerId).document("Partner").delete();
     await db.collection(partnerId).document("Messages").delete();
   }
-  //send the user to the connector screen again
 
   //Mechanics: Deletes user account
   Future<void> deleteCurrentUser() async {
