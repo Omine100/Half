@@ -66,10 +66,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget showSignOut() {
     return GestureDetector(
       onTap: () {
-        widget.signOutCallback;
-        cloudFirestore.signOut();
-        Navigator.of(context)
-          .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
+        // widget.signOutCallback;
+        // cloudFirestore.signOut();
+        // Navigator.of(context)
+        //   .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
+        interfaceStandards.getCurrentDate();
       },
       child: Icon(
         Icons.more_vert,
@@ -117,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
           return new ListView(
             padding: EdgeInsets.only(top: 135, bottom: 12.5),
             scrollDirection: Axis.vertical,
-            reverse: true,
+            reverse: false,
             children: snapshot.data.documents.map((DocumentSnapshot document) {
             return showMessage(document, document.data["Message"], document.data["User"]);
             }).toList(),

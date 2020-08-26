@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import 'package:half/services/themes.dart';
 
@@ -8,9 +9,7 @@ class InterfaceStandards {
 
   //Mechanics: Returns current time
   String getCurrentDate() {
-    var date = new DateTime.now().toString();
-    var dateParse = DateTime.parse(date);
-    var formattedDate = "${dateParse.year}-${dateParse.month}-${dateParse.day}-${dateParse.hour}-${dateParse.minute}-${dateParse.second}".toString();
+    String formattedDate = DateFormat('yyyy-MM-dd-HH-mm-ss').format(DateTime.now());
     return formattedDate;
   }
 
