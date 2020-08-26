@@ -152,9 +152,9 @@ class _HomeScreenState extends State<HomeScreen> {
           decoration: BoxDecoration(
             gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(30.0),
+              topLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
               topRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
-              bottomLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
+              bottomLeft: Radius.circular(30.0),
               bottomRight: Radius.circular(30.0),
             ),
           ),

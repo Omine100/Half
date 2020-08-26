@@ -7,8 +7,8 @@ extension CustomColorScheme on ColorScheme {
   Color get interfaceStandardsGradientBottomRightColor => const Color(0xFFed2b7a);
   Color get interfaceStandardsUserCardGradientTopLeftColor => const Color(0xFFFF6A59);
   Color get interfaceStandardsUserCardGradientBottomRightColor => const Color(0xFFed2b7a);
-  Color get interfaceStandardsNotUserCardGradientTopLeftColor => const Color(0xFFFFFFFF);
-  Color get interfaceStandardsNotUserCardGradientBottomRightColor => const Color(0xFFDCDCDC);
+  Color get interfaceStandardsNotUserCardGradientTopLeftColor => const Color(0xFFDCDCDC);
+  Color get interfaceStandardsNotUserCardGradientBottomRightColor => const Color(0xFFADADAD);
   Color get interfaceStandardsHeaderTextColor => const Color(0xFFFFFFFF);
 
   Color get loginTitleColor => const Color(0xFFFFFFFF);
