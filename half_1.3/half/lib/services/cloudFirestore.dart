@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:half/widgets/interfaceStandards.dart';
+
 //Method declarations
 abstract class BaseCloud {
   //Methods: Account management
@@ -32,6 +34,7 @@ class CloudFirestore implements BaseCloud {
   //Variable initialization
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final db = Firestore.instance;
+  InterfaceStandards interfaceStandards = new InterfaceStandards();
 
   //Mechanics: Signs in user with given email and password
   Future<void> signIn(String email, String password) async {
@@ -92,15 +95,16 @@ class CloudFirestore implements BaseCloud {
 
   //Mechanics: Creates message data
   Future<void> createMessageData(String partnerId, String message) async {
+    String date = interfaceStandards.getCurrentDate();
     FirebaseUser user = await _firebaseAuth.currentUser();
-    DocumentReference ref = await db.collection(user.uid).document("Messages").collection("Complete").
-      add({
+    await db.collection(user.uid).document("Messages").collection("Complete").document(date).
+      setData({
         "Message": message,
         "User": true,
       }
     );
-    DocumentReference refPartnerMessage = await db.collection(partnerId).document("Messages").collection("Complete").
-      add({
+    await db.collection(partnerId).document("Messages").collection("Complete").document(date).
+      setData({
         "Message": message,
         "User": false,
       }

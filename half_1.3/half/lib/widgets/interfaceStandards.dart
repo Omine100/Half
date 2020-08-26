@@ -6,6 +6,14 @@ class InterfaceStandards {
   //Variable initialization
   Themes themes = new Themes();
 
+  //Mechanics: Returns current time
+  String getCurrentDate() {
+    var date = new DateTime.now().toString();
+    var dateParse = DateTime.parse(date);
+    var formattedDate = "${dateParse.year}-${dateParse.month}-${dateParse.day}-${dateParse.hour}-${dateParse.minute}-${dateParse.second}".toString();
+    return formattedDate;
+  }
+
   //User interface: Back button
   Widget backButton(BuildContext context) {
     return GestureDetector(
@@ -86,7 +94,8 @@ class InterfaceStandards {
         style: TextStyle(
           color: Theme.of(context).colorScheme.interfaceStandardsHeaderTextColor,
           fontSize: 45.0,
-        ),),
+        ),
+      ),
     );
   }
 }
