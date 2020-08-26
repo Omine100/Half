@@ -115,8 +115,9 @@ class _HomeScreenState extends State<HomeScreen> {
           return new Container();
         } else {
           return new ListView(
-            padding: EdgeInsets.only(top: 135),
+            padding: EdgeInsets.only(top: 135, bottom: 12.5),
             scrollDirection: Axis.vertical,
+            reverse: true,
             children: snapshot.data.documents.map((DocumentSnapshot document) {
             return showMessage(document, document.data["Message"], document.data["User"]);
             }).toList(),
@@ -130,11 +131,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser) {
     return GestureDetector(
       onLongPress: () {
-        // cloudFirestore.deleteCurrentUserDocumentData(document);
-        // setState(() {
-        //   print("Deleted");
-        // });
-        // Need to create a delete message method
+        cloudFirestore.deleteCurrentMessageData(document);
+        setState(() {
+          print("Deleted");
+        });
       },
       child: Padding(
         padding: EdgeInsets.only(
@@ -153,9 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
             gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(30.0),
-              topRight: Radius.circular(30.0),
+              topRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
               bottomLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
-              bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+              bottomRight: Radius.circular(30.0),
             ),
           ),
           child: Text(

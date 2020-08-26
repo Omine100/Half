@@ -25,7 +25,7 @@ abstract class BaseCloud {
   Future<void> deletePartnerData(String partnerId);
   Future<void> deleteCurrentUser();
   Future<void> deleteCurrentUserAccountData();
-  Future<void> deleteCurrentUserDocumentData(DocumentSnapshot doc);
+  Future<void> deleteCurrentMessageData(DocumentSnapshot doc);
 }
 
 class CloudFirestore implements BaseCloud {
@@ -176,13 +176,13 @@ class CloudFirestore implements BaseCloud {
     await db.collection(partnerId).document("Messages").delete();
   }
 
-  //Mechanics: Deletes user account
+  //Mechanics: Deletes user account (authentication)
   Future<void> deleteCurrentUser() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     return user.delete();
   }
 
-  //Mechanics: Deletes account data
+  //Mechanics: Deletes user account data (cloudFirestore)
   Future<void> deleteCurrentUserAccountData() async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     await db.collection(user.uid).getDocuments().then((snapshot) {
@@ -192,10 +192,10 @@ class CloudFirestore implements BaseCloud {
     });
   }
 
-  //Mechanics: Deletes document data
-  Future<void> deleteCurrentUserDocumentData(DocumentSnapshot doc) async {
+  //Mechanics: Deletes current message data
+  Future<void> deleteCurrentMessageData(DocumentSnapshot doc) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
-    await db.collection(user.uid).document(doc.documentID).delete();
+    await db.collection(user.uid).document("Messages").collection("Complete").document(doc.documentID).delete();
   }
 }
 
