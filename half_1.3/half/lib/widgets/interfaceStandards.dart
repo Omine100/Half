@@ -9,7 +9,7 @@ class InterfaceStandards {
 
   //Mechanics: Returns current time
   String getCurrentDate() {
-    String formattedDate = DateFormat('yyyy-MM-dd-HH-mm-ss').format(DateTime.now());
+    String formattedDate = DateFormat('yyyy-MM-dd-HH:mm:ss').format(DateTime.now());
     return formattedDate;
   }
 

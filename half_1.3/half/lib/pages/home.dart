@@ -26,8 +26,36 @@ class _HomeScreenState extends State<HomeScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
-  String _message;
+  String _message, _timeStampOld, _timeStampNew;
   bool _isUser;
+
+  //Initial state
+  @override
+  void initState() {
+    super.initState();
+    _timeStampOld = "";
+    _timeStampNew = "";
+  }
+
+  //Mechanics: Check time difference
+  bool checkTimeDifference(int hourNew, int minuteNew, int hourOld, int minuteOld) {
+    if (hourNew - hourOld > 1 || hourNew - hourOld < -1) {
+      return true;
+    } else if (minuteNew - minuteOld > 30) {
+      return true;
+    }
+    return false;
+  }
+
+  //Mechanics: Get hour
+  String getHour(int hourNew) {
+    if (hourNew == 00) {
+      return 12.toString();
+    } else if (hourNew > 12) {
+      return (hourNew - 12).toString();
+    }
+    return hourNew.toString();
+  }
 
   //User interface: Show title
   Container showTitle() {
@@ -66,11 +94,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget showSignOut() {
     return GestureDetector(
       onTap: () {
-        // widget.signOutCallback;
-        // cloudFirestore.signOut();
-        // Navigator.of(context)
-        //   .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
-        interfaceStandards.getCurrentDate();
+        widget.signOutCallback;
+        cloudFirestore.signOut();
+        Navigator.of(context)
+          .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
       },
       child: Icon(
         Icons.more_vert,
@@ -130,44 +157,66 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message
   Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser) {
-    return GestureDetector(
-      onLongPress: () {
-        cloudFirestore.deleteCurrentMessageData(document);
-        setState(() {
-          print("Deleted");
-        });
-      },
-      child: Padding(
-        padding: EdgeInsets.only(
-          left: _retrievedIsUser ? 162.5 : 12.5, 
-          right: _retrievedIsUser ? 12.5 : 162.5,
-          top: 6.25,
-          bottom: 6.25,
-        ),
-        child: Container(
-          padding: EdgeInsets.only(
-            left: 10,
-            top: 10,
+    _timeStampOld = _timeStampNew.isEmpty ? "0000-00-00-00:00:00" : _timeStampNew;
+    _timeStampNew = document.documentID;
+    int hourNew = int.parse(_timeStampNew.substring(11, 13));
+    int minuteNew = int.parse(_timeStampNew.substring(14, 16));
+    int hourOld = int.parse(_timeStampOld.substring(11, 13));
+    int minuteOld = int.parse(_timeStampOld.substring(14, 16));
+
+    return Column(
+      children: <Widget>[
+        interfaceStandards.parentCenter(context, Text(
+          checkTimeDifference(hourNew, minuteNew, hourOld, minuteOld) ? 
+            getHour(hourNew) + _timeStampNew.substring(13, 16) :
+            "",
+          style: TextStyle(
+            fontSize: checkTimeDifference(hourNew, minuteNew, hourOld, minuteOld) ? Theme.of(context).textTheme.homeMessageTimeFontSize : 0.0,
           ),
-          height: 50.0,
-          decoration: BoxDecoration(
-            gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
-            borderRadius: BorderRadius.only(
-              topLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
-              topRight: Radius.circular(30.0),
-              bottomLeft: Radius.circular(30.0),
-              bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+        )),
+        Container(
+          width: themes.getDimension(context, false, "homeMessageColumnContainerDimension"),
+          child: GestureDetector(
+            onLongPress: () {
+              cloudFirestore.deleteCurrentMessageData(document);
+              setState(() {
+                print("Deleted");
+              });
+            },
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: _retrievedIsUser ? 162.5 : 12.5, 
+                right: _retrievedIsUser ? 12.5 : 162.5,
+                top: 6.25,
+                bottom: 6.25,
+              ),
+              child: Container(
+                padding: EdgeInsets.only(
+                  left: 10,
+                  top: 10,
+                ),
+                height: themes.getDimension(context, true, "homeMessageDimension"),
+                decoration: BoxDecoration(
+                  gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
+                  borderRadius: BorderRadius.only(
+                    topLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
+                    topRight: Radius.circular(30.0),
+                    bottomLeft: Radius.circular(30.0),
+                    bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+                  ),
+                ),
+                child: Text(
+                  _retrievedMessage,
+                  style: TextStyle(
+                    color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
+                    fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+                  ),
+                ),
+              ),
             ),
           ),
-          child: Text(
-            _retrievedMessage,
-            style: TextStyle(
-              color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
-              fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
-            ),
-          ),
         ),
-      ),
+      ],
     );
   }
 

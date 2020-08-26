@@ -69,6 +69,7 @@ extension CustomFontSizes on TextTheme {
   double get connectorPartnerIdTextFontSize => 37.0;
 
   double get homeTitleFontSize => 32.0;
+  double get homeMessageTimeFontSize => 15.0;
   double get homeMessageTextFontSize => 22.0;
   double get homeTextInputFontSize => 22.0;
 }
@@ -120,6 +121,8 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "homeTitleContainerSizedBox1Dimension": return isHeight ? 0.06 : null; break;
       case "homeTitleContainerSizedBox2Dimension": return isHeight ? 0.015 : null; break;
       case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
+      case "homeMessageColumnContainerDimension": return isHeight ? 0.915 : 1.0; break;
+      case "homeMessageDimension": return isHeight ? 0.06 : null; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
       case "homeMessageBarInputContainerDimension": return isHeight ? 0.39 : 0.0; break;
       case "homeMessageScrollViewSizedBoxDimension": return isHeight ? 0.0125 : 0.0; break;
