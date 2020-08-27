@@ -242,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                     padding: EdgeInsets.only(
                       left: 10,
-                      right: 7.5,
+                      right: 8.5,
                       top: 7.5,
                       bottom: 10,
                     ),
