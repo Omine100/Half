@@ -83,11 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     if (hourNew == 00) {
-      return 12.toString() + ":" + minute;
+      return 12.toString() + ":" + minute + " AM";
     } else if (hourNew > 12) {
-      return (hourNew - 12).toString() + ":" + minute;
+      return (hourNew - 12).toString() + ":" + minute + " PM";
     }
-    return "$hourNew:$minute";
+    return "$hourNew:$minute AM";
   }
 
   //Mechanics: Validate and submit message information
