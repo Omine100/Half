@@ -219,21 +219,19 @@ class _HomeScreenState extends State<HomeScreen> {
             fontSize: getTimeStamp() != "" ? Theme.of(context).textTheme.homeMessageTimeFontSize : 0.0,
           ),
         )),
-        
-          GestureDetector(
-            onLongPress: () {
-              cloudFirestore.deleteCurrentMessageData(document);
-              setState(() {});
-            },
-            child: Row(
-              mainAxisAlignment: _retrievedIsUser ? MainAxisAlignment.end : MainAxisAlignment.start,
-              children: <Widget>[
-                ConstrainedBox(
-          constraints: BoxConstraints(
-            maxHeight: 400.0,
-            minWidth: 200.0,
-            maxWidth: 400.0
-          ),
+        GestureDetector(
+          onLongPress: () {
+            cloudFirestore.deleteCurrentMessageData(document);
+            setState(() {});
+          },
+          child: Row(
+            mainAxisAlignment: _retrievedIsUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+            children: <Widget>[
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minWidth: 200.0,
+                  maxWidth: 400.0
+                ),
                 child: Padding(
                   padding: EdgeInsets.only(
                     left: _retrievedIsUser ? 162.5 : 12.5, 
@@ -241,15 +239,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     top: 6.25,
                     bottom: 6.25,
                   ),
-                  
-                    child: Container(
-                      padding: EdgeInsets.only(
+                  child: Container(
+                    padding: EdgeInsets.only(
                       left: 10,
                       right: 7.5,
                       top: 7.5,
                       bottom: 10,
                     ),
-                      decoration: BoxDecoration(
+                    decoration: BoxDecoration(
                       gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
                       borderRadius: BorderRadius.only(
                         topLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
@@ -265,13 +262,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
                       ),
                     ),
-                    ),
+                  ),
                 ),
-                ),
-              ],
-            ),
-          
-          
+              ),
+            ],
+          ), 
         ),
       ],
     );
@@ -333,20 +328,14 @@ class _HomeScreenState extends State<HomeScreen> {
             expands: false,
           ),
           ),
-          Padding(
-            padding: EdgeInsets.only(
-                top: 2.5,
-                left: 0.0
-              ),
-            child: GestureDetector(
-              onTap: () {
-                validateAndSubmit();
-              },
-              child: Icon(
-                Icons.send,
-                color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
-                size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
-              ),
+          GestureDetector(
+            onTap: () {
+              validateAndSubmit();
+            },
+            child: Icon(
+              Icons.send,
+              color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
+              size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
             ),
           ),
         ],
@@ -370,7 +359,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: <Widget>[
                   showMessageList(),
                   Padding(
-                    padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 20.0),
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 10.0),
                     child: Form(
                       key: _formKey,
                       child: showMessageBar(),

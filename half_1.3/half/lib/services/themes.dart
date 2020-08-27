@@ -120,7 +120,7 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "homeTitleContainerDimension": return isHeight ? 0.15 : null; break;
       case "homeTitleContainerSizedBox1Dimension": return isHeight ? 0.06 : null; break;
       case "homeTitleContainerSizedBox2Dimension": return isHeight ? 0.015 : null; break;
-      case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
+      case "homeMessageContainerDimension": return isHeight ? 0.8915 : 1.0; break;
       case "homeMessageColumnContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageDimension": return isHeight ? 0.06 : null; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.075 : 1.0; break;
