@@ -26,8 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
-  String _message, _timeStampOld, _timeStampNew, _timeStampCurrent, _selection;
-  bool _isUser;
+  String _message, _timeStampOld, _timeStampNew, _timeStampCurrent;
 
   //Mechanics: getTimeStamp
   String getTimeStamp() {
@@ -110,12 +109,20 @@ class _HomeScreenState extends State<HomeScreen> {
             SizedBox(
               height: themes.getDimension(context, true, "homeTitleContainerSizedBox1Dimension"),
             ),
-            Text(
-              widget.partnerName,
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.homeTitleColor,
-                fontSize: Theme.of(context).textTheme.homeTitleFontSize,
-              ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                SizedBox(),
+                SizedBox(),
+                Text(
+                  widget.partnerName,
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.homeTitleColor,
+                    fontSize: Theme.of(context).textTheme.homeTitleFontSize,
+                  ),
+                ),
+                showPopupMenu(),
+              ],
             ),
             SizedBox(
               height: themes.getDimension(context, true, "homeTitleContainerSizedBox2Dimension"),
@@ -166,9 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  //User interface: Show message container
-  Widget showMessageContainer() {
-    return new Container(
+  //User interface: Show message list
+  Widget showMessageList() {
+    return Container(
       height: themes.getDimension(context, true, "homeMessageContainerDimension"),
       width: themes.getDimension(context, false, "homeMessageContainerDimension"),
       decoration: BoxDecoration(
@@ -178,28 +185,23 @@ class _HomeScreenState extends State<HomeScreen> {
           bottomRight: Radius.circular(35.0),
         ),
       ),
-      child: showMessageList(),
-    );
-  }
-
-  //User interface: Show message list
-  Widget showMessageList() {
-    return new StreamBuilder(
-      stream: db.collection(widget.userId).document("Messages").collection("Complete").snapshots(),
-      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-        if(snapshot.data.documents.isEmpty) {
-          return new Container();
-        } else {
-          return new ListView(
-            padding: EdgeInsets.only(top: 135, bottom: 12.5),
-            scrollDirection: Axis.vertical,
-            reverse: false,
-            children: snapshot.data.documents.map((DocumentSnapshot document) {
-            return showMessage(document, document.data["Message"], document.data["User"]);
-            }).toList(),
-          );
-        }
-      },
+      child: new StreamBuilder(
+        stream: db.collection(widget.userId).document("Messages").collection("Complete").snapshots(),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          if(snapshot.data.documents.isEmpty) {
+            return new Container();
+          } else {
+            return new ListView(
+              padding: EdgeInsets.only(top: 135, bottom: 12.5),
+              scrollDirection: Axis.vertical,
+              reverse: false,
+              children: snapshot.data.documents.map((DocumentSnapshot document) {
+              return showMessage(document, document.data["Message"], document.data["User"]);
+              }).toList(),
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -217,47 +219,59 @@ class _HomeScreenState extends State<HomeScreen> {
             fontSize: getTimeStamp() != "" ? Theme.of(context).textTheme.homeMessageTimeFontSize : 0.0,
           ),
         )),
-        Container(
-          width: themes.getDimension(context, false, "homeMessageColumnContainerDimension"),
-          child: GestureDetector(
+        
+          GestureDetector(
             onLongPress: () {
               cloudFirestore.deleteCurrentMessageData(document);
-              setState(() {
-                print("Deleted");
-              });
+              setState(() {});
             },
-            child: Padding(
-              padding: EdgeInsets.only(
-                left: _retrievedIsUser ? 162.5 : 12.5, 
-                right: _retrievedIsUser ? 12.5 : 162.5,
-                top: 6.25,
-                bottom: 6.25,
-              ),
-              child: Container(
-                padding: EdgeInsets.only(
-                  left: 10,
-                  top: 10,
-                ),
-                height: themes.getDimension(context, true, "homeMessageDimension"),
-                decoration: BoxDecoration(
-                  gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
-                  borderRadius: BorderRadius.only(
-                    topLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
-                    topRight: Radius.circular(30.0),
-                    bottomLeft: Radius.circular(30.0),
-                    bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
-                  ),
-                ),
-                child: Text(
-                  _retrievedMessage,
-                  style: TextStyle(
-                    color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
-                    fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
-                  ),
-                ),
-              ),
-            ),
+            child: Row(
+              mainAxisAlignment: _retrievedIsUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+              children: <Widget>[
+                ConstrainedBox(
+          constraints: BoxConstraints(
+            maxHeight: 400.0,
+            minWidth: 200.0,
+            maxWidth: 400.0
           ),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: _retrievedIsUser ? 162.5 : 12.5, 
+                    right: _retrievedIsUser ? 12.5 : 162.5,
+                    top: 6.25,
+                    bottom: 6.25,
+                  ),
+                  
+                    child: Container(
+                      padding: EdgeInsets.only(
+                      left: 10,
+                      right: 7.5,
+                      top: 7.5,
+                      bottom: 10,
+                    ),
+                      decoration: BoxDecoration(
+                      gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
+                      borderRadius: BorderRadius.only(
+                        topLeft: _retrievedIsUser ? Radius.circular(30.0) : Radius.circular(1.0),
+                        topRight: Radius.circular(30.0),
+                        bottomLeft: Radius.circular(30.0),
+                        bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
+                      ),
+                    ),
+                    child: Text(
+                      _retrievedMessage,
+                      style: TextStyle(
+                        color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
+                        fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+                      ),
+                    ),
+                    ),
+                ),
+                ),
+              ],
+            ),
+          
+          
         ),
       ],
     );
@@ -265,86 +279,77 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message bar
   Widget showMessageBar() {
-    return interfaceStandards.parentCenter(context,
-      new Container(
-        height: themes.getDimension(context, true, "homeMessageBarContainerDimension"),
-        width: themes.getDimension(context, false, "homeMessageBarContainerDimension"),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.homeMessageBarContainerColor,
-          borderRadius: BorderRadius.all(Radius.circular(35.0),),
-        ),
-        child: Row(
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.only(
-                top: 22.5,
-                left: 5.0
-              ),
-              child: showMessageBarInput(context),
+    return Container(
+      width: themes.getDimension(context, false, "homeMessageBarContainerDimension"),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.homeMessageBarContainerColor,
+        borderRadius: BorderRadius.all(Radius.circular(35.0),),
+      ),
+      child: Row(
+        children: <Widget>[
+          ConstrainedBox(
+            constraints: BoxConstraints(
+              maxHeight: 150.0,
+              maxWidth: themes.getDimension(context, false, "homeMessageBarInputContainerDimension"),
             ),
-            Padding(
-              padding: EdgeInsets.only(
+            child: new TextFormField(
+            keyboardType: TextInputType.text,
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.homeTextInputColor,
+              fontSize: Theme.of(context).textTheme.homeTextInputFontSize
+            ),
+            decoration: InputDecoration(
+              hintText: "Message",
+              hintStyle: TextStyle(
+                color: Theme.of(context).colorScheme.homeTextInputColor,
+              ),
+              labelStyle: TextStyle(
+                color: Theme.of(context).colorScheme.homeTextInputColor,
+              ),
+              border: OutlineInputBorder(borderSide: BorderSide(
+                width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+                color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+              disabledBorder: OutlineInputBorder(borderSide: BorderSide(
+                width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+                color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+              enabledBorder: OutlineInputBorder(borderSide: BorderSide(
+                width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+                color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+              errorBorder: OutlineInputBorder(borderSide: BorderSide(
+                width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+                color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+              focusedBorder: OutlineInputBorder(borderSide: BorderSide(
+                width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+                color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+              focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(
+                width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
+                color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
+            ),
+            validator: (message) => message.isEmpty ? "Message can\'t be empty" : null,
+            onSaved: (message) => _message = message.trim(),
+            obscureText: false,
+            maxLines: null,
+            minLines: null,
+            expands: false,
+          ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
                 top: 2.5,
                 left: 0.0
               ),
-              child: GestureDetector(
-                onTap: () {
-                  validateAndSubmit();
-                },
-                child: Icon(
-                  Icons.send,
-                  color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
-                  size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
-                ),
+            child: GestureDetector(
+              onTap: () {
+                validateAndSubmit();
+              },
+              child: Icon(
+                Icons.send,
+                color: Theme.of(context).colorScheme.homeMessageBarSendIconButtonColor,
+                size: Theme.of(context).materialTapTargetSize.homeMessageBarSendIconButtonSize,
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  //User interface: Show message input field
-  Widget showMessageBarInput(BuildContext context) {
-    return Container(
-      width: themes.getDimension(context, true, "homeMessageBarInputContainerDimension"),
-      child: new TextFormField(
-        keyboardType: TextInputType.text,
-        style: TextStyle(
-          color: Theme.of(context).colorScheme.homeTextInputColor,
-          fontSize: Theme.of(context).textTheme.homeTextInputFontSize
-        ),
-        decoration: InputDecoration(
-          hintText: "Message",
-          hintStyle: TextStyle(
-            color: Theme.of(context).colorScheme.homeTextInputColor,
           ),
-          labelStyle: TextStyle(
-            color: Theme.of(context).colorScheme.homeTextInputColor,
-          ),
-          border: OutlineInputBorder(borderSide: BorderSide(
-            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-          disabledBorder: OutlineInputBorder(borderSide: BorderSide(
-            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(
-            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-          errorBorder: OutlineInputBorder(borderSide: BorderSide(
-            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(
-            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-          focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(
-            width: themes.getDimension(context, false, "homeTextInputBorderDimension"), 
-            color: Theme.of(context).colorScheme.homeTextInputBorderColor)),
-        ),
-        validator: (message) => message.isEmpty ? "Message can\'t be empty" : null,
-        onSaved: (message) => _message = message.trim(),
-        obscureText: false,
-        maxLines: 1,
+        ],
       ),
     );
   }
@@ -363,26 +368,18 @@ class _HomeScreenState extends State<HomeScreen> {
             SingleChildScrollView(
               child: Column(
                 children: <Widget>[
-                  showMessageContainer(),
-                  SizedBox(
-                    height: themes.getDimension(context, true, "homeMessageScrollViewSizedBoxDimension"),
-                  ),
-                  Form(
-                    key: _formKey,
-                    child: showMessageBar(),
-                  ),
-                  SizedBox(
-                    height: themes.getDimension(context, true, "homeMessageScrollViewSizedBoxDimension"),
+                  showMessageList(),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 10.0, bottom: 20.0),
+                    child: Form(
+                      key: _formKey,
+                      child: showMessageBar(),
+                    ),
                   ),
                 ],
               ),
             ),
             showTitle(),
-            Positioned(
-              top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
-              left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
-              child: showPopupMenu(),
-            ),
           ],
         ),
       ),

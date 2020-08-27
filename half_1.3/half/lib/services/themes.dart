@@ -123,9 +123,8 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "homeMessageContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageColumnContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageDimension": return isHeight ? 0.06 : null; break;
-      case "homeMessageBarContainerDimension": return isHeight ? 0.06 : 0.9; break;
-      case "homeMessageBarInputContainerDimension": return isHeight ? 0.39 : 0.0; break;
-      case "homeMessageScrollViewSizedBoxDimension": return isHeight ? 0.0125 : 0.0; break;
+      case "homeMessageBarContainerDimension": return isHeight ? 0.075 : 1.0; break;
+      case "homeMessageBarInputContainerDimension": return isHeight ? 1.0 : 0.825; break;
       case "homeTextInputBorderDimension": return isHeight ? null : 0.0; break;
     }
   }
@@ -152,7 +151,6 @@ extension CustomPositions on MaterialTapTargetSize {
       case "homeDivisionBarPosition": return isTop ? null : 0.375; break;
       case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
       case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;
-      case "homeSignOutIconButtonPosition": return isTop ? 0.065 : 0.875; break;
     }
   }
 }
