@@ -23,27 +23,6 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   final _formKey = GlobalKey<FormState>();
   String _partnerId;
 
-  //Mechanics: Shows committed dialog
-  void showCommittedDialog() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: new Text("Committed"),
-          content: new Text("Partner is already committed."),
-          actions: <Widget>[
-            new FlatButton(
-              child: new Text("Close"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   //Mechanics: Checks if committed
   void checkCommittedData (String partnerId) {
     cloudFirestore.checkCommittedData(partnerId).then((isCommitted) {
@@ -64,6 +43,27 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
       checkCommittedData(_partnerId);
     }
     print("Error: Could not validate and save");
+  }
+
+  //User interface: Show committed dialog
+  void showCommittedDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: new Text("Committed"),
+          content: new Text("Partner is already committed."),
+          actions: <Widget>[
+            new FlatButton(
+              child: new Text("Close"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //User interface: Show partner user id input

@@ -26,39 +26,81 @@ class _HomeScreenState extends State<HomeScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
-  String _message, _timeStampOld, _timeStampNew;
+  String _message, _timeStampOld, _timeStampNew, _timeStampCurrent;
   bool _isUser;
 
-  //Initial state
-  @override
-  void initState() {
-    super.initState();
-    _timeStampOld = "";
-    _timeStampNew = "";
-  }
+  //Mechanics: getTimeStamp
+  String getTimeStamp() {
+    int monthCurrent = int.parse(_timeStampCurrent.substring(5, 7));
+    int dayCurrent = int.parse(_timeStampCurrent.substring(8, 10));
+    int hourCurrent = int.parse(_timeStampCurrent.substring(11, 13));
+    int minuteCurrent = int.parse(_timeStampCurrent.substring(14, 16));
+    int monthNew = int.parse(_timeStampNew.substring(5, 7));
+    int hourNew = int.parse(_timeStampNew.substring(11, 13));
+    int dayNew = int.parse(_timeStampNew.substring(8, 10));
+    int minuteNew = int.parse(_timeStampNew.substring(14, 16));
+    int dayOld = int.parse(_timeStampOld.substring(8, 10));
+    int hourOld = int.parse(_timeStampOld.substring(11, 13));
+    int minuteOld = int.parse(_timeStampOld.substring(14, 16));
 
-  //Mechanics: Check time difference
-  bool checkTimeDifference(int hourNew, int minuteNew, int hourOld, int minuteOld) {
-    if (hourNew - hourOld > 1 || hourNew - hourOld < -1) {
-      return true;
-    } else if (minuteNew - minuteOld > 30) {
-      return true;
+    print("Day: " + minuteNew.toString());
+
+    if (dayCurrent - dayNew != 0) {
+      if (dayNew - dayOld == 0) {
+        return "";
+      } else if ((hourNew - hourOld == 0 && minuteNew - minuteOld < 30) || (hourNew - hourOld == -1 && minuteNew - minuteOld > -30)) {
+        return "";
+      } else if (dayNew - dayOld != 0) {
+        return getDay(monthNew, dayNew);
+      }
+    } else if (dayNew - dayOld != 0) {
+      return getTime(hourNew, minuteNew);
+    } else {
+      if (hourNew - hourOld != 0 && minuteNew - minuteOld > 30) {
+        return getTime(hourNew, minuteNew);
+      } else {
+        return "";
+      }
     }
-    return false;
   }
 
-  //Mechanics: Get hour
-  String getHour(int hourNew) {
+  //Mechanics: Get day
+  String getDay(int monthNew, dayNew) {
+    List months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    String month = months[monthNew - 1];
+    return month + " " + dayNew.toString();
+  }
+
+  //Mechanics: Get time
+  String getTime(int hourNew, int minuteNew) {
+    String minute;
+    if (minuteNew - 10 < 0) {
+      minute = "0$minuteNew";
+    } else {
+      minute = minuteNew.toString();
+    }
+
     if (hourNew == 00) {
-      return 12.toString();
+      return 12.toString() + ":" + minute;
     } else if (hourNew > 12) {
-      return (hourNew - 12).toString();
+      return (hourNew - 12).toString() + ":" + minute;
     }
-    return hourNew.toString();
+    return "$hourNew:$minute";
+  }
+
+  //Mechanics: Validate and submit message information
+  void validateAndSubmit() {
+    final form = _formKey.currentState;
+    if(form.validate()) {
+      form.save();
+      cloudFirestore.createMessageData(widget.partnerId, _message);
+      print("Message sent to " + widget.partnerId.toString());
+      _formKey.currentState.reset();
+    }
   }
 
   //User interface: Show title
-  Container showTitle() {
+  Widget showTitle() {
     return new Container(
       height: themes.getDimension(context, true, "homeTitleContainerDimension"),
       color: Theme.of(context).colorScheme.homeTitleContainerColor,
@@ -107,19 +149,8 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  //Mechanics: Validate and submit message information
-  void validateAndSubmit() {
-    final form = _formKey.currentState;
-    if(form.validate()) {
-      form.save();
-      cloudFirestore.createMessageData(widget.partnerId, _message);
-      print("Message sent to " + widget.partnerId.toString());
-      _formKey.currentState.reset();
-    }
-  }
-
   //User interface: Show message container
-  Container showMessageContainer() {
+  Widget showMessageContainer() {
     return new Container(
       height: themes.getDimension(context, true, "homeMessageContainerDimension"),
       width: themes.getDimension(context, false, "homeMessageContainerDimension"),
@@ -157,21 +188,16 @@ class _HomeScreenState extends State<HomeScreen> {
 
   //User interface: Show message
   Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser) {
-    _timeStampOld = _timeStampNew.isEmpty ? "0000-00-00-00:00:00" : _timeStampNew;
+    _timeStampOld = _timeStampNew == null ? "0000-00-00-00:00:00" : _timeStampNew;
     _timeStampNew = document.documentID;
-    int hourNew = int.parse(_timeStampNew.substring(11, 13));
-    int minuteNew = int.parse(_timeStampNew.substring(14, 16));
-    int hourOld = int.parse(_timeStampOld.substring(11, 13));
-    int minuteOld = int.parse(_timeStampOld.substring(14, 16));
+    _timeStampCurrent = interfaceStandards.getCurrentDate();
 
     return Column(
       children: <Widget>[
         interfaceStandards.parentCenter(context, Text(
-          checkTimeDifference(hourNew, minuteNew, hourOld, minuteOld) ? 
-            getHour(hourNew) + _timeStampNew.substring(13, 16) :
-            "",
+          getTimeStamp(),
           style: TextStyle(
-            fontSize: checkTimeDifference(hourNew, minuteNew, hourOld, minuteOld) ? Theme.of(context).textTheme.homeMessageTimeFontSize : 0.0,
+            fontSize: getTimeStamp() != "" ? Theme.of(context).textTheme.homeMessageTimeFontSize : 0.0,
           ),
         )),
         Container(
