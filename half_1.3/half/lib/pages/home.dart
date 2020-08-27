@@ -57,6 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
         return getTime(hourNew, minuteNew);
       } else if (minuteNew - minuteOld > 30){
         return getTime(hourNew, minuteNew);
+      } else if (_timeStampOld == "0000-00-00-00:00:00") {
+        return getTime(hourNew, minuteNew);
       } else {
         return "";
       }
@@ -241,10 +243,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   child: Container(
                     padding: EdgeInsets.only(
-                      left: 10,
-                      right: 8.5,
-                      top: 7.5,
-                      bottom: 10,
+                      left: 15.5,
+                      right: 12.5,
+                      top: 9.5,
+                      bottom: 9.5,
                     ),
                     decoration: BoxDecoration(
                       gradient: _retrievedIsUser ? interfaceStandards.cardLinearGradient(context, true) : interfaceStandards.cardLinearGradient(context, false),
