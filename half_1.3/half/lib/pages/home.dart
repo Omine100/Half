@@ -26,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
-  String _message, _timeStampOld, _timeStampNew, _timeStampCurrent;
+  String _message, _timeStampOld, _timeStampNew, _timeStampCurrent, _selection;
   bool _isUser;
 
   //Mechanics: getTimeStamp
@@ -42,8 +42,6 @@ class _HomeScreenState extends State<HomeScreen> {
     int dayOld = int.parse(_timeStampOld.substring(8, 10));
     int hourOld = int.parse(_timeStampOld.substring(11, 13));
     int minuteOld = int.parse(_timeStampOld.substring(14, 16));
-
-    print("Day: " + minuteNew.toString());
 
     if (dayCurrent - dayNew != 0) {
       if (dayNew - dayOld == 0) {
@@ -134,25 +132,35 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  //User interface: Show sign out
-  Widget showSignOut() {
-    return GestureDetector(
-      onTap: () {
-        widget.signOutCallback;
-        cloudFirestore.signOut();
-        Navigator.of(context)
-          .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
-      },
-      child: 
-      // PopupMenuButton<String>(
-      //   value: "one",
-      // )
-      
-      Icon(
+  //User interface: Show popup menu
+  Widget showPopupMenu() {
+    return PopupMenuButton<String>(
+      child: Icon(
         Icons.more_vert,
         color: Theme.of(context).colorScheme.homeSignOutIconButtonColor,
         size: Theme.of(context).materialTapTargetSize.homeSignOutIconButtonSize,
       ),
+      onSelected: (String result) { 
+        if (result == "Sign Out") {
+          widget.signOutCallback;
+          cloudFirestore.signOut();
+          Navigator.of(context)
+            .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
+        } else if (result == "Remove Partner") {
+          cloudFirestore.deletePartnerData(widget.partnerId);
+          widget.signInCallback;
+        }
+      },
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        const PopupMenuItem<String>(
+          value: "Sign Out",
+          child: Text('Sign Out'),
+        ),
+        const PopupMenuItem<String>(
+          value: "Remove Partner",
+          child: Text('Remove Partner'),
+        ),
+      ],
     );
   }
 
@@ -371,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Positioned(
               top: themes.getPosition(context, true, "homeSignOutIconButtonPosition"),
               left: themes.getPosition(context, false, "homeSignOutIconButtonPosition"),
-              child: showSignOut(),
+              child: showPopupMenu(),
             ),
           ],
         ),
