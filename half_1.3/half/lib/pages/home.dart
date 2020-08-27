@@ -141,24 +141,26 @@ class _HomeScreenState extends State<HomeScreen> {
         size: Theme.of(context).materialTapTargetSize.homeSignOutIconButtonSize,
       ),
       onSelected: (String result) { 
-        if (result == "Sign Out") {
+        if (result == "Remove Partner") {
+          cloudFirestore.deletePartnerData(widget.partnerId);
+          widget.signInCallback;
+          Navigator.of(context)
+            .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
+        } else if (result == "Sign Out") {
           widget.signOutCallback;
           cloudFirestore.signOut();
           Navigator.of(context)
             .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
-        } else if (result == "Remove Partner") {
-          cloudFirestore.deletePartnerData(widget.partnerId);
-          widget.signInCallback;
         }
       },
       itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
         const PopupMenuItem<String>(
-          value: "Sign Out",
-          child: Text('Sign Out'),
-        ),
-        const PopupMenuItem<String>(
           value: "Remove Partner",
           child: Text('Remove Partner'),
+        ),
+        const PopupMenuItem<String>(
+          value: "Sign Out",
+          child: Text('Sign Out'),
         ),
       ],
     );

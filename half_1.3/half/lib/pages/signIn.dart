@@ -59,7 +59,6 @@ class _LoginScreenState extends State<LoginScreen> {
       _isLoading = true;
     });
     if (validateAndSave()) {
-      String userId = "";
       try {
         if (isSignIn) {
           await cloudFirestore.signIn(_email, _password);

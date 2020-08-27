@@ -23,6 +23,16 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
   final _formKey = GlobalKey<FormState>();
   String _partnerId;
 
+  //Mechanics: Validate and submit user information
+  void validateAndSubmit() {
+    final form = _formKey.currentState;
+    if(form.validate()) {
+      form.save();
+      checkCommittedData(_partnerId);
+    }
+    print("Error: Could not validate and save");
+  }
+
   //Mechanics: Checks if committed
   void checkCommittedData (String partnerId) {
     cloudFirestore.checkCommittedData(partnerId).then((isCommitted) {
@@ -33,16 +43,6 @@ class _ConnectorScreenState extends State<ConnectorScreen> {
         showCommittedDialog();
       }
     });
-  }
-
-  //Mechanics: Validate and submit user information
-  void validateAndSubmit() {
-    final form = _formKey.currentState;
-    if(form.validate()) {
-      form.save();
-      checkCommittedData(_partnerId);
-    }
-    print("Error: Could not validate and save");
   }
 
   //User interface: Show committed dialog

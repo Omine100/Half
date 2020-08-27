@@ -12,6 +12,7 @@ enum AuthStatus {
   NOT_DETERMINED,
   NOT_SIGNED_IN,
   SIGNED_IN,
+  REMOVED,
 }
 
 class RootScreen extends StatefulWidget {
@@ -28,7 +29,10 @@ class _RootScreenState extends State<RootScreen> {
 
   //Initial state
   @override
-  void initState() { //I think that we need to call loginCallback if there is someone already there
+  void initState() {
+    _userId = ""; //Maybe don't need this
+    _partnerId = ""; //^
+    _partnerName = ""; //^
     super.initState();
     cloudFirestore.getCurrentUser().then((userId) {
       setState(() {

@@ -175,9 +175,17 @@ class CloudFirestore implements BaseCloud {
   Future<void> deletePartnerData(String partnerId) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
     await db.collection(user.uid).document("Partner").delete();
-    await db.collection(user.uid).document("Messages").delete();
     await db.collection(partnerId).document("Partner").delete();
-    await db.collection(partnerId).document("Messages").delete();
+    db.collection(user.uid).document("Messages").collection("Complete").getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
+    db.collection(partnerId).document("Messages").collection("Complete").getDocuments().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.documents) {
+        ds.reference.delete();
+      }
+    });
   }
 
   //Mechanics: Deletes user account (authentication)
