@@ -42,6 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
     int hourOld = int.parse(_timeStampOld.substring(11, 13));
     int minuteOld = int.parse(_timeStampOld.substring(14, 16));
 
+    print(_timeStampOld);
+
     if (dayCurrent - dayNew != 0) {
       if (dayNew - dayOld == 0) {
         return "";
@@ -57,8 +59,10 @@ class _HomeScreenState extends State<HomeScreen> {
         return getTime(hourNew, minuteNew);
       } else if (minuteNew - minuteOld > 30){
         return getTime(hourNew, minuteNew);
-      } else if (_timeStampOld == "0000-00-00-00:00:00") {
+      } else if (_timeStampOld == "0000-00-00-00:00:00" && dayCurrent - dayNew == 0) {
         return getTime(hourNew, minuteNew);
+      } else if (_timeStampOld == "0000-00-00-00:00:00" && dayCurrent - dayNew != 0) {
+        return getDay(monthNew, dayNew);
       } else {
         return "";
       }
@@ -193,6 +197,9 @@ class _HomeScreenState extends State<HomeScreen> {
           if(snapshot.data.documents.isEmpty) {
             return new Container();
           } else {
+            _timeStampOld = "0000-00-00-00:00:00";
+            _timeStampNew = "0000-00-00-00:00:00";
+            _timeStampCurrent = "0000-00-00-00:00:00";
             return new ListView(
               padding: EdgeInsets.only(top: 135, bottom: 12.5),
               scrollDirection: Axis.vertical,
