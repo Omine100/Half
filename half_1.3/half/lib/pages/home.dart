@@ -56,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
     } else if (dayNew - dayOld != 0) {
       return getTime(hourNew, minuteNew);
     } else {
-      if (hourNew - hourOld != 0 && minuteNew - minuteOld > 30) {
+      if (hourNew - hourOld != 0) {
+        return getTime(hourNew, minuteNew);
+      } else if (minuteNew - minuteOld > 30){
         return getTime(hourNew, minuteNew);
       } else {
         return "";
@@ -141,7 +143,12 @@ class _HomeScreenState extends State<HomeScreen> {
         Navigator.of(context)
           .pushNamedAndRemoveUntil('/RootScreen', (Route<dynamic> route) => false);
       },
-      child: Icon(
+      child: 
+      // PopupMenuButton<String>(
+      //   value: "one",
+      // )
+      
+      Icon(
         Icons.more_vert,
         color: Theme.of(context).colorScheme.homeSignOutIconButtonColor,
         size: Theme.of(context).materialTapTargetSize.homeSignOutIconButtonSize,
