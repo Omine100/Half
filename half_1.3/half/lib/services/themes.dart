@@ -40,6 +40,7 @@ extension CustomColorScheme on ColorScheme {
   Color get homeDivisionBarColor => const Color(0xFFd6296f);
   Color get homeMessageContainerColor => const Color(0xFFFFFFFF);
   Color get homeMessageBarContainerColor => const Color(0x71d6296f);
+  Color get homeMessageBarCameraIconButtonColor => const Color(0xFFFFFFFF);
   Color get homeMessageBarSendIconButtonColor => const Color(0xFFFFFFFF);
   Color get homeMessageUserTextColor => const Color(0xFFFFFFFF);
   Color get homeMessageNotUserTextColor => const Color(0xFF000000);
@@ -97,6 +98,7 @@ extension CustomSizes on MaterialTapTargetSize {
 
   double get connectorConnectButtonSize => 65.0;
 
+  double get homeMessageBarCameraIconButtonSize => 35.0;
   double get homeMessageBarSendIconButtonSize => 35.0;
   double get homeSignOutIconButtonSize => 35.0;
 }
@@ -120,11 +122,11 @@ extension CustomDimensions on MaterialTapTargetSize {
       case "homeTitleContainerDimension": return isHeight ? 0.15 : null; break;
       case "homeTitleContainerSizedBox1Dimension": return isHeight ? 0.06 : null; break;
       case "homeTitleContainerSizedBox2Dimension": return isHeight ? 0.015 : null; break;
-      case "homeMessageContainerDimension": return isHeight ? 0.8915 : 1.0; break;
+      case "homeMessageContainerDimension": return isHeight ? 0.905 : 1.0; break;
       case "homeMessageColumnContainerDimension": return isHeight ? 0.915 : 1.0; break;
       case "homeMessageDimension": return isHeight ? 0.06 : null; break;
       case "homeMessageBarContainerDimension": return isHeight ? 0.075 : 1.0; break;
-      case "homeMessageBarInputContainerDimension": return isHeight ? 1.0 : 0.825; break;
+      case "homeMessageBarInputContainerDimension": return isHeight ? 1.0 : 0.7; break;
       case "homeTextInputBorderDimension": return isHeight ? null : 0.0; break;
     }
   }
@@ -134,8 +136,8 @@ extension CustomPositions on MaterialTapTargetSize {
   double position({String selection, bool isTop}) {
     switch (selection) {
       //case 'name': return isTop ? 'top' : 'left'; break;
-      case "loginSignInSignUpAlternateTextIsSignInPosition": return isTop ? 0.525 : 0.8; break;
-      case "loginSignInSignUpAlternateTextIsSignInFalsePosition": return isTop ? 0.56 : 0.8; break;
+      case "loginSignInSignUpAlternateTextIsSignInPosition": return isTop ? 0.495 : 0.8; break;
+      case "loginSignInSignUpAlternateTextIsSignInFalsePosition": return isTop ? 0.525 : 0.8; break;
       case "loginProgressPosition": return isTop ? 0.8 : null; break;
 
       case "forgotPasswordTitlePosition": return isTop ?  0.35 : 0.15; break;
@@ -145,12 +147,11 @@ extension CustomPositions on MaterialTapTargetSize {
       case "connectorContainerPosition": return isTop ? 0.23 : null; break;
       case "connectorIdFirstHalfPosition": return isTop ? 0.315 : null; break;
       case "connectorIdSecondHalfPosition": return isTop ? 0.365 : null; break;
-      case "connectorPartnerIdTextPosition": return isTop ? 0.475 : null; break;
+      case "connectorPartnerIdTextPosition": return isTop ? 0.43 : null; break;
       case "connectorConnectButtonPosition": return isTop? 0.72 : null; break;
 
       case "homeDivisionBarPosition": return isTop ? null : 0.375; break;
       case "homeMessageBarContainerPosition": return isTop ? 0.93 : null; break;
-      case "homeMessageBarSendIconButtonPosition": return isTop ? 0.94 : 0.825; break;
     }
   }
 }

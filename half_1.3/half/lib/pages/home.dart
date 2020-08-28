@@ -1,5 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:half/services/cloudFirestore.dart';
 import 'package:half/services/themes.dart';
@@ -26,6 +28,9 @@ class _HomeScreenState extends State<HomeScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
+  File _image;
+  final picker = ImagePicker();
+
   String _message, _timeStampOld, _timeStampNew, _timeStampCurrent;
 
   //Mechanics: getTimeStamp
@@ -91,6 +96,14 @@ class _HomeScreenState extends State<HomeScreen> {
       return (hourNew - 12).toString() + ":" + minute + " PM";
     }
     return "$hourNew:$minute AM";
+  }
+
+  //Mechanics: Get image
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.camera);
+    setState(() {
+      _image = File(pickedFile.path);
+    });
   }
 
   //Mechanics: Validate and submit message information
@@ -205,7 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.vertical,
               reverse: false,
               children: snapshot.data.documents.map((DocumentSnapshot document) {
-              return showMessage(document, document.data["Message"], document.data["User"]);
+              return showMessage(document, document.data["Message"], document.data["User"], false);
               }).toList(),
             );
           }
@@ -215,7 +228,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //User interface: Show message
-  Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser) {
+  Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser, bool _isImage) {
     _timeStampOld = _timeStampNew == null ? "0000-00-00-00:00:00" : _timeStampNew;
     _timeStampNew = document.documentID;
     _timeStampCurrent = interfaceStandards.getCurrentDate();
@@ -264,13 +277,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
                       ),
                     ),
-                    child: Text(
-                      _retrievedMessage,
-                      style: TextStyle(
-                        color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
-                        fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
-                      ),
-                    ),
+                    child: !_isImage ? 
+                      Text(
+                        _retrievedMessage,
+                        style: TextStyle(
+                          color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
+                          fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+                        ),
+                      ) :
+                      Image.file(_image),
                   ),
                 ),
               ),
@@ -291,6 +306,19 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       child: Row(
         children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, right: 5.0),
+            child: GestureDetector(
+              onTap: () {
+                getImage();
+              },
+              child: Icon(
+                Icons.camera_alt,
+                color: Theme.of(context).colorScheme.homeMessageBarCameraIconButtonColor,
+                size: Theme.of(context).materialTapTargetSize.homeMessageBarCameraIconButtonSize,
+              ),
+            ),
+          ),
           ConstrainedBox(
             constraints: BoxConstraints(
               maxHeight: 150.0,
