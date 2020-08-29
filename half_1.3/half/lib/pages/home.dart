@@ -30,7 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
   final picker = ImagePicker();
-
   String _message, _timeStampOld, _timeStampNew, _timeStampCurrent;
 
   //Mechanics: getTimeStamp
@@ -246,7 +245,7 @@ class _HomeScreenState extends State<HomeScreen> {
         )),
         GestureDetector(
           onLongPress: () {
-            cloudFirestore.deleteCurrentMessageData(document);
+            cloudFirestore.deleteCurrentMessageData(document, widget.partnerId, _isImage, imageUrl);
             setState(() {});
           },
           child: Row(
@@ -287,7 +286,13 @@ class _HomeScreenState extends State<HomeScreen> {
                           if(snapshot.hasData) {
                             return snapshot.data;
                           } else {
-                            
+                            Text(
+                              "Could not retrieve image",
+                              style: TextStyle(
+                                color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
+                                fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
+                              ),
+                            );
                           }
                         },
                       )
