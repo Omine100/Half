@@ -281,7 +281,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ),
                     child: _isImage ? 
-                      cloudFirestore.getImageData(imageUrl)
+                      FutureBuilder<Widget>(
+                        future: cloudFirestore.getImageData(imageUrl),
+                        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                          if(snapshot.hasData) {
+                            return snapshot.data;
+                          } else {
+                            
+                          }
+                        },
+                      )
                         :
                       Text(
                         _retrievedMessage,

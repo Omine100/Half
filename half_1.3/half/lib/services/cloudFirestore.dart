@@ -23,7 +23,7 @@ abstract class BaseCloud {
   Future<void> createNameData(String name);
   Future<void> createPartnerData(String partnerId);
   Future<void> createMessageData(String partnerId, String meesage, bool isImage, String imageUrl);
-  Future<Image> getImageData(String imageUrl);
+  Future<Widget> getImageData(String imageUrl);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
   Future<String> getPartnerData();
@@ -92,7 +92,7 @@ class CloudFirestore implements BaseCloud {
     StorageUploadTask uploadTask = storageReference.putFile(_image);
     await uploadTask.onComplete;
     storageReference.getDownloadURL().then((imageUrl) {
-      createMessageData(partnerId, null, true, imageUrl);
+      createMessageData(partnerId, "null", true, imageUrl);
     });
   }
 
@@ -114,24 +114,24 @@ class CloudFirestore implements BaseCloud {
     FirebaseUser user = await _firebaseAuth.currentUser();
     await db.collection(user.uid).document("Messages").collection("Complete").document(date).
       setData({
-        "Message": isImage ? null : message,
+        "Message": isImage ? "null" : message,
         "User": true,
         "isImage": isImage,
-        "imageUrl": isImage ? imageUrl : null,
+        "imageUrl": isImage ? imageUrl : "null",
       }
     );
     await db.collection(partnerId).document("Messages").collection("Complete").document(date).
       setData({
-        "Message": isImage ? null : message,
+        "Message": isImage ? "null" : message,
         "User": false,
         "isImage": isImage,
-        "imageUrl": isImage ? imageUrl : null,
+        "imageUrl": isImage ? imageUrl : "null",
       }
     );
   }
 
   //Mechanics: Gets image data
-  Future<Image> getImageData(String imageUrl) async {
+  Future<Widget> getImageData(String imageUrl) async {
     return Image.network(imageUrl);
   }
 
