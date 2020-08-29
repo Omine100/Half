@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,7 @@ abstract class BaseCloud {
   Future<void> createNameData(String name);
   Future<void> createPartnerData(String partnerId);
   Future<void> createMessageData(String partnerId, String meesage, bool isImage, String imageUrl);
+  Future<Image> getImageData(String imageUrl);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
   Future<String> getPartnerData();
@@ -126,6 +128,11 @@ class CloudFirestore implements BaseCloud {
         "imageUrl": isImage ? imageUrl : null,
       }
     );
+  }
+
+  //Mechanics: Gets image data
+  Future<Image> getImageData(String imageUrl) async {
+    return Image.network(imageUrl);
   }
 
   //Mechanics: Gets name data

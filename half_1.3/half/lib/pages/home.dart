@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -73,6 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<Image> getImageData() {}
+
   //Mechanics: Get day
   String getDay(int monthNew, dayNew) {
     List months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -102,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
       File _image = File(pickedFile.path);
-      cloudFirestore.createImageData(_image);
+      cloudFirestore.createImageData(widget.partnerId, _image);
     });
   }
 
@@ -111,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final form = _formKey.currentState;
     if(form.validate()) {
       form.save();
-      cloudFirestore.createMessageData(widget.partnerId, _message);
+      cloudFirestore.createMessageData(widget.partnerId, _message, false, null);
       print("Message sent to " + widget.partnerId.toString());
       _formKey.currentState.reset();
     }
@@ -218,7 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
               scrollDirection: Axis.vertical,
               reverse: false,
               children: snapshot.data.documents.map((DocumentSnapshot document) {
-              return showMessage(document, document.data["Message"], document.data["User"], false);
+              return showMessage(document, document.data["Message"], document.data["User"], document.data["isImage"], document.data["imageUrl"]);
               }).toList(),
             );
           }
@@ -228,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   //User interface: Show message
-  Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser, bool _isImage) {
+  Widget showMessage(DocumentSnapshot document, String _retrievedMessage, bool _retrievedIsUser, bool _isImage, String imageUrl) {
     _timeStampOld = _timeStampNew == null ? "0000-00-00-00:00:00" : _timeStampNew;
     _timeStampNew = document.documentID;
     _timeStampCurrent = interfaceStandards.getCurrentDate();
@@ -277,15 +280,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         bottomRight: _retrievedIsUser ? Radius.circular(1.0) : Radius.circular(30.0),
                       ),
                     ),
-                    child: !_isImage ? 
+                    child: _isImage ? 
+                      cloudFirestore.getImageData(imageUrl)
+                        :
                       Text(
                         _retrievedMessage,
                         style: TextStyle(
                           color: _retrievedIsUser ? Theme.of(context).colorScheme.homeMessageUserTextColor : Theme.of(context).colorScheme.homeMessageNotUserTextColor,
                           fontSize: Theme.of(context).textTheme.homeMessageTextFontSize,
                         ),
-                      ) :
-                      Image.file(_image),
+                      ) 
                   ),
                 ),
               ),
