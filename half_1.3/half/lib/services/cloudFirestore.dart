@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -16,9 +18,10 @@ abstract class BaseCloud {
   Future<bool> isEmailVerified();
 
   //Methods: Data management
+  Future<void> createImageData(String partnerId, File file);
   Future<void> createNameData(String name);
   Future<void> createPartnerData(String partnerId);
-  Future<void> createMessageData(String partnerId, String meesage);
+  Future<void> createMessageData(String partnerId, String meesage, bool isImage, String imageUrl);
   Future<String> getNameData();
   Future<String> getPartnerNameData();
   Future<String> getPartnerData();
@@ -81,6 +84,16 @@ class CloudFirestore implements BaseCloud {
     return user.isEmailVerified;
   }
 
+  //Mechanics: Creates image data
+  Future<void> createImageData(String partnerId, File _image) async {
+    StorageReference storageReference = FirebaseStorage.instance.ref().child("/$_image(_image.path)");
+    StorageUploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.onComplete;
+    storageReference.getDownloadURL().then((imageUrl) {
+      createMessageData(partnerId, null, true, imageUrl);
+    });
+  }
+
   //Mechanics: Creates name data
   Future<void> createNameData(String name) async {
     FirebaseUser user = await _firebaseAuth.currentUser();
@@ -94,19 +107,23 @@ class CloudFirestore implements BaseCloud {
   }
 
   //Mechanics: Creates message data
-  Future<void> createMessageData(String partnerId, String message) async {
+  Future<void> createMessageData(String partnerId, String message, bool isImage, String imageUrl) async {
     String date = interfaceStandards.getCurrentDate();
     FirebaseUser user = await _firebaseAuth.currentUser();
     await db.collection(user.uid).document("Messages").collection("Complete").document(date).
       setData({
-        "Message": message,
+        "Message": isImage ? null : message,
         "User": true,
+        "isImage": isImage,
+        "imageUrl": isImage ? imageUrl : null,
       }
     );
     await db.collection(partnerId).document("Messages").collection("Complete").document(date).
       setData({
-        "Message": message,
+        "Message": isImage ? null : message,
         "User": false,
+        "isImage": isImage,
+        "imageUrl": isImage ? imageUrl : null,
       }
     );
   }

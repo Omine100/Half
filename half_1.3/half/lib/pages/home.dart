@@ -28,7 +28,6 @@ class _HomeScreenState extends State<HomeScreen> {
   InterfaceStandards interfaceStandards = new InterfaceStandards();
   final db = Firestore.instance;
   final _formKey = GlobalKey<FormState>();
-  File _image;
   final picker = ImagePicker();
 
   String _message, _timeStampOld, _timeStampNew, _timeStampCurrent;
@@ -102,7 +101,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
     setState(() {
-      _image = File(pickedFile.path);
+      File _image = File(pickedFile.path);
+      cloudFirestore.createImageData(_image);
     });
   }
 
