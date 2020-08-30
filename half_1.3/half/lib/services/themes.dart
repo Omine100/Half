@@ -47,6 +47,8 @@ extension CustomColorScheme on ColorScheme {
   Color get homeTextInputColor => const Color(0xFFFFFFFF);
   Color get homeTextInputBorderColor => const Color(0x00FFFFFF);
   Color get homeSignOutIconButtonColor => const Color(0xFF000000);
+
+  Color get imageViewBackgroundColor => const Color(0xFF000000);
 }
 
 extension CustomFontSizes on TextTheme {

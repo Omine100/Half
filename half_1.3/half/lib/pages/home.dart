@@ -1,12 +1,12 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'package:half/services/cloudFirestore.dart';
 import 'package:half/services/themes.dart';
 import 'package:half/widgets/interfaceStandards.dart';
+import 'package:half/pages/imageView.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key key, this.signInCallback, this.signOutCallback, this.userId, this.partnerId, this.partnerName});
@@ -72,8 +72,6 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     }
   }
-
-  Future<Image> getImageData() {}
 
   //Mechanics: Get day
   String getDay(int monthNew, dayNew) {
@@ -284,7 +282,22 @@ class _HomeScreenState extends State<HomeScreen> {
                         future: cloudFirestore.getImageData(imageUrl),
                         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                           if(snapshot.hasData) {
-                            return snapshot.data;
+                            return GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => ImageViewScreen(
+                                    signInCallback: widget.signInCallback,
+                                    signOutCallback: widget.signOutCallback,
+                                    userId: widget.userId,
+                                    partnerId: widget.partnerId,
+                                    partnerName: widget.partnerName,
+                                    imageUrl: imageUrl,
+                                  ))
+                                );
+                              },
+                              child: snapshot.data
+                            );
                           } else {
                             Text(
                               "Could not retrieve image",
